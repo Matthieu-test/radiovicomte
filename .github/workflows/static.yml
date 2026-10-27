@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Vicomté - La Voix de l'Élégance</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        vicomte: {
+                            gold: '#d4af37',
+                            lightGold: '#f3e5ab',
+                            darkGold: '#aa8c2c',
+                            navy: '#0b1329',
+                            card: '#131c38',
+                            border: '#1e2c56',
+                            accent: '#1e3a8a'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-gradient {
+            background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 50%, #aa8c2c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-border {
+            border-image: linear-gradient(to right, #d4af37, #aa8c2c) 1;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b1329; }
+        ::-webkit-scrollbar-thumb { background: #1e2c56; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
+    </style>
+</head>
+<body class="bg-vicomte-navy text-gray-100 font-sans min-h-screen flex flex-col justify-between selection:bg-vicomte-gold selection:text-black">
+
+    <!-- HEADER & NAVIGATION -->
+    <header class="border-b border-vicomte-border bg-vicomte-navy/90 backdrop-blur sticky top-0 z-40 px-4 sm:px-8 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            
+            <!-- LOGO RADIO VICOMTÉ -->
+            <div class="flex items-center space-x-3 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-vicomte-gold to-vicomte-darkGold flex items-center justify-center p-0.5 shadow-lg shadow-vicomte-gold/20 group-hover:scale-105 transition">
+                    <div class="w-full h-full bg-vicomte-navy rounded-[10px] flex items-center justify-center text-vicomte-gold">
+                        <!-- SVG Crown & Waves Logo -->
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 18h20M5 18v-5l4 3 3-5 3 5 4-3v5M12 3v3m-6 3a9 9 0 0 1 12 0" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="font-serif font-bold text-lg sm:text-xl tracking-wide gold-gradient">RADIO VICOMTÉ</h1>
+                    <p class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">La Voix de l'Élégance</p>
+                </div>
+            </div>
+
+            <!-- DESKTOP NAV LINKS -->
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="#direct" class="hover:text-vicomte-gold transition">Le Direct</a>
+                <a href="#grille" class="hover:text-vicomte-gold transition">Programmes</a>
+                <a href="#podcasts" class="hover:text-vicomte-gold transition">Podcasts</a>
+                <a href="#dedicaces" class="hover:text-vicomte-gold transition">Dédicaces</a>
+            </nav>
+
+            <!-- LIVE STATUS BADGE -->
+            <div class="flex items-center space-x-3">
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold animate-pulse">
+                    <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                    <span>DIRECT</span>
+                </div>
+                <button onclick="openSettings()" class="p-2 rounded-xl bg-vicomte-card border border-vicomte-border text-vicomte-gold hover:bg-vicomte-border transition" title="Configurer le flux radio">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-7xl mx-auto w-full flex-grow p-4 sm:p-8 space-y-12">
+
+        <!-- HERO / LIVE PLAYER SECTION -->
+        <section id="direct" class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center bg-gradient-to-br from-vicomte-card to-vicomte-navy border border-vicomte-border rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+            <div class="absolute -right-20 -top-20 w-96 h-96 bg-vicomte-gold/5 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <!-- Left Info: Show & Track -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-vicomte-gold/10 border border-vicomte-gold/30 text-vicomte-gold text-xs font-semibold">
+                    <i class="fa-solid fa-microphone-lines"></i> En ce moment à l'antenne
+                </div>
+                <div>
+                    <h2 id="current-show-title" class="font-serif text-3xl sm:text-5xl font-bold mb-2">Matinée Symphonique</h2>
+                    <p class="text-gray-400 text-sm sm:text-base">Avec <span class="text-vicomte-gold font-medium">Éléonore de Saint-Cloud</span> • Jusqu'à 12:00</p>
+                </div>
+
+                <div class="flex items-center gap-4 bg-vicomte-navy/60 border border-vicomte-border p-4 rounded-2xl backdrop-blur">
+                    <div class="w-14 h-14 rounded-xl bg-vicomte-border flex items-center justify-center text-vicomte-gold text-2xl shadow-inner">
+                        <i class="fa-solid fa-compact-disc animate-spin" style="animation-duration: 8s;"></i>
+                    </div>
+                    <div class="overflow-hidden">
+                        <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Morceau en cours</p>
+                        <p id="current-track" class="font-medium text-white truncate">Claude Debussy - Clair de Lune</p>
+                    </div>
+                </div>
+
+                <!-- Hero Action Buttons -->
+                <div class="flex flex-wrap items-center gap-4 pt-2">
+                    <button onclick="togglePlay()" id="hero-play-btn" class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-vicomte-gold to-vicomte-darkGold text-black font-bold text-sm flex items-center gap-3 hover:opacity-90 transition shadow-lg shadow-vicomte-gold/20">
+                        <i id="hero-play-icon" class="fa-solid fa-play text-base"></i> <span id="hero-play-text">ÉCOUTER LE DIRECT</span>
+                    </button>
+                    <a href="#dedicaces" class="px-6 py-3.5 rounded-2xl bg-vicomte-card hover:bg-vicomte-border border border-vicomte-border text-vicomte-gold font-medium text-sm transition">
+                        Envoyer une dédicace
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Visualizer / Status Art -->
+            <div class="flex flex-col items-center justify-center bg-vicomte-navy/40 border border-vicomte-border/60 rounded-2xl p-6 relative">
+                <div class="relative w-36 h-36 sm:w-48 sm:h-48 rounded-full border-2 border-vicomte-gold/40 flex items-center justify-center p-3 shadow-2xl">
+                    <div class="absolute inset-0 rounded-full border border-vicomte-gold/20 animate-ping opacity-30"></div>
+                    <div class="w-full h-full rounded-full bg-gradient-to-br from-vicomte-card to-vicomte-navy flex flex-col items-center justify-center text-center p-4">
+                        <i class="fa-solid fa-radio text-vicomte-gold text-3xl mb-2"></i>
+                        <span class="font-serif font-bold text-sm tracking-wide">VICOMTÉ FM</span>
+                        <span id="audio-status-text" class="text-[10px] text-gray-400 mt-1">Flux Prêt</span>
+                    </div>
+                </div>
+                <!-- Audio Waveform simulation bars -->
+                <div id="waveform" class="flex items-center gap-1.5 h-8 mt-6">
+                    <div class="w-1 bg-vicomte-gold rounded-full h-3 transition-all duration-300"></div>
+                    <div class="w-1 bg-vicomte-gold rounded-full h-7 transition-all duration-300"></div>
+                    <div class="w-1 bg-vicomte-gold rounded-full h-5 transition-all duration-300"></div>
+                    <div class="w-1 bg-vicomte-gold rounded-full h-8 transition-all duration-300"></div>
+                    <div class="w-1 bg-vicomte-gold rounded-full h-4 transition-all duration-300"></div>
+                    <div class="w-1 bg-vicomte-gold rounded-full h-6 transition-all duration-300"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GRILLE DES PROGRAMMES -->
+        <section id="grille" class="space-y-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                    <h3 class="font-serif text-2xl sm:text-3xl font-bold">Grille des Programmes</h3>
+                    <p class="text-gray-400 text-sm">Découvrez nos rendez-vous culturels, musicaux et débats.</p>
+                </div>
+                <!-- Days tabs -->
+                <div id="days-tabs" class="flex flex-wrap gap-2">
+                    <button onclick="setDay('lun')" class="day-tab px-4 py-2 rounded-xl text-xs font-semibold bg-vicomte-gold text-black transition">Lundi</button>
+                    <button onclick="setDay('mar')" class="day-tab px-4 py-2 rounded-xl text-xs font-semibold bg-vicomte-card border border-vicomte-border text-gray-300 hover:bg-vicomte-border transition">Mardi</button>
+                    <button onclick="setDay('mer')" class="day-tab px-4 py-2 rounded-xl text-xs font-semibold bg-vicomte-card border border-vicomte-border text-gray-300 hover:bg-vicomte-border transition">Mercredi</button>
+                    <button onclick="setDay('jeu')" class="day-tab px-4 py-2 rounded-xl text-xs font-semibold bg-vicomte-card border border-vicomte-border text-gray-300 hover:bg-vicomte-border transition">Jeudi</button>
+                    <button onclick="setDay('ven')" class="day-tab px-4 py-2 rounded-xl text-xs font-semibold bg-vicomte-card border border-vicomte-border text-gray-300 hover:bg-vicomte-border transition">Vendredi</button>
+                    <button onclick="setDay('wee')" class="day-tab px-4 py-2 rounded-xl text-xs font-semibold bg-vicomte-card border border-vicomte-border text-gray-300 hover:bg-vicomte-border transition">Week-end</button>
+                </div>
+            </div>
+
+            <!-- Programs list container -->
+            <div id="programs-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+        <!-- PODCASTS & REPLAYS -->
+        <section id="podcasts" class="space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="font-serif text-2xl sm:text-3xl font-bold">Podcasts & Replays</h3>
+                    <p class="text-gray-400 text-sm">Réécoutez vos émissions favorites à tout moment.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Podcast 1 -->
+                <div class="bg-vicomte-card border border-vicomte-border rounded-2xl p-5 flex flex-col justify-between hover:border-vicomte-gold/50 transition">
+                    <div>
+                        <span class="text-xs px-2.5 py-1 rounded bg-vicomte-accent/30 text-vicomte-gold font-semibold">Histoire & Patrimoine</span>
+                        <h4 class="font-serif font-bold text-lg mt-3 mb-2">Les Secrets des Châteaux de France</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed mb-4">Plongée au cœur des demeures historiques et des intrigues de cour avec le Duc de Brissac.</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-vicomte-border">
+                        <span class="text-xs text-gray-500"><i class="fa-regular fa-clock"></i> 42 min</span>
+                        <button onclick="playPodcast('Les Secrets des Châteaux de France')" class="px-4 py-2 rounded-xl bg-vicomte-navy border border-vicomte-gold/40 text-vicomte-gold hover:bg-vicomte-gold hover:text-black text-xs font-semibold transition flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i> Écouter
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Podcast 2 -->
+                <div class="bg-vicomte-card border border-vicomte-border rounded-2xl p-5 flex flex-col justify-between hover:border-vicomte-gold/50 transition">
+                    <div>
+                        <span class="text-xs px-2.5 py-1 rounded bg-vicomte-accent/30 text-vicomte-gold font-semibold">Musique Classique</span>
+                        <h4 class="font-serif font-bold text-lg mt-3 mb-2">L'Analyse des Maîtres</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed mb-4">Décryptage des symphonies de Beethoven et de leur impact intemporel sur la musique moderne.</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-vicomte-border">
+                        <span class="text-xs text-gray-500"><i class="fa-regular fa-clock"></i> 58 min</span>
+                        <button onclick="playPodcast('L\'Analyse des Maîtres')" class="px-4 py-2 rounded-xl bg-vicomte-navy border border-vicomte-gold/40 text-vicomte-gold hover:bg-vicomte-gold hover:text-black text-xs font-semibold transition flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i> Écouter
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Podcast 3 -->
+                <div class="bg-vicomte-card border border-vicomte-border rounded-2xl p-5 flex flex-col justify-between hover:border-vicomte-gold/50 transition">
+                    <div>
+                        <span class="text-xs px-2.5 py-1 rounded bg-vicomte-accent/30 text-vicomte-gold font-semibold">Entretiens</span>
+                        <h4 class="font-serif font-bold text-lg mt-3 mb-2">Le Grand Salon Littéraire</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed mb-4">Rencontre avec les auteurs et académiciens qui font vibrer la littérature contemporaine.</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-vicomte-border">
+                        <span class="text-xs text-gray-500"><i class="fa-regular fa-clock"></i> 35 min</span>
+                        <button onclick="playPodcast('Le Grand Salon Littéraire')" class="px-4 py-2 rounded-xl bg-vicomte-navy border border-vicomte-gold/40 text-vicomte-gold hover:bg-vicomte-gold hover:text-black text-xs font-semibold transition flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i> Écouter
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DÉDICACES & STANDARD DU STUDIO -->
+        <section id="dedicaces" class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-vicomte-card border border-vicomte-border rounded-3xl p-6 sm:p-10 shadow-xl">
+            <div class="space-y-4">
+                <span class="text-xs px-3 py-1 rounded bg-vicomte-gold/10 border border-vicomte-gold/30 text-vicomte-gold font-semibold">Le Standard en Direct</span>
+                <h3 class="font-serif text-3xl font-bold">Envoyez votre dédicace à l'antenne</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Un message pour un proche, un souhait musical ou une pensée à partager avec nos auditeurs ? Écrivez à notre animateur en direct. Les messages sélectionnés sont lus à l'antenne toutes les heures.
+                </p>
+                <div class="flex items-center gap-4 pt-2 text-xs text-gray-400">
+                    <div><i class="fa-solid fa-phone text-vicomte-gold"></i> Standard : 01 42 XX XX XX</div>
+                    <div><i class="fa-solid fa-envelope text-vicomte-gold"></i> studio@radiovicomte.fr</div>
+                </div>
+            </div>
+
+            <!-- Formulaire -->
+            <form id="dedicace-form" onsubmit="submitDedicace(event)" class="space-y-4 bg-vicomte-navy p-6 rounded-2xl border border-vicomte-border">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Votre Prénom / Nom</label>
+                    <input type="text" id="dedicace-name" required placeholder="ex: Charles de Valois" class="w-full bg-vicomte-card border border-vicomte-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-vicomte-gold transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Votre Message & Dédicace</label>
+                    <textarea id="dedicace-msg" rows="3" required placeholder="Bonjour Radio Vicomté, je dédicace ce morceau..." class="w-full bg-vicomte-card border border-vicomte-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-vicomte-gold transition"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-vicomte-gold to-vicomte-darkGold text-black font-bold text-xs uppercase tracking-wider hover:opacity-90 transition shadow-lg">
+                    Envoyer au Studio
+                </button>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-vicomte-border bg-vicomte-card/50 py-8 px-4 text-center text-xs text-gray-400 space-y-3">
+        <div class="flex items-center justify-center space-x-6 text-sm">
+            <a href="#" class="hover:text-vicomte-gold transition"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" class="hover:text-vicomte-gold transition"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="hover:text-vicomte-gold transition"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" class="hover:text-vicomte-gold transition"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+        <p>© 2026 Radio Vicomté — Tous droits réservés. Établissement radiophonique d'excellence.</p>
+    </footer>
+
+    <!-- PERSISTENT STICKY AUDIO PLAYER BAR -->
+    <div id="sticky-player" class="fixed bottom-0 left-0 right-0 bg-vicomte-navy/95 border-t border-vicomte-gold/30 backdrop-blur-md z-50 px-4 py-3 shadow-2xl flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-vicomte-gold/20 border border-vicomte-gold/40 flex items-center justify-center text-vicomte-gold font-bold">
+                <i class="fa-solid fa-volume-high" id="player-icon-status"></i>
+            </div>
+            <div>
+                <p id="player-bar-title" class="text-xs font-bold text-white">Radio Vicomté - Direct</p>
+                <p id="player-bar-subtitle" class="text-[10px] text-gray-400">Diffusion haute fidélité (HQ)</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <button onclick="togglePlay()" class="w-10 h-10 rounded-full bg-vicomte-gold text-black flex items-center justify-center font-bold hover:scale-105 transition shadow-md">
+                <i id="sticky-play-icon" class="fa-solid fa-play"></i>
+            </button>
+            <div class="hidden sm:flex items-center gap-2">
+                <i class="fa-solid fa-volume-low text-xs text-gray-400"></i>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.8" onchange="setVolume(this.value)" class="w-20 accent-[#d4af37] cursor-pointer">
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS MODAL FOR STREAM URL -->
+    <div id="settings-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-vicomte-card border border-vicomte-border rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="font-serif font-bold text-lg text-vicomte-gold flex items-center gap-2">
+                    <i class="fa-solid fa-sliders"></i> Configuration du Flux Audio
+                </h3>
+                <button onclick="closeSettings()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <p class="text-xs text-gray-400">Entrez l'URL de votre serveur de streaming (Icecast, Shoutcast ou flux MP3 direct) :</p>
+            <div>
+                <input type="text" id="stream-url-input" placeholder="https://icecast.radiovicomte.fr/stream" class="w-full bg-vicomte-navy border border-vicomte-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-vicomte-gold transition">
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeSettings()" class="px-4 py-2 bg-vicomte-navy border border-vicomte-border text-gray-300 rounded-xl text-xs font-semibold">Annuler</button>
+                <button onclick="saveStreamUrl()" class="px-5 py-2 bg-vicomte-gold text-black font-bold rounded-xl text-xs">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUDIO ELEMENT -->
+    <audio id="radio-audio" preload="none">
+        <!-- Flux de secours public par défaut (Radio Classique / Jazz / Ambiance) -->
+        <source src="https://icecast.radiofrance.fr/francemusique-midfi.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l'élément audio.
+    </audio>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- AUDIO PLAYER LOGIC ---
+        const audioElement = document.getElementById('radio-audio');
+        let isPlaying = false;
+
+        // Charger l'URL personnalisée stockée si elle existe
+        const savedUrl = localStorage.getItem('vicomte_stream_url');
+        if (savedUrl) {
+            audioElement.src = savedUrl;
+        }
+
+        function togglePlay() {
+            if (isPlaying) {
+                audioElement.pause();
+                isPlaying = false;
+                updatePlayUI(false);
+            } else {
+                audioElement.play().then(() => {
+                    isPlaying = true;
+                    updatePlayUI(true);
+                }).catch(e => {
+                    alert("Impossible de lancer la lecture automatique. Veuillez vérifier votre connexion ou configurer un flux valide.");
+                    console.error(e);
+                });
+            }
+        }
+
+        function updatePlayUI(playing) {
+            const heroIcon = document.getElementById('hero-play-icon');
+            const heroText = document.getElementById('hero-play-text');
+            const stickyIcon = document.getElementById('sticky-play-icon');
+            const statusText = document.getElementById('audio-status-text');
+
+            if (playing) {
+                heroIcon.className = "fa-solid fa-pause text-base";
+                heroText.innerText = "METTRE EN PAUSE";
+                stickyIcon.className = "fa-solid fa-pause";
+                statusText.innerText = "En direct (Live)";
+                statusText.className = "text-[10px] text-vicomte-gold font-bold mt-1";
+            } else {
+                heroIcon.className = "fa-solid fa-play text-base";
+                heroText.innerText = "ÉCOUTER LE DIRECT";
+                stickyIcon.className = "fa-solid fa-play";
+                statusText.innerText = "En pause";
+                statusText.className = "text-[10px] text-gray-400 mt-1";
+            }
+        }
+
+        function setVolume(val) {
+            audioElement.volume = val;
+        }
+
+        function openSettings() {
+            document.getElementById('stream-url-input').value = audioElement.src;
+            document.getElementById('settings-modal').classList.remove('hidden');
+        }
+
+        function closeSettings() {
+            document.getElementById('settings-modal').classList.add('hidden');
+        }
+
+        function saveStreamUrl() {
+            const url = document.getElementById('stream-url-input').value.trim();
+            if (url) {
+                audioElement.src = url;
+                localStorage.setItem('vicomte_stream_url', url);
+                alert("Flux audio mis à jour avec succès !");
+                closeSettings();
+            }
+        }
+
+        function playPodcast(title) {
+            alert("Lancement du podcast : " + title);
+        }
+
+        // --- PROGRAMS GRID DATA & TABS ---
+        const programsData = {
+            lun: [
+                { time: "07:00 - 10:00", title: "Matinée Symphonique", host: "Éléonore de Saint-Cloud", desc: "Réveillez-vous en douceur avec les plus grands chefs-d'œuvre de la musique classique." },
+                { time: "10:00 - 12:30", title: "Le Salon des Muses", host: "Marc de Courcelles", desc: "Actualité littéraire, poésie et entretiens avec des auteurs de renom." },
+                { time: "14:00 - 17:00", title: "Chronique des Domaines", host: "Hélène de Montmirail", desc: "Découverte du patrimoine français, des châteaux et de l'art de vivre." }
+            ],
+            mar: [
+                { time: "07:00 - 10:00", title: "Matinée Symphonique", host: "Éléonore de Saint-Cloud", desc: "Réveillez-vous en douceur avec les plus grands chefs-d'œuvre de la musique classique." },
+                { time: "10:00 - 12:30", title: "L'Art & la Matière", host: "Antoine de Béranger", desc: "Focus sur les métiers d'art, l'horlogerie et la haute facture française." },
+                { time: "14:00 - 17:00", title: "Jazz au Château", host: "Sébastien Le Gall", desc: "Les plus belles heures du jazz acoustique et du swing feutré." }
+            ],
+            mer: [
+                { time: "07:00 - 10:00", title: "Matinée Symphonique", host: "Éléonore de Saint-Cloud", desc: "Réveillez-vous en douceur avec les plus grands chefs-d'œuvre de la musique classique." },
+                { time: "10:00 - 12:30", title: "Le Grand Débat Historique", host: "Professeur Arnauld", desc: "Les grandes énigmes et batailles de l'histoire de France analysées par des historiens." },
+                { time: "14:00 - 17:00", title: "Dialogues Baroques", host: "Éléonore de Saint-Cloud", desc: "Immersion dans la musique du XVIIe et XVIIIe siècle." }
+            ],
+            jeu: [
+                { time: "07:00 - 10:00", title: "Matinée Symphonique", host: "Éléonore de Saint-Cloud", desc: "Réveillez-vous en douceur avec les plus grands chefs-d'œuvre de la musique classique." },
+                { time: "10:00 - 12:30", title: "Terroirs & Gastronomie", host: "Chef Gontran", desc: "Le meilleur des traditions culinaires régionales et des grands crus." },
+                { time: "14:00 - 17:00", title: "Élégance & Style", host: "Victoire de Rohan", desc: "Mode, savoir-vivre et élégance à la française." }
+            ],
+            ven: [
+                { time: "07:00 - 10:00", title: "Matinée Symphonique", host: "Éléonore de Saint-Cloud", desc: "Réveillez-vous en douceur avec les plus grands chefs-d'œuvre de la musique classique." },
+                { time: "10:00 - 12:30", title: "Le Club des Collectionneurs", host: "Marc de Courcelles", desc: "Objets d'art, mobilier ancien et ventes aux enchères." },
+                { time: "14:00 - 17:00", title: "Concert du Vendredi Soir", host: "Rédaction", desc: "Enregistrements en direct des plus grands festivals philharmoniques." }
+            ],
+            wee: [
+                { time: "09:00 - 12:00", title: "La Matinée du Week-End", host: "Hélène de Montmirail", desc: "Chronique détendue, flâneries culturelles et agenda des expositions." },
+                { time: "14:00 - 18:00", title: "Opéra & Compagnie", host: "Sébastien Le Gall", desc: "Intégrales d'opéras et grands airs lyriques." }
+            ]
+        };
+
+        function setDay(dayKey) {
+            // Update tabs style
+            document.querySelectorAll('.day-tab').forEach(btn => {
+                btn.className = "day-tab px-4 py-2 rounded-xl text-xs font-semibold bg-vicomte-card border border-vicomte-border text-gray-300 hover:bg-vicomte-border transition";
+            });
+            event.target.className = "day-tab px-4 py-2 rounded-xl text-xs font-semibold bg-vicomte-gold text-black transition";
+
+            // Render programs
+            const container = document.getElementById('programs-container');
+            container.innerHTML = '';
+
+            programsData[dayKey].forEach(prog => {
+                const card = document.createElement('div');
+                card.className = "bg-vicomte-card border border-vicomte-border rounded-2xl p-5 hover:border-vicomte-gold/50 transition flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <span class="text-xs font-semibold text-vicomte-gold"><i class="fa-regular fa-clock"></i> ${prog.time}</span>
+                        <h4 class="font-serif font-bold text-lg mt-2 mb-1">${prog.title}</h4>
+                        <p class="text-xs text-gray-400 mb-3">Par <span class="text-white">${prog.host}</span></p>
+                        <p class="text-xs text-gray-400 leading-relaxed">${prog.desc}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Initialize with Monday programs on load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Simulate click on Monday tab
+            const firstTab = document.querySelector('.day-tab');
+            if(firstTab) {
+                // Render default lun
+                const container = document.getElementById('programs-container');
+                programsData['lun'].forEach(prog => {
+                    const card = document.createElement('div');
+                    card.className = "bg-vicomte-card border border-vicomte-border rounded-2xl p-5 hover:border-vicomte-gold/50 transition flex flex-col justify-between";
+                    card.innerHTML = `
+                        <div>
+                            <span class="text-xs font-semibold text-vicomte-gold"><i class="fa-regular fa-clock"></i> ${prog.time}</span>
+                            <h4 class="font-serif font-bold text-lg mt-2 mb-1">${prog.title}</h4>
+                            <p class="text-xs text-gray-400 mb-3">Par <span class="text-white">${prog.host}</span></p>
+                            <p class="text-xs text-gray-400 leading-relaxed">${prog.desc}</p>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+        });
+
+        function submitDedicace(e) {
+            e.preventDefault();
+            const name = document.getElementById('dedicace-name').value;
+            alert("Merci " + name + " ! Votre dédicace a bien été transmise au studio de Radio Vicomté.");
+            document.getElementById('dedicace-form').reset();
+        }
+    </script>
+</body>
+</html>
