@@ -10,7 +10,6 @@
   <!-- SDK Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
-  <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -35,9 +34,7 @@
             admin: {
               bg: '#12131A',
               card: '#1C1E29',
-              border: '#2E3245',
-              accent: '#3B82F6',
-              textMuted: '#9CA3AF'
+              border: '#2E3245'
             }
           },
           fontFamily: {
@@ -65,142 +62,135 @@
 </head>
 <body class="bg-halle-meyssac text-vicomte-chocolat font-sans antialiased min-h-screen flex flex-col">
 
-  <!-- Notification Toast -->
-  <div id="toast-notification" class="fixed bottom-5 right-5 z-50 bg-vicomte-chocolat text-white px-5 py-3 rounded-2xl shadow-2xl border-2 border-vicomte-dorure hidden flex items-center space-x-3 pointer-events-none">
+  <!-- Toast Notification -->
+  <div id="toast-notification" class="fixed bottom-5 right-5 z-50 bg-vicomte-chocolat text-white px-5 py-3 rounded-2xl shadow-2xl border-2 border-vicomte-dorure hidden flex items-center space-x-3">
     <i class="fa-solid fa-circle-check text-vicomte-dorure text-lg"></i>
     <span id="toast-message" class="text-xs font-bold"></span>
   </div>
 
   <!-- SITE PUBLIC -->
   <div id="public-site" class="flex-grow flex flex-col">
+    <!-- Barre du haut -->
     <div class="bg-vicomte-chocolat text-vicomte-sable px-4 py-2 text-xs font-semibold flex justify-between items-center border-b border-vicomte-dorure/30 relative z-20">
       <div class="flex items-center space-x-3">
         <span class="w-3 h-3 bg-red-600 rounded-full animate-pulse"></span>
         <span class="tracking-widest uppercase font-bold text-red-400">En Direct (103.9 FM) :</span>
-        <span id="header-now-playing" class="text-white font-medium">Chargement du direct...</span>
+        <span id="header-now-playing" class="text-white font-medium">Les Matinales Corréziennes</span>
       </div>
-      <div class="flex items-center space-x-4">
+      <div>
         <button type="button" onclick="toggleAdminView(true)" class="cursor-pointer text-vicomte-dorure hover:text-white font-bold border border-vicomte-dorure/40 px-3 py-1 rounded-lg">
           <i class="fa-solid fa-lock text-[10px]"></i> Administration
         </button>
       </div>
     </div>
 
-    <!-- Header & Logo -->
+    <!-- En-tête -->
     <header class="pattern-meyssac text-white shadow-xl border-b-4 border-vicomte-dorure relative z-10">
-      <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col md:flex-row justify-between items-center">
-        <div class="flex items-center space-x-4 cursor-pointer" onclick="switchPublicTab('home')">
-          <div class="w-20 h-20 rounded-full bg-white border-4 border-vicomte-dorure p-1.5 flex items-center justify-center">
-            <span class="font-display font-black text-xs text-vicomte-brique text-center leading-tight">RADIO<br>VICOMTE</span>
-          </div>
-          <div>
-            <h1 class="font-display font-black text-2xl md:text-4xl">RADIO VICOMTÉ</h1>
-            <p class="text-vicomte-sable text-xs uppercase">103.9 FM — La Radio de la Corrèze Méridionale</p>
-          </div>
+      <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
+        <div class="cursor-pointer" onclick="switchTab('accueil')">
+          <h1 class="font-display font-black text-2xl md:text-4xl">RADIO VICOMTÉ</h1>
+          <p class="text-vicomte-sable text-xs uppercase">103.9 FM — La Radio de la Corrèze Méridionale</p>
         </div>
-        <button type="button" onclick="switchPublicTab('dedicaces')" class="cursor-pointer bg-vicomte-dorure text-vicomte-chocolat px-5 py-2.5 rounded-2xl text-xs font-black uppercase shadow-lg">
-          <i class="fa-solid fa-heart mr-1"></i> Envoyer une Dédicace
+        <button type="button" onclick="switchTab('dedicaces')" class="cursor-pointer bg-vicomte-dorure text-vicomte-chocolat px-5 py-2.5 rounded-2xl text-xs font-black uppercase shadow-lg">
+          <i class="fa-solid fa-heart mr-1"></i> Dédicaces
         </button>
       </div>
 
-      <!-- Navigation Publique -->
-      <nav class="bg-vicomte-briqueDark border-t border-vicomte-brique text-xs font-bold px-4 py-2 flex flex-wrap gap-1 justify-center md:justify-start">
-        <button type="button" onclick="switchPublicTab('home')" id="pub-btn-home" class="cursor-pointer px-3.5 py-2 rounded-xl text-white bg-vicomte-brique shadow">Accueil</button>
-        <button type="button" onclick="switchPublicTab('emissions')" id="pub-btn-emissions" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white">Émissions</button>
-        <button type="button" onclick="switchPublicTab('grille')" id="pub-btn-grille" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white">Grille des Programmes</button>
-        <button type="button" onclick="switchPublicTab('replays')" id="pub-btn-replays" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white">Replays & Podcasts</button>
-        <button type="button" onclick="switchPublicTab('dedicaces')" id="pub-btn-dedicaces" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white">Dédicaces</button>
-        <button type="button" onclick="switchPublicTab('pub')" id="pub-btn-pub" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white">Publicités</button>
-        <button type="button" onclick="switchPublicTab('photos')" id="pub-btn-photos" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white">Photos</button>
-        <button type="button" onclick="switchPublicTab('presse')" id="pub-btn-presse" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white">On parle de nous</button>
-        <button type="button" onclick="switchPublicTab('contact')" id="pub-btn-contact" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white">Contact</button>
+      <!-- Navigation Publique (IDs corrigés et cliquables) -->
+      <nav class="bg-vicomte-briqueDark border-t border-vicomte-brique text-xs font-bold px-4 py-2 flex flex-wrap gap-2 justify-center md:justify-start">
+        <button type="button" onclick="switchTab('accueil')" id="btn-accueil" class="cursor-pointer px-4 py-2 rounded-xl bg-vicomte-dorure text-vicomte-chocolat">Accueil</button>
+        <button type="button" onclick="switchTab('emissions')" id="btn-emissions" class="cursor-pointer px-4 py-2 rounded-xl text-white hover:bg-white/10">Émissions</button>
+        <button type="button" onclick="switchTab('grille')" id="btn-grille" class="cursor-pointer px-4 py-2 rounded-xl text-white hover:bg-white/10">Grille</button>
+        <button type="button" onclick="switchTab('replays')" id="btn-replays" class="cursor-pointer px-4 py-2 rounded-xl text-white hover:bg-white/10">Replays</button>
+        <button type="button" onclick="switchTab('dedicaces')" id="btn-dedicaces" class="cursor-pointer px-4 py-2 rounded-xl text-white hover:bg-white/10">Dédicaces</button>
+        <button type="button" onclick="switchTab('contact')" id="btn-contact" class="cursor-pointer px-4 py-2 rounded-xl text-white hover:bg-white/10">Contact</button>
       </nav>
     </header>
 
-    <!-- ONGLETS PUBLICS -->
+    <!-- VUES PUBLIQUES -->
     <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full relative z-10">
-      <div id="pub-view-home" class="space-y-6">
-        <div class="grid md:grid-cols-12 gap-6">
-          <div class="md:col-span-7 bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable relative">
-            <span class="absolute top-0 right-0 bg-vicomte-brique text-white text-[10px] font-bold uppercase px-3 py-1 rounded-bl-xl">En Direct</span>
-            <p class="text-xs font-bold text-vicomte-brique uppercase">Actuellement à l'Antenne</p>
-            <h2 class="font-display font-black text-2xl text-vicomte-chocolat my-1" id="home-live-title">LES MATINALES CORRÉZIENNES</h2>
-            <p class="text-xs text-gray-600 mb-4" id="home-live-desc">Votre rendez-vous matinal quotidien avec l'actualité locale.</p>
-            <div class="h-44 rounded-2xl bg-vicomte-chocolat flex items-center justify-center">
-              <button type="button" onclick="toggleAudioStream()" class="cursor-pointer w-16 h-16 rounded-full bg-vicomte-brique text-white border-4 border-vicomte-dorure flex items-center justify-center shadow-xl hover:scale-105 transition">
-                <i class="fa-solid fa-play text-xl ml-1"></i>
-              </button>
-            </div>
-          </div>
-          <div class="md:col-span-5 bg-vicomte-creme rounded-3xl p-6 shadow-lg border border-vicomte-sable flex flex-col justify-between">
-            <div>
-              <span class="text-[10px] font-black bg-vicomte-chocolat text-vicomte-dorure px-2.5 py-1 rounded-md uppercase">À Suivre</span>
-              <h3 class="font-display font-bold text-lg text-vicomte-chocolat mt-3">LE HIT PARADE DE MEYSSAC</h3>
-              <p class="text-xs text-gray-600 mt-1">Les 20 plus grands titres de la semaine.</p>
-            </div>
-          </div>
+      <div id="tab-accueil" class="space-y-6">
+        <div class="bg-white rounded-3xl p-8 shadow-xl border-2 border-vicomte-sable space-y-4">
+          <h2 class="font-display font-black text-3xl text-vicomte-brique" id="home-live-title">Bienvenue sur Radio Vicomté</h2>
+          <p class="text-sm text-gray-600" id="home-live-desc">Votre radio locale en Corrèze méridionale.</p>
         </div>
       </div>
-      <div id="pub-view-emissions" class="bg-white rounded-3xl p-8 shadow-xl hidden"><h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">Émissions Phares</h2><p class="text-xs text-gray-600">Découvrez nos programmes réguliers.</p></div>
-      <div id="pub-view-grille" class="bg-white rounded-3xl p-8 shadow-xl hidden"><h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">Grille des Programmes</h2><p class="text-xs text-gray-600">Planning de la semaine.</p></div>
-      <div id="pub-view-replays" class="bg-white rounded-3xl p-8 shadow-xl hidden"><h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">Replays & Podcasts</h2><p class="text-xs text-gray-600">Réécoutez vos émissions.</p></div>
-      <div id="pub-view-dedicaces" class="bg-white rounded-3xl p-8 shadow-xl hidden"><h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">Dédicaces</h2><p class="text-xs text-gray-600">Envoyez vos messages au studio.</p></div>
-      <div id="pub-view-pub" class="bg-white rounded-3xl p-8 shadow-xl hidden"><h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">Publicités</h2><p class="text-xs text-gray-600">Espace annonceurs.</p></div>
-      <div id="pub-view-photos" class="bg-white rounded-3xl p-8 shadow-xl hidden"><h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">Photos</h2><p class="text-xs text-gray-600">Galerie du studio.</p></div>
-      <div id="pub-view-presse" class="bg-white rounded-3xl p-8 shadow-xl hidden"><h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">On parle de nous</h2><p class="text-xs text-gray-600">Revue de presse.</p></div>
-      <div id="pub-view-contact" class="bg-white rounded-3xl p-8 shadow-xl hidden"><h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">Contact</h2><p class="text-xs text-gray-600">Place de Céran, 19500 Meyssac — 05 55 25 49 99</p></div>
+      <div id="tab-emissions" class="bg-white rounded-3xl p-8 shadow-xl hidden"><h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">Émissions</h2><p class="text-xs text-gray-600">Nos programmes réguliers.</p></div>
+      <div id="tab-grille" class="bg-white rounded-3xl p-8 shadow-xl hidden"><h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">Grille des Programmes</h2><p class="text-xs text-gray-600">Planning de la semaine.</p></div>
+      <div id="tab-replays" class="bg-white rounded-3xl p-8 shadow-xl hidden"><h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">Replays</h2><p class="text-xs text-gray-600">Podcasts en réécoute.</p></div>
+      <div id="tab-dedicaces" class="bg-white rounded-3xl p-8 shadow-xl hidden"><h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">Dédicaces</h2><p class="text-xs text-gray-600">Envoyez vos messages au studio.</p></div>
+      <div id="tab-contact" class="bg-white rounded-3xl p-8 shadow-xl hidden"><h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">Contact</h2><p class="text-xs text-gray-600">Place de Céran, 19500 Meyssac.</p></div>
     </main>
   </div>
 
-  <!-- ESPACE ADMINISTRATEUR COMPLET (IDENTIQUE AUX CAPTURES D'ÉCRAN) -->
-  <div id="admin-site" class="min-h-screen bg-admin-bg text-gray-200 hidden flex flex-col relative z-30">
-    <header class="bg-admin-card border-b border-admin-border px-6 py-4 flex justify-between items-center shadow-lg">
-      <div class="flex items-center space-x-3">
-        <div class="w-9 h-9 rounded-lg bg-vicomte-brique border border-vicomte-dorure flex items-center justify-center text-white font-bold">
-          <i class="fa-solid fa-microphone-lines"></i>
-        </div>
-        <div>
-          <h1 class="font-display font-bold text-white text-base tracking-wide uppercase">RADIO VICOMTÉ — ESPACE ADMINISTRATEUR</h1>
-          <p class="text-[10px] text-admin-textMuted uppercase tracking-widest">PANNEAU DE GESTION DIRECT BACK-OFFICE</p>
-        </div>
-      </div>
-      <div class="flex items-center space-x-3">
-        <button type="button" onclick="toggleAdminView(false)" class="cursor-pointer px-3.5 py-1.5 bg-admin-bg hover:bg-admin-border text-xs text-gray-300 rounded-lg transition border border-admin-border font-bold">
-          <i class="fa-solid fa-globe mr-1 text-blue-400"></i> Voir le Site Public
-        </button>
-        <button type="button" onclick="logoutAdmin()" class="cursor-pointer px-3.5 py-1.5 bg-red-600/80 hover:bg-red-600 text-xs text-white rounded-lg transition font-bold shadow">
-          <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i> Se Déconnecter
-        </button>
-      </div>
+  <!-- ESPACE ADMINISTRATEUR -->
+  <div id="admin-site" class="min-h-screen bg-[#12131A] text-gray-200 hidden flex flex-col relative z-30">
+    <header class="bg-[#1C1E29] border-b border-[#2E3245] px-6 py-4 flex justify-between items-center">
+      <h1 class="font-display font-bold text-white text-sm uppercase">Administration — Radio Vicomté</h1>
+      <button type="button" onclick="toggleAdminView(false)" class="cursor-pointer px-4 py-2 bg-[#12131A] text-xs text-gray-300 rounded-lg border border-[#2E3245] font-bold">Retour au Site</button>
     </header>
 
     <!-- Écran Connexion Admin -->
-    <div id="admin-login-screen" class="max-w-md mx-auto my-12 p-8 bg-admin-card border border-admin-border rounded-2xl shadow-2xl space-y-6 text-xs">
-      <div class="text-center space-y-2">
-        <div class="w-16 h-16 rounded-full bg-vicomte-brique border-2 border-vicomte-dorure mx-auto flex items-center justify-center text-white text-2xl shadow-lg">
-          <i class="fa-solid fa-shield-halved text-vicomte-dorure"></i>
-        </div>
-        <h2 class="font-display font-extrabold text-2xl text-white">Espace Administrateur</h2>
-        <p class="text-admin-textMuted text-[11px]">Connectez-vous pour gérer le site.</p>
+    <div id="admin-login" class="max-w-md mx-auto my-12 p-8 bg-[#1C1E29] border border-[#2E3245] rounded-2xl space-y-6 text-xs">
+      <h2 class="font-display font-extrabold text-xl text-white text-center">Connexion Admin</h2>
+      <div class="bg-[#12131A] p-3 rounded-lg border border-amber-500/30 text-amber-300">
+        Identifiant : <strong>admin</strong> / Mot de passe : <strong>vicomte107</strong>
       </div>
-      <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
-        <div>
-          <label class="block mb-1 font-bold text-gray-300">Identifiant *</label>
-          <input type="text" id="admin-user-input" value="admin" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
-        </div>
-        <div>
-          <label class="block mb-1 font-bold text-gray-300">Mot de passe *</label>
-          <input type="password" id="admin-pass-input" value="vicomte107" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
-        </div>
-        <button type="submit" class="cursor-pointer w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl uppercase transition">Se Connecter</button>
+      <form onsubmit="handleLogin(event)" class="space-y-4">
+        <input type="text" id="adm-u" value="admin" required class="w-full bg-[#12131A] border border-[#2E3245] rounded-xl p-3 text-white">
+        <input type="password" id="adm-p" value="vicomte107" required class="w-full bg-[#12131A] border border-[#2E3245] rounded-xl p-3 text-white">
+        <button type="submit" class="cursor-pointer w-full bg-blue-600 text-white font-bold py-3 rounded-xl uppercase">Se Connecter</button>
       </form>
     </div>
 
-    <!-- Tableau de Bord Admin Complet -->
-    <div id="admin-dashboard-content" class="p-6 md:p-8 max-w-7xl mx-auto space-y-6 w-full hidden">
-      <!-- Statistiques -->
-      <div class="grid md:grid-cols-3 gap-4">
-        <div class="bg-admin-card p-5 rounded-2xl border border-admin-border flex justify-between items-center">
-          <div>
-            <p class="text-[11px] text-admin-textMuted uppercase font-bold">Auditeurs en direct (Flux Web)</p>
-            <p class="text-2xl font-black text-white mt-1">27 <span class="w-2.5 h-2.5 rounded-full bg-green-5
+    <!-- Tableau de bord Admin -->
+    <div id="admin-dashboard" class="p-8 max-w-xl mx-auto space-y-6 w-full hidden">
+      <div class="bg-[#1C1E29] p-6 rounded-2xl border border-[#2E3245] space-y-4">
+        <h3 class="font-bold text-sm text-amber-400 uppercase">Modifier le Direct (Supabase)</h3>
+        <input type="text" id="admin-title" class="w-full bg-[#12131A] border border-[#2E3245] p-3 rounded-xl text-white text-xs">
+        <textarea id="admin-desc" class="w-full bg-[#12131A] border border-[#2E3245] p-3 rounded-xl text-white text-xs h-24"></textarea>
+        <button type="button" onclick="saveAdminData()" class="cursor-pointer w-full bg-blue-600 text-white font-bold py-3 rounded-xl text-xs uppercase">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS DE NAVIGATION ET SUPABASE -->
+  <script>
+    const SUPABASE_URL = 'https://lkrrphufkatgrbacfxsl.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrcnJwaHVma2F0Z3JiYWNmeHNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyNzEzMjMsImV4cCI6MjEwODg0NzMyM30.f-9k9bjVYkohL5h3RQVfXLVWyqqt0fRYH43NrKWGgyk';
+    
+    let supabaseClient = null;
+    try {
+      if (window.supabase) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      }
+    } catch(e) { console.error(e); }
+
+    const tabs = ['accueil', 'emissions', 'grille', 'replays', 'dedicaces', 'contact'];
+
+    function switchTab(name) {
+      tabs.forEach(t => {
+        const el = document.getElementById('tab-' + t);
+        const btn = document.getElementById('btn-' + t);
+        if (el) el.classList.add('hidden');
+        if (btn) btn.className = 'cursor-pointer px-4 py-2 rounded-xl text-white hover:bg-white/10';
+      });
+      const targetEl = document.getElementById('tab-' + name);
+      const targetBtn = document.getElementById('btn-' + name);
+      if (targetEl) targetEl.classList.remove('hidden');
+      if (targetBtn) targetBtn.className = 'cursor-pointer px-4 py-2 rounded-xl bg-vicomte-dorure text-vicomte-chocolat font-bold';
+    }
+
+    function toggleAdminView(isAdmin) {
+      document.getElementById('public-site').classList.toggle('hidden', isAdmin);
+      document.getElementById('admin-site').classList.toggle('hidden', !isAdmin);
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const u = document.getElementById('adm-u').value;
+      const p = document.getElementById('adm-p').value;
+      if (u === 'admin' && p === 'vicomte107') {
+        document.getElementById('admin-login').classList.add('hidden');
+        document.getElementById('admin-dashboard').classList.remove('hidden');
+        showToast('Connexion réussie !');
