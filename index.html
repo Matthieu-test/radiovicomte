@@ -955,6 +955,7 @@
 
   <!-- SCRIPT JS COMPLET -->
   <script>
+    const audioStream = document.getElementById('radio-audio-stream');
     const DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
     let currentPublicDay = "Jeudi";
     let currentAdminDay = "Jeudi";
@@ -1749,23 +1750,31 @@
 
     // AUDIO STREAM PLAYER TOGGLE
     function toggleAudioStream() {
-      isPlayingAudio = !isPlayingAudio;
-      const icon = document.getElementById('header-play-icon');
-      const text = document.getElementById('header-play-text');
-      const mainIcon = document.getElementById('main-live-play-icon');
+  isPlayingAudio = !isPlayingAudio;
+  const icon = document.getElementById('header-play-icon');
+  const text = document.getElementById('header-play-text');
+  const mainIcon = document.getElementById('main-live-play-icon');
 
-      if (isPlayingAudio) {
-        if (icon) icon.className = "fa-solid fa-pause text-[10px]";
-        if (text) text.innerText = "Pause Radio";
-        if (mainIcon) mainIcon.className = "fa-solid fa-pause text-2xl ml-0";
-        showToast("Écoute du Direct Radio Vicomté (103.9 FM) activée !");
-      } else {
-        if (icon) icon.className = "fa-solid fa-play text-[10px]";
-        if (text) text.innerText = "Écouter la Radio";
-        if (mainIcon) mainIcon.className = "fa-solid fa-play text-2xl ml-1";
-        showToast("Flux audio mis en pause.");
-      }
+  if (isPlayingAudio) {
+    if (audioStream) {
+      audioStream.play().catch(error => {
+        console.error("Erreur de lecture audio :", error);
+      });
     }
+    if (icon) icon.className = "fa-solid fa-pause text-[10px]";
+    if (text) text.innerText = "Pause Radio";
+    if (mainIcon) mainIcon.className = "fa-solid fa-pause text-2xl ml-0";
+    showToast("Écoute du Direct Radio Vicomté (103.9 FM) activée !");
+  } else {
+    if (audioStream) {
+      audioStream.pause();
+    }
+    if (icon) icon.className = "fa-solid fa-play text-[10px]";
+    if (text) text.innerText = "Écouter la Radio";
+    if (mainIcon) mainIcon.className = "fa-solid fa-play text-2xl ml-1";
+    showToast("Flux audio mis en pause.");
+  }
+}
 
     // TOAST NOTIFICATIONS
     function showToast(msg, iconClass = "fa-circle-check") {
@@ -1791,5 +1800,8 @@ window.onload = function() {
   renderPublicPresse();
 };
   </script>
+  <audio id="radio-audio-stream" preload="none">
+  <source src="https://www.comequip.eu/Radio-Vicomte" type="audio/mpeg">
+</audio>
 </body>
 </html>
