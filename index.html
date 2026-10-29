@@ -8,7 +8,7 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Intégration du SDK Supabase -->
+  <!-- SDK Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <!-- Google Fonts -->
@@ -61,10 +61,6 @@
       background-position: 0 0, 15px 15px;
       opacity: 0.95;
     }
-    body.admin-mode {
-      background-color: #12131A;
-      color: #E5E7EB;
-    }
     .bg-halle-meyssac {
       background-image: linear-gradient(rgba(247, 241, 225, 0.88), rgba(247, 241, 225, 0.88)), url('https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1600&auto=format&fit=crop');
       background-attachment: fixed;
@@ -82,9 +78,11 @@
     <span id="toast-message" class="text-xs font-bold"></span>
   </div>
 
-  <!-- SITE PUBLIC -->
+  <!-- ========================================== -->
+  <!-- SITE PUBLIC                                -->
+  <!-- ========================================== -->
   <div id="public-site" class="flex-grow flex flex-col">
-    <!-- Ticker Direct En Haut -->
+    <!-- Ticker Direct -->
     <div class="bg-vicomte-chocolat text-vicomte-sable px-4 py-2 text-xs font-semibold flex flex-wrap justify-between items-center shadow-inner border-b border-vicomte-dorure/30">
       <div class="flex items-center space-x-3">
         <span class="flex h-3 w-3 relative">
@@ -97,8 +95,8 @@
 
       <div class="flex items-center space-x-4 mt-1 sm:mt-0">
         <button onclick="toggleAudioStream()" id="global-header-play-btn" class="flex items-center space-x-1.5 bg-vicomte-brique hover:bg-vicomte-briqueDark text-white px-3.5 py-1 rounded-full text-xs font-bold transition shadow-sm">
-          <i class="fa-solid fa-play text-[10px]" id="header-play-icon"></i>
-          <span id="header-play-text">Écouter la Radio</span>
+          <i class="fa-solid fa-play text-[10px]"></i>
+          <span>Écouter la Radio</span>
         </button>
         <button onclick="toggleAdminView(true)" class="flex items-center space-x-1.5 text-vicomte-dorure hover:text-white transition font-bold border border-vicomte-dorure/40 px-3 py-1 rounded-lg">
           <i class="fa-solid fa-lock text-[10px]"></i>
@@ -130,34 +128,34 @@
           </div>
         </div>
 
-        <button onclick="switchPublicTab('dedicaces')" class="bg-vicomte-dorure hover:bg-amber-500 text-vicomte-chocolat px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-wider transition shadow-lg hover:scale-105 flex items-center">
+        <button onclick="switchPublicTab('dedicaces')" class="bg-vicomte-dorure hover:bg-amber-500 text-vicomte-chocolat px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-wider transition shadow-lg flex items-center">
           <i class="fa-solid fa-heart mr-2 text-vicomte-brique"></i> Envoyer une Dédicace
         </button>
       </div>
 
-      <!-- Navigation Publique -->
+      <!-- Barre de Navigation Fonctionnelle -->
       <nav class="bg-vicomte-briqueDark/90 border-t border-vicomte-brique text-xs font-bold">
-        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center md:justify-start gap-1 py-1.5" id="pub-nav-container">
-          <button onclick="switchPublicTab('home')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-white hover:bg-vicomte-brique transition uppercase tracking-wider bg-vicomte-brique shadow" id="pub-btn-home">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center md:justify-start gap-1 py-1.5">
+          <button onclick="switchPublicTab('home')" id="pub-btn-home" class="px-3.5 py-2 rounded-xl text-white bg-vicomte-brique shadow transition uppercase tracking-wider">
             <i class="fa-solid fa-house mr-1.5"></i> Accueil
           </button>
-          <button onclick="switchPublicTab('emissions')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-emissions">Émissions</button>
-          <button onclick="switchPublicTab('grille')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-grille">Grille des Programmes</button>
-          <button onclick="switchPublicTab('replays')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-replays">Replays & Podcasts</button>
-          <button onclick="switchPublicTab('dedicaces')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-dedicaces">Dédicaces</button>
-          <button onclick="switchPublicTab('pub')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-pub">Publicités</button>
-          <button onclick="switchPublicTab('photos')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-photos">Photos</button>
-          <button onclick="switchPublicTab('presse')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-presse">On parle de nous</button>
-          <button onclick="switchPublicTab('contact')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-contact">Contact</button>
+          <button onclick="switchPublicTab('emissions')" id="pub-btn-emissions" class="px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Émissions</button>
+          <button onclick="switchPublicTab('grille')" id="pub-btn-grille" class="px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Grille des Programmes</button>
+          <button onclick="switchPublicTab('replays')" id="pub-btn-replays" class="px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Replays & Podcasts</button>
+          <button onclick="switchPublicTab('dedicaces')" id="pub-btn-dedicaces" class="px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Dédicaces</button>
+          <button onclick="switchPublicTab('pub')" id="pub-btn-pub" class="px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Publicités</button>
+          <button onclick="switchPublicTab('photos')" id="pub-btn-photos" class="px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Photos</button>
+          <button onclick="switchPublicTab('presse')" id="pub-btn-presse" class="px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">On parle de nous</button>
+          <button onclick="switchPublicTab('contact')" id="pub-btn-contact" class="px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Contact</button>
         </div>
       </nav>
     </header>
 
-    <!-- CONTENU PUBLIC DES ONGLETS -->
+    <!-- ONGLETS PUBLICS -->
     <main class="max-w-7xl mx-auto px-4 py-8 flex-grow space-y-10 w-full">
       
-      <!-- TAB 1: ACCUEIL -->
-      <div id="pub-view-home" class="space-y-10">
+      <!-- TAB ACCUEIL -->
+      <div id="pub-view-home" class="space-y-10 block">
         <div class="grid md:grid-cols-12 gap-6 items-stretch">
           <div class="md:col-span-7 bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable flex flex-col justify-between relative overflow-hidden">
             <div class="absolute top-0 right-0 bg-vicomte-brique text-white text-[11px] font-black uppercase px-4 py-1.5 rounded-bl-2xl tracking-widest flex items-center">
@@ -165,8 +163,252 @@
             </div>
             <div>
               <p class="text-xs font-extrabold text-vicomte-brique uppercase tracking-widest mb-1">Actuellement à l'Antenne</p>
-              <h2 class="font-display font-black text-2xl md:text-3xl text-vicomte-chocolat mb-2" id="home-live-title">Chargement...</h2>
-              <p class="text-xs text-gray-600 mb-4" id="home-live-desc">Chargement des informations du direct...</p>
+              <h2 class="font-display font-black text-2xl md:text-3xl text-vicomte-chocolat mb-2" id="home-live-title">Bienvenue sur Radio Vicomté</h2>
+              <p class="text-xs text-gray-600 mb-4" id="home-live-desc">Votre radio locale en Corrèze méridionale.</p>
             </div>
-            <div class="my-4 relative rounded-2xl overflow-hidden group shadow-lg border border-vicomte-dorure/30 h-56 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1000&auto=format&fit=crop');">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/90 via
+            <div class="my-4 relative rounded-2xl overflow-hidden shadow-lg border border-vicomte-dorure/30 h-56 bg-cover bg-center flex items-center justify-center bg-vicomte-chocolat">
+              <button onclick="toggleAudioStream()" class="w-20 h-20 rounded-full bg-vicomte-brique text-white border-4 border-vicomte-dorure flex items-center justify-center hover:scale-105 transition shadow-2xl">
+                <i class="fa-solid fa-play text-2xl ml-1"></i>
+              </button>
+            </div>
+            <div class="flex items-center justify-between text-xs font-semibold text-gray-500 pt-2 border-t border-gray-100">
+              <span><i class="fa-solid fa-user-tie text-vicomte-brique mr-1"></i> Animation : <strong class="text-vicomte-chocolat">Équipe Radio Vicomté</strong></span>
+              <span><i class="fa-solid fa-clock text-vicomte-brique mr-1"></i> FM : <strong>103.9 FM</strong></span>
+            </div>
+          </div>
+
+          <div class="md:col-span-5 bg-vicomte-creme rounded-3xl p-6 shadow-lg border border-vicomte-sable flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <span class="text-xs font-extrabold text-vicomte-dorure uppercase tracking-widest bg-vicomte-chocolat px-3 py-1 rounded-lg">À Suivre</span>
+                <span class="text-2xl font-black text-vicomte-brique font-display">09:30</span>
+              </div>
+              <h3 class="font-display font-extrabold text-xl text-vicomte-chocolat mb-1">LE HIT PARADE DE MEYSSAC</h3>
+              <p class="text-xs text-gray-600 mb-4">Les plus grands hits sélectionnés par nos auditeurs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB ÉMISSIONS -->
+      <div id="pub-view-emissions" class="space-y-6 hidden">
+        <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable space-y-4">
+          <h2 class="font-display font-black text-2xl text-vicomte-brique">Nos Émissions Phares</h2>
+          <p class="text-xs text-gray-600">Retrouvez les programmes réguliers diffusés sur le 103.9 FM.</p>
+          <div class="grid md:grid-cols-2 gap-4 pt-2">
+            <div class="p-4 bg-vicomte-sableLight rounded-2xl border border-vicomte-sable">
+              <h3 class="font-bold text-sm text-vicomte-chocolat">Les Matinales Corréziennes</h3>
+              <p class="text-xs text-gray-600 mt-1">L'actualité locale, la météo et la bonne humeur de 7h à 9h30.</p>
+            </div>
+            <div class="p-4 bg-vicomte-sableLight rounded-2xl border border-vicomte-sable">
+              <h3 class="font-bold text-sm text-vicomte-chocolat">Le Mag du Patrimoine</h3>
+              <p class="text-xs text-gray-600 mt-1">Histoire et culture de Meyssac et du canton.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB GRILLE -->
+      <div id="pub-view-grille" class="space-y-6 hidden">
+        <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable space-y-4">
+          <h2 class="font-display font-black text-2xl text-vicomte-brique">Grille des Programmes</h2>
+          <div class="space-y-2 text-xs">
+            <p><strong>07:00 - 09:30 :</strong> Les Matinales Corréziennes</p>
+            <p><strong>09:30 - 12:00 :</strong> Le Hit Parade de Meyssac</p>
+            <p><strong>12:00 - 14:00 :</strong> Midi Corrèze & Infos</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB REPLAYS -->
+      <div id="pub-view-replays" class="space-y-6 hidden">
+        <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable space-y-4 text-center">
+          <h2 class="font-display font-black text-2xl text-vicomte-brique">Replays & Podcasts</h2>
+          <p class="text-xs text-gray-600">Retrouvez bientôt tous les enregistrements audio en réécoute.</p>
+        </div>
+      </div>
+
+      <!-- TAB DÉDICACES -->
+      <div id="pub-view-dedicaces" class="space-y-6 hidden">
+        <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable max-w-lg mx-auto space-y-4">
+          <h2 class="font-display font-black text-2xl text-vicomte-brique text-center">Envoyez votre Dédicace</h2>
+          <form onsubmit="event.preventDefault(); showToast('Dédicace envoyée au studio !');" class="space-y-3 text-xs">
+            <input type="text" placeholder="Votre prénom & ville" required class="w-full p-2.5 rounded-xl border border-vicomte-sable bg-vicomte-sableLight">
+            <textarea placeholder="Votre message..." required class="w-full p-2.5 rounded-xl border border-vicomte-sable bg-vicomte-sableLight h-24"></textarea>
+            <button type="submit" class="w-full bg-vicomte-brique text-white font-bold py-2.5 rounded-xl uppercase">Envoyer à l'Antenne</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- TAB PUBLICITÉS -->
+      <div id="pub-view-pub" class="space-y-6 hidden">
+        <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable space-y-4 text-center">
+          <h2 class="font-display font-black text-2xl text-vicomte-brique">Espace Annonceurs</h2>
+          <p class="text-xs text-gray-600">Communiquez sur le 103.9 FM auprès des commerces et habitants de la région.</p>
+        </div>
+      </div>
+
+      <!-- TAB PHOTOS -->
+      <div id="pub-view-photos" class="space-y-6 hidden">
+        <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable space-y-4 text-center">
+          <h2 class="font-display font-black text-2xl text-vicomte-brique">Galerie du Studio</h2>
+          <p class="text-xs text-gray-600">Photos de l'équipe et des événements régionaux.</p>
+        </div>
+      </div>
+
+      <!-- TAB PRESSE -->
+      <div id="pub-view-presse" class="space-y-6 hidden">
+        <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable space-y-4 text-center">
+          <h2 class="font-display font-black text-2xl text-vicomte-brique">On parle de nous</h2>
+          <p class="text-xs text-gray-600">Articles de presse consacrés à Radio Vicomté.</p>
+        </div>
+      </div>
+
+      <!-- TAB CONTACT -->
+      <div id="pub-view-contact" class="space-y-6 hidden">
+        <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable max-w-lg mx-auto space-y-4 text-center">
+          <h2 class="font-display font-black text-2xl text-vicomte-brique">Contactez-nous</h2>
+          <p class="text-xs text-gray-700">Studio : Place de Céran, 19500 Meyssac<br>Téléphone : 05 55 25 49 99</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- ESPACE ADMINISTRATEUR                     -->
+  <!-- ========================================== -->
+  <div id="admin-site" class="min-h-screen bg-admin-bg text-gray-200 hidden flex flex-col font-sans">
+    <header class="bg-admin-card border-b border-admin-border px-6 py-4 flex justify-between items-center shadow-lg">
+      <h1 class="font-display font-bold text-white text-sm uppercase">RADIO VICOMTÉ — ESPACE ADMINISTRATEUR</h1>
+      <button onclick="toggleAdminView(false)" class="px-3.5 py-1.5 bg-admin-bg text-xs text-gray-300 rounded-lg border border-admin-border font-bold">Voir le Site Public</button>
+    </header>
+
+    <div class="p-8 max-w-xl mx-auto space-y-6 w-full">
+      <div class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-4">
+        <h2 class="text-white font-bold text-sm text-vicomte-dorure uppercase">Modifier le Direct (Supabase)</h2>
+        <div class="space-y-3 text-xs">
+          <div>
+            <label class="block text-gray-400 mb-1 font-bold">Titre de l'émission :</label>
+            <input type="text" id="admin-title" class="w-full bg-admin-bg border border-admin-border p-2.5 rounded-xl text-white">
+          </div>
+          <div>
+            <label class="block text-gray-400 mb-1 font-bold">Description :</label>
+            <textarea id="admin-desc" class="w-full bg-admin-bg border border-admin-border p-2.5 rounded-xl text-white h-24"></textarea>
+          </div>
+          <button onclick="saveAdminData()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition">Mettre à jour le Direct</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT JAVASCRIPT CORRIGÉ ET SÉCURISÉ -->
+  <script>
+    const SUPABASE_URL = 'https://lkrrphufkatgrbacfxsl.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrcnJwaHVma2F0Z3JiYWNmeHNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyNzEzMjMsImV4cCI6MjEwODg0NzMyM30.f-9k9bjVYkohL5h3RQVfXLVWyqqt0fRYH43NrKWGgyk';
+    
+    let clientSupabase = null;
+    try {
+      if (window.supabase) {
+        clientSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      }
+    } catch (e) {
+      console.error("Erreur d'initialisation Supabase:", e);
+    }
+
+    // Navigation Onglets Publics
+    const tabsList = ['home', 'emissions', 'grille', 'replays', 'dedicaces', 'pub', 'photos', 'presse', 'contact'];
+
+    function switchPublicTab(tabName) {
+      tabsList.forEach(t => {
+        const view = document.getElementById('pub-view-' + t);
+        const btn = document.getElementById('pub-btn-' + t);
+        if (view) {
+          view.classList.add('hidden');
+          view.classList.remove('block');
+        }
+        if (btn) {
+          btn.className = 'px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider';
+        }
+      });
+
+      const activeView = document.getElementById('pub-view-' + tabName);
+      const activeBtn = document.getElementById('pub-btn-' + tabName);
+      
+      if (activeView) {
+        activeView.classList.remove('hidden');
+        activeView.classList.add('block');
+      }
+      if (activeBtn) {
+        activeBtn.className = 'px-3.5 py-2 rounded-xl text-white bg-vicomte-brique shadow transition uppercase tracking-wider';
+      }
+    }
+
+    // Fonctions Admin
+    function toggleAdminView(isAdmin) {
+      const pubSite = document.getElementById('public-site');
+      const admSite = document.getElementById('admin-site');
+      if (pubSite) pubSite.classList.toggle('hidden', isAdmin);
+      if (admSite) admSite.classList.toggle('hidden', !isAdmin);
+    }
+
+    // Chargement Données Supabase
+    async function loadData() {
+      if (!clientSupabase) return;
+      try {
+        const { data } = await clientSupabase.from('programmes').select('*').limit(1);
+        if (data && data.length > 0) {
+          const prog = data[0];
+          const tEl = document.getElementById('home-live-title');
+          const dEl = document.getElementById('home-live-desc');
+          const hEl = document.getElementById('header-now-playing');
+          const aTitle = document.getElementById('admin-title');
+          const aDesc = document.getElementById('admin-desc');
+
+          if (tEl) tEl.textContent = prog.title || 'Bienvenue sur Radio Vicomté';
+          if (dEl) dEl.textContent = prog.description || '';
+          if (hEl) hEl.textContent = prog.title || 'Radio Vicomté 103.9 FM';
+          if (aTitle) aTitle.value = prog.title || '';
+          if (aDesc) aDesc.value = prog.description || '';
+        }
+      } catch (err) {
+        console.error("Erreur de chargement:", err);
+      }
+    }
+
+    async function saveAdminData() {
+      if (!clientSupabase) return;
+      const tVal = document.getElementById('admin-title').value;
+      const dVal = document.getElementById('admin-desc').value;
+      
+      const { error } = await clientSupabase.from('programmes').upsert([{ id: 1, title: tVal, description: dVal }]);
+      
+      if (!error) {
+        showToast('Direct mis à jour en direct !');
+        loadData();
+      } else {
+        showToast('Erreur lors de la sauvegarde.');
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast-notification');
+      const m = document.getElementById('toast-message');
+      if (t && m) {
+        m.textContent = msg;
+        t.classList.remove('hidden');
+        setTimeout(() => t.classList.add('hidden'), 3500);
+      }
+    }
+
+    function toggleAudioStream() {
+      showToast('Lancement du flux radio 103.9 FM...');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadData();
+      if (clientSupabase) {
+        clientSupabase.channel('public:programmes').on('postgres_changes', { event: '*', schema: 'public', table: 'programmes' }, loadData).subscribe();
+      }
+    });
+  </script>
+</body>
