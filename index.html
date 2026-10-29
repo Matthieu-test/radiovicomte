@@ -73,15 +73,14 @@
 <body class="bg-halle-meyssac text-vicomte-chocolat font-sans antialiased selection:bg-vicomte-brique selection:text-white min-h-screen flex flex-col">
 
   <!-- Notification Toast Box -->
-  <div id="toast-notification" class="fixed bottom-5 right-5 z-50 bg-vicomte-chocolat text-white px-5 py-3 rounded-2xl shadow-2xl border-2 border-vicomte-dorure hidden transition-all duration-300 flex items-center space-x-3 pointer-events-none">
+  <div id="toast-notification" class="fixed bottom-5 right-5 z-50 bg-vicomte-chocolat text-white px-5 py-3 rounded-2xl shadow-2xl border-2 border-vicomte-dorure hidden transition-all duration-300 flex items-center space-x-3">
     <i id="toast-icon" class="fa-solid fa-circle-check text-vicomte-dorure text-lg"></i>
     <span id="toast-message" class="text-xs font-bold"></span>
   </div>
 
-  <!-- ========================================== -->
-  <!-- SITE PUBLIC                                -->
-  <!-- ========================================== -->
+  <!-- SITE PUBLIC -->
   <div id="public-site" class="flex-grow flex flex-col">
+    <!-- Ticker Direct -->
     <div class="bg-vicomte-chocolat text-vicomte-sable px-4 py-2 text-xs font-semibold flex flex-wrap justify-between items-center shadow-inner border-b border-vicomte-dorure/30 relative z-20">
       <div class="flex items-center space-x-3">
         <span class="flex h-3 w-3 relative">
@@ -89,7 +88,7 @@
           <span class="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
         </span>
         <span class="tracking-widest uppercase font-bold text-red-400">En Direct (103.9 FM) :</span>
-        <span id="header-now-playing" class="text-white truncate max-w-xs md:max-w-md font-medium">Radio Vicomté 103.9 FM</span>
+        <span id="header-now-playing" class="text-white truncate max-w-xs md:max-w-md font-medium">Chargement du direct...</span>
       </div>
 
       <div class="flex items-center space-x-4 mt-1 sm:mt-0">
@@ -104,7 +103,7 @@
       </div>
     </div>
 
-    <!-- En-tête Principal -->
+    <!-- En-tête Principal & Logo -->
     <header class="pattern-meyssac text-white shadow-xl relative overflow-hidden border-b-4 border-vicomte-dorure z-10">
       <div class="max-w-7xl mx-auto px-4 py-6 md:py-8 flex flex-col md:flex-row justify-between items-center relative z-10">
         <div class="flex items-center space-x-4 mb-4 md:mb-0 text-center md:text-left cursor-pointer" onclick="switchPublicTab('home')">
@@ -122,7 +121,7 @@
         </button>
       </div>
 
-      <!-- Navigation Publique -->
+      <!-- Barre de Navigation -->
       <nav class="bg-vicomte-briqueDark/90 border-t border-vicomte-brique text-xs font-bold relative z-20">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center md:justify-start gap-1 py-1.5">
           <button type="button" onclick="switchPublicTab('home')" id="pub-btn-home" class="cursor-pointer px-3.5 py-2 rounded-xl text-white bg-vicomte-brique shadow transition uppercase tracking-wider"><i class="fa-solid fa-house mr-1.5"></i> Accueil</button>
@@ -138,6 +137,7 @@
       </nav>
     </header>
 
+    <!-- ONGLETS PUBLICS -->
     <main class="max-w-7xl mx-auto px-4 py-8 flex-grow space-y-10 w-full relative z-10">
       <div id="pub-view-home" class="space-y-10">
         <div class="grid md:grid-cols-12 gap-6 items-stretch">
@@ -174,4 +174,21 @@
       <div id="pub-view-dedicaces" class="space-y-6 hidden"><div class="bg-white p-6 rounded-3xl shadow"><h2 class="font-display font-black text-xl text-vicomte-brique mb-2">Dédicaces</h2><p class="text-xs text-gray-600">Envoyez vos messages.</p></div></div>
       <div id="pub-view-pub" class="space-y-6 hidden"><div class="bg-white p-6 rounded-3xl shadow"><h2 class="font-display font-black text-xl text-vicomte-brique mb-2">Publicités</h2><p class="text-xs text-gray-600">Espace annonceurs.</p></div></div>
       <div id="pub-view-photos" class="space-y-6 hidden"><div class="bg-white p-6 rounded-3xl shadow"><h2 class="font-display font-black text-xl text-vicomte-brique mb-2">Photos</h2><p class="text-xs text-gray-600">Galerie du studio.</p></div></div>
-      <div id="pub-view-presse" class="space-y-6 hidden"><div class="bg-white p-
+      <div id="pub-view-presse" class="space-y-6 hidden"><div class="bg-white p-6 rounded-3xl shadow"><h2 class="font-display font-black text-xl text-vicomte-brique mb-2">On parle de nous</h2><p class="text-xs text-gray-600">Revue de presse.</p></div></div>
+      <div id="pub-view-contact" class="space-y-6 hidden"><div class="bg-white p-6 rounded-3xl shadow"><h2 class="font-display font-black text-xl text-vicomte-brique mb-2">Contact</h2><p class="text-xs text-gray-600">Place de Céran, Meyssac.</p></div></div>
+    </main>
+  </div>
+
+  <!-- ESPACE ADMINISTRATEUR -->
+  <div id="admin-site" class="min-h-screen bg-admin-bg text-gray-200 hidden flex flex-col font-sans relative z-30">
+    <header class="bg-admin-card border-b border-admin-border px-6 py-4 flex justify-between items-center shadow-lg">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-lg bg-vicomte-brique border border-vicomte-dorure flex items-center justify-center text-white font-bold">
+          <i class="fa-solid fa-microphone-lines"></i>
+        </div>
+        <div>
+          <h1 class="font-display font-bold text-white text-base tracking-wide uppercase">RADIO VICOMTÉ — ESPACE ADMINISTRATEUR</h1>
+          <p class="text-[10px] text-admin-textMuted uppercase tracking-widest">PANNEAU DE GESTION DIRECT BACK-OFFICE</p>
+        </div>
+      </div>
+      <button type="button
