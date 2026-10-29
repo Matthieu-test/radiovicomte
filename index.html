@@ -61,10 +61,6 @@
       background-position: 0 0, 15px 15px;
       opacity: 0.95;
     }
-    body.admin-mode {
-      background-color: #12131A;
-      color: #E5E7EB;
-    }
     .bg-halle-meyssac {
       background-image: linear-gradient(rgba(247, 241, 225, 0.88), rgba(247, 241, 225, 0.88)), url('https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1600&auto=format&fit=crop');
       background-attachment: fixed;
@@ -91,7 +87,7 @@
           <span class="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
         </span>
         <span class="tracking-widest uppercase font-bold text-red-400">En Direct (103.9 FM) :</span>
-        <span id="header-now-playing" class="text-white truncate max-w-xs md:max-w-md font-medium">Chargement du direct...</span>
+        <span id="header-now-playing" class="text-white truncate max-w-xs md:max-w-md font-medium">En attente de programmation...</span>
       </div>
 
       <div class="flex items-center space-x-4 mt-1 sm:mt-0">
@@ -119,7 +115,7 @@
     <main class="max-w-7xl mx-auto px-4 py-8 flex-grow space-y-10 w-full">
       <div class="bg-white rounded-3xl p-8 shadow-xl border-2 border-vicomte-sable text-center space-y-4">
         <h2 class="font-display font-black text-3xl text-vicomte-brique" id="home-live-title">Bienvenue sur Radio Vicomté</h2>
-        <p class="text-sm text-gray-600" id="home-live-desc">Synchronisation en direct active via Supabase.</p>
+        <p class="text-sm text-gray-600" id="home-live-desc">Utilisez le panneau d'administration pour configurer le direct.</p>
       </div>
     </main>
   </div>
@@ -128,35 +124,45 @@
   <div id="admin-site" class="min-h-screen bg-admin-bg text-gray-200 hidden flex flex-col font-sans">
     <header class="bg-admin-card border-b border-admin-border px-6 py-4 flex justify-between items-center shadow-lg">
       <h1 class="font-display font-bold text-white text-base tracking-wide uppercase">RADIO VICOMTÉ — ESPACE ADMINISTRATEUR</h1>
-      <button onclick="toggleAdminView(false)" class="px-3.5 py-1.5 bg-admin-bg text-xs text-gray-300 rounded-lg border border-admin-border font-bold">Retour au Site</button>
+      <button onclick="toggleAdminView(false)" class="px-3.5 py-1.5 bg-admin-bg text-xs text-gray-300 rounded-lg border border-admin-border font-bold hover:bg-gray-800 transition">Retour au Site</button>
     </header>
     <div class="p-8 max-w-md mx-auto space-y-4 w-full">
       <h2 class="text-white font-bold text-lg">Modifier le Direct</h2>
       <div class="space-y-3 text-xs">
-        <input type="text" id="admin-title" placeholder="Titre de l'émission" class="w-full bg-admin-card border border-admin-border p-2.5 rounded-xl text-white">
-        <textarea id="admin-desc" placeholder="Description..." class="w-full bg-admin-card border border-admin-border p-2.5 rounded-xl text-white h-24"></textarea>
-        <button onclick="saveAdminData()" class="w-full bg-blue-600 text-white font-bold py-2.5 rounded-xl hover:bg-blue-500 transition">Mettre à jour le direct</button>
+        <div>
+          <label class="block text-gray-400 mb-1">Titre de l'émission :</label>
+          <input type="text" id="admin-title" placeholder="Ex: Les Matinales Corréziennes" class="w-full bg-admin-card border border-admin-border p-2.5 rounded-xl text-white focus:outline-none focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block text-gray-400 mb-1">Description :</label>
+          <textarea id="admin-desc" placeholder="Ex: Émission spéciale en direct de Meyssac" class="w-full bg-admin-card border border-admin-border p-2.5 rounded-xl text-white h-24 focus:outline-none focus:border-blue-500"></textarea>
+        </div>
+        <button onclick="saveAdminData()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition shadow-lg">Mettre à jour le direct</button>
       </div>
     </div>
   </div>
 
   <script>
-    // Connexion Supabase
     const SUPABASE_URL = 'https://lkrrphufkatgrbacfxsl.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrcnJwaHVma2F0Z3JiYWNmeHNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyNzEzMjMsImV4cCI6MjEwODg0NzMyM30.f-9k9bjVYkohL5h3RQVfXLVWyqqt0fRYH43NrKWGgyk';
     
     const clientSupabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function loadData() {
-      const { data, error } = await clientSupabase.from('programmes').select('*').limit(1).single();
-      if (data) {
-        document.getElementById('header-now-playing').textContent = data.title || '';
-        document.getElementById('home-live-title').textContent = data.title || '';
-        document.getElementById('home-live-desc').textContent = data.description || '';
+      try {
+        const { data, error } = await clientSupabase.from('programmes').select('*').limit(1);
         
-        // Pré-remplir l'admin
-        document.getElementById('admin-title').value = data.title || '';
-        document.getElementById('admin-desc').value = data.description || '';
+        if (data && data.length > 0) {
+          const programme = data[0];
+          document.getElementById('header-now-playing').textContent = programme.title || 'En direct';
+          document.getElementById('home-live-title').textContent = programme.title || 'Bienvenue sur Radio Vicomté';
+          document.getElementById('home-live-desc').textContent = programme.description || '';
+          
+          document.getElementById('admin-title').value = programme.title || '';
+          document.getElementById('admin-desc').value = programme.description || '';
+        }
+      } catch (err) {
+        console.error('Erreur chargement Supabase:', err);
       }
     }
 
@@ -164,17 +170,19 @@
       const newTitle = document.getElementById('admin-title').value;
       const newDesc = document.getElementById('admin-desc').value;
       
-      const { error } = await clientSupabase.from('programmes').update({ title: newTitle, description: newDesc }).eq('id', 1);
+      // Upsert permet de créer la ligne si elle n'existe pas encore !
+      const { error } = await clientSupabase.from('programmes').upsert([{ id: 1, title: newTitle, description: newDesc }]);
       
       if (!error) {
         showToast('Mise à jour enregistrée avec succès !');
         loadData();
       } else {
-        showToast('Erreur lors de la mise à jour.');
+        console.error(error);
+        showToast('Erreur : N\'oubliez pas d\'ajouter les politiques RLS dans Supabase.');
       }
     }
 
-    // Temps réel
+    // Direct / Temps réel
     clientSupabase.channel('public:programmes').on('postgres_changes', { event: '*', schema: 'public', table: 'programmes' }, payload => {
       loadData();
     }).subscribe();
@@ -185,11 +193,12 @@
       document.getElementById('public-site').classList.toggle('hidden', isAdmin);
       document.getElementById('admin-site').classList.toggle('hidden', !isAdmin);
     }
+
     function showToast(msg) {
       const t = document.getElementById('toast-notification');
       document.getElementById('toast-message').textContent = msg;
       t.classList.remove('hidden');
-      setTimeout(() => t.classList.add('hidden'), 3000);
+      setTimeout(() => t.classList.add('hidden'), 3500);
     }
   </script>
 </body>
