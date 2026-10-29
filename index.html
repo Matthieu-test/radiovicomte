@@ -1781,11 +1781,15 @@
       }
     }
 
-    // Initialisation globale au chargement
-    window.onload = function() {
-      initDatabase();
-      renderPublicReplays();
-    };
+// Initialisation globale au chargement (avec rendu public complet)
+window.onload = function() {
+  initDatabase();
+  renderPublicGrille();
+  renderPublicEmissions();
+  renderPublicReplays();
+  renderPublicDedicaces();
+  renderPublicPresse();
+};
   </script>
 </body>
 </html>
