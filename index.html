@@ -8,6 +8,9 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
+  <!-- Intégration du SDK Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -81,7 +84,6 @@
 
   <!-- SITE PUBLIC -->
   <div id="public-site" class="flex-grow flex flex-col">
-    <!-- Ticker Direct -->
     <div class="bg-vicomte-chocolat text-vicomte-sable px-4 py-2 text-xs font-semibold flex flex-wrap justify-between items-center shadow-inner border-b border-vicomte-dorure/30">
       <div class="flex items-center space-x-3">
         <span class="flex h-3 w-3 relative">
@@ -89,7 +91,7 @@
           <span class="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
         </span>
         <span class="tracking-widest uppercase font-bold text-red-400">En Direct (103.9 FM) :</span>
-        <span id="header-now-playing" class="text-white truncate max-w-xs md:max-w-md font-medium">Les Matinales Corréziennes — Émission Spéciale Meyssac</span>
+        <span id="header-now-playing" class="text-white truncate max-w-xs md:max-w-md font-medium">Chargement du direct...</span>
       </div>
 
       <div class="flex items-center space-x-4 mt-1 sm:mt-0">
@@ -100,7 +102,6 @@
       </div>
     </div>
 
-    <!-- En-tête Principal -->
     <header class="pattern-meyssac text-white shadow-xl relative overflow-hidden border-b-4 border-vicomte-dorure">
       <div class="max-w-7xl mx-auto px-4 py-6 md:py-8 flex flex-col md:flex-row justify-between items-center relative z-10">
         <div class="flex items-center space-x-4 mb-4 md:mb-0 text-center md:text-left">
@@ -117,8 +118,8 @@
 
     <main class="max-w-7xl mx-auto px-4 py-8 flex-grow space-y-10 w-full">
       <div class="bg-white rounded-3xl p-8 shadow-xl border-2 border-vicomte-sable text-center space-y-4">
-        <h2 class="font-display font-black text-3xl text-vicomte-bripue">Bienvenue sur Radio Vicomté</h2>
-        <p class="text-sm text-gray-600">Votre site est désormais en ligne sur GitHub Pages. Le lecteur et le panneau d'administration sont prêts à être connectés à votre base de données.</p>
+        <h2 class="font-display font-black text-3xl text-vicomte-brique" id="home-live-title">Bienvenue sur Radio Vicomté</h2>
+        <p class="text-sm text-gray-600" id="home-live-desc">Synchronisation en direct active via Supabase.</p>
       </div>
     </main>
   </div>
@@ -129,12 +130,57 @@
       <h1 class="font-display font-bold text-white text-base tracking-wide uppercase">RADIO VICOMTÉ — ESPACE ADMINISTRATEUR</h1>
       <button onclick="toggleAdminView(false)" class="px-3.5 py-1.5 bg-admin-bg text-xs text-gray-300 rounded-lg border border-admin-border font-bold">Retour au Site</button>
     </header>
-    <div class="p-8 text-center">
-      <p class="text-sm">Panneau d'administration sécurisé.</p>
+    <div class="p-8 max-w-md mx-auto space-y-4 w-full">
+      <h2 class="text-white font-bold text-lg">Modifier le Direct</h2>
+      <div class="space-y-3 text-xs">
+        <input type="text" id="admin-title" placeholder="Titre de l'émission" class="w-full bg-admin-card border border-admin-border p-2.5 rounded-xl text-white">
+        <textarea id="admin-desc" placeholder="Description..." class="w-full bg-admin-card border border-admin-border p-2.5 rounded-xl text-white h-24"></textarea>
+        <button onclick="saveAdminData()" class="w-full bg-blue-600 text-white font-bold py-2.5 rounded-xl hover:bg-blue-500 transition">Mettre à jour le direct</button>
+      </div>
     </div>
   </div>
 
   <script>
+    // Connexion Supabase
+    const SUPABASE_URL = 'https://lkrrphufkatgrbacfxsl.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrcnJwaHVma2F0Z3JiYWNmeHNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyNzEzMjMsImV4cCI6MjEwODg0NzMyM30.f-9k9bjVYkohL5h3RQVfXLVWyqqt0fRYH43NrKWGgyk';
+    
+    const clientSupabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadData() {
+      const { data, error } = await clientSupabase.from('programmes').select('*').limit(1).single();
+      if (data) {
+        document.getElementById('header-now-playing').textContent = data.title || '';
+        document.getElementById('home-live-title').textContent = data.title || '';
+        document.getElementById('home-live-desc').textContent = data.description || '';
+        
+        // Pré-remplir l'admin
+        document.getElementById('admin-title').value = data.title || '';
+        document.getElementById('admin-desc').value = data.description || '';
+      }
+    }
+
+    async function saveAdminData() {
+      const newTitle = document.getElementById('admin-title').value;
+      const newDesc = document.getElementById('admin-desc').value;
+      
+      const { error } = await clientSupabase.from('programmes').update({ title: newTitle, description: newDesc }).eq('id', 1);
+      
+      if (!error) {
+        showToast('Mise à jour enregistrée avec succès !');
+        loadData();
+      } else {
+        showToast('Erreur lors de la mise à jour.');
+      }
+    }
+
+    // Temps réel
+    clientSupabase.channel('public:programmes').on('postgres_changes', { event: '*', schema: 'public', table: 'programmes' }, payload => {
+      loadData();
+    }).subscribe();
+
+    document.addEventListener('DOMContentLoaded', loadData);
+
     function toggleAdminView(isAdmin) {
       document.getElementById('public-site').classList.toggle('hidden', isAdmin);
       document.getElementById('admin-site').classList.toggle('hidden', !isAdmin);
