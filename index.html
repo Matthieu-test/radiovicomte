@@ -78,9 +78,10 @@
     <span id="toast-message" class="text-xs font-bold"></span>
   </div>
 
-  <!-- SITE PUBLIC -->
+  <!-- ========================================== -->
+  <!-- SITE PUBLIC                                -->
+  <!-- ========================================== -->
   <div id="public-site" class="flex-grow flex flex-col">
-    <!-- Ticker Direct -->
     <div class="bg-vicomte-chocolat text-vicomte-sable px-4 py-2 text-xs font-semibold flex flex-wrap justify-between items-center shadow-inner border-b border-vicomte-dorure/30 relative z-20">
       <div class="flex items-center space-x-3">
         <span class="flex h-3 w-3 relative">
@@ -103,7 +104,7 @@
       </div>
     </div>
 
-    <!-- En-tête Principal & Logo -->
+    <!-- En-tête Principal -->
     <header class="pattern-meyssac text-white shadow-xl relative overflow-hidden border-b-4 border-vicomte-dorure z-10">
       <div class="max-w-7xl mx-auto px-4 py-6 md:py-8 flex flex-col md:flex-row justify-between items-center relative z-10">
         <div class="flex items-center space-x-4 mb-4 md:mb-0 text-center md:text-left cursor-pointer" onclick="switchPublicTab('home')">
@@ -121,14 +122,56 @@
         </button>
       </div>
 
-      <!-- Barre de Navigation -->
+      <!-- Navigation Publique -->
       <nav class="bg-vicomte-briqueDark/90 border-t border-vicomte-brique text-xs font-bold relative z-20">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center md:justify-start gap-1 py-1.5">
-          <button type="button" onclick="switchPublicTab('home')" id="pub-btn-home" class="cursor-pointer px-3.5 py-2 rounded-xl text-white bg-vicomte-brique shadow transition uppercase tracking-wider">
-            <i class="fa-solid fa-house mr-1.5"></i> Accueil
-          </button>
+          <button type="button" onclick="switchPublicTab('home')" id="pub-btn-home" class="cursor-pointer px-3.5 py-2 rounded-xl text-white bg-vicomte-brique shadow transition uppercase tracking-wider"><i class="fa-solid fa-house mr-1.5"></i> Accueil</button>
           <button type="button" onclick="switchPublicTab('emissions')" id="pub-btn-emissions" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Émissions</button>
           <button type="button" onclick="switchPublicTab('grille')" id="pub-btn-grille" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Grille des Programmes</button>
           <button type="button" onclick="switchPublicTab('replays')" id="pub-btn-replays" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Replays & Podcasts</button>
           <button type="button" onclick="switchPublicTab('dedicaces')" id="pub-btn-dedicaces" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Dédicaces</button>
-          <button type="button" onclick="switchPublicTab('pub')" id="pub-btn-pub" class="cursor-pointer px
+          <button type="button" onclick="switchPublicTab('pub')" id="pub-btn-pub" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Publicités</button>
+          <button type="button" onclick="switchPublicTab('photos')" id="pub-btn-photos" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Photos</button>
+          <button type="button" onclick="switchPublicTab('presse')" id="pub-btn-presse" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">On parle de nous</button>
+          <button type="button" onclick="switchPublicTab('contact')" id="pub-btn-contact" class="cursor-pointer px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider">Contact</button>
+        </div>
+      </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow space-y-10 w-full relative z-10">
+      <div id="pub-view-home" class="space-y-10">
+        <div class="grid md:grid-cols-12 gap-6 items-stretch">
+          <div class="md:col-span-7 bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-vicomte-brique text-white text-[11px] font-black uppercase px-4 py-1.5 rounded-bl-2xl tracking-widest flex items-center">
+              <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse mr-2"></span> En Direct
+            </div>
+            <div>
+              <p class="text-xs font-extrabold text-vicomte-brique uppercase tracking-widest mb-1">Actuellement à l'Antenne</p>
+              <h2 class="font-display font-black text-2xl md:text-3xl text-vicomte-chocolat mb-2" id="home-live-title">Bienvenue sur Radio Vicomté</h2>
+              <p class="text-xs text-gray-600 mb-4" id="home-live-desc">Votre radio locale en Corrèze méridionale.</p>
+            </div>
+            <div class="my-4 relative rounded-2xl overflow-hidden shadow-lg border border-vicomte-dorure/30 h-56 bg-cover bg-center flex items-center justify-center bg-vicomte-chocolat">
+              <button type="button" onclick="toggleAudioStream()" class="cursor-pointer w-20 h-20 rounded-full bg-vicomte-brique text-white border-4 border-vicomte-dorure flex items-center justify-center hover:scale-105 transition shadow-2xl">
+                <i class="fa-solid fa-play text-2xl ml-1"></i>
+              </button>
+            </div>
+          </div>
+          <div class="md:col-span-5 bg-vicomte-creme rounded-3xl p-6 shadow-lg border border-vicomte-sable flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <span class="text-xs font-extrabold text-vicomte-dorure uppercase tracking-widest bg-vicomte-chocolat px-3 py-1 rounded-lg">À Suivre</span>
+                <span class="text-2xl font-black text-vicomte-brique font-display">09:30</span>
+              </div>
+              <h3 class="font-display font-extrabold text-xl text-vicomte-chocolat mb-1">LE HIT PARADE DE MEYSSAC</h3>
+              <p class="text-xs text-gray-600 mb-4">Les plus grands hits sélectionnés par nos auditeurs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="pub-view-emissions" class="space-y-6 hidden"><div class="bg-white p-6 rounded-3xl shadow"><h2 class="font-display font-black text-xl text-vicomte-brique mb-2">Émissions</h2><p class="text-xs text-gray-600">Retrouvez nos programmes.</p></div></div>
+      <div id="pub-view-grille" class="space-y-6 hidden"><div class="bg-white p-6 rounded-3xl shadow"><h2 class="font-display font-black text-xl text-vicomte-brique mb-2">Grille des Programmes</h2><p class="text-xs text-gray-600">Planning de la semaine.</p></div></div>
+      <div id="pub-view-replays" class="space-y-6 hidden"><div class="bg-white p-6 rounded-3xl shadow"><h2 class="font-display font-black text-xl text-vicomte-brique mb-2">Replays</h2><p class="text-xs text-gray-600">Podcasts et réécoutes.</p></div></div>
+      <div id="pub-view-dedicaces" class="space-y-6 hidden"><div class="bg-white p-6 rounded-3xl shadow"><h2 class="font-display font-black text-xl text-vicomte-brique mb-2">Dédicaces</h2><p class="text-xs text-gray-600">Envoyez vos messages.</p></div></div>
+      <div id="pub-view-pub" class="space-y-6 hidden"><div class="bg-white p-6 rounded-3xl shadow"><h2 class="font-display font-black text-xl text-vicomte-brique mb-2">Publicités</h2><p class="text-xs text-gray-600">Espace annonceurs.</p></div></div>
+      <div id="pub-view-photos" class="space-y-6 hidden"><div class="bg-white p-6 rounded-3xl shadow"><h2 class="font-display font-black text-xl text-vicomte-brique mb-2">Photos</h2><p class="text-xs text-gray-600">Galerie du studio.</p></div></div>
+      <div id="pub-view-presse" class="space-y-6 hidden"><div class="bg-white p-
