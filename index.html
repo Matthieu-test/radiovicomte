@@ -72,13 +72,6 @@
       background-repeat: no-repeat;
       background-size: cover;
     }
-    .audio-equalizer-bar {
-      animation: bounce 1.2s infinite ease-in-out alternate;
-    }
-    @keyframes bounce {
-      0% { height: 4px; }
-      100% { height: 16px; }
-    }
   </style>
 </head>
 <body class="bg-halle-meyssac text-vicomte-chocolat font-sans antialiased selection:bg-vicomte-brique selection:text-white min-h-screen flex flex-col">
@@ -89,7 +82,9 @@
     <span id="toast-message" class="text-xs font-bold"></span>
   </div>
 
-  <!-- SITE PUBLIC -->
+  <!-- ========================================== -->
+  <!-- SITE PUBLIC                                -->
+  <!-- ========================================== -->
   <div id="public-site" class="flex-grow flex flex-col">
     <!-- Ticker Direct En Haut -->
     <div class="bg-vicomte-chocolat text-vicomte-sable px-4 py-2 text-xs font-semibold flex flex-wrap justify-between items-center shadow-inner border-b border-vicomte-dorure/30">
@@ -142,7 +137,7 @@
         </button>
       </div>
 
-      <!-- Navigation -->
+      <!-- Navigation Publique -->
       <nav class="bg-vicomte-briqueDark/90 border-t border-vicomte-brique text-xs font-bold">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center md:justify-start gap-1 py-1.5" id="pub-nav-container">
           <button onclick="switchPublicTab('home')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-white hover:bg-vicomte-brique transition uppercase tracking-wider bg-vicomte-brique shadow" id="pub-btn-home">
@@ -160,107 +155,88 @@
       </nav>
     </header>
 
-    <!-- CONTENU PUBLIC DES ONGLETS -->
+    <!-- CONTENU PUBLIC -->
     <main class="max-w-7xl mx-auto px-4 py-8 flex-grow space-y-10 w-full">
-      
-      <!-- TAB 1: ACCUEIL -->
       <div id="pub-view-home" class="space-y-10">
         <div class="grid md:grid-cols-12 gap-6 items-stretch">
-          
-          <!-- Lecteur En Direct -->
           <div class="md:col-span-7 bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable flex flex-col justify-between relative overflow-hidden">
             <div class="absolute top-0 right-0 bg-vicomte-brique text-white text-[11px] font-black uppercase px-4 py-1.5 rounded-bl-2xl tracking-widest flex items-center">
               <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse mr-2"></span> En Direct
             </div>
-
             <div>
               <p class="text-xs font-extrabold text-vicomte-brique uppercase tracking-widest mb-1">Actuellement à l'Antenne</p>
               <h2 class="font-display font-black text-2xl md:text-3xl text-vicomte-chocolat mb-2" id="home-live-title">Chargement...</h2>
               <p class="text-xs text-gray-600 mb-4" id="home-live-desc">Chargement des informations du direct...</p>
             </div>
-
             <div class="my-4 relative rounded-2xl overflow-hidden group shadow-lg border border-vicomte-dorure/30 h-56 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1000&auto=format&fit=crop');">
               <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-center justify-center">
                 <button onclick="toggleAudioStream()" class="w-20 h-20 rounded-full bg-vicomte-brique/90 text-white border-4 border-vicomte-dorure flex items-center justify-center hover:scale-110 transition shadow-2xl">
                   <i class="fa-solid fa-play text-2xl ml-1" id="main-live-play-icon"></i>
                 </button>
               </div>
-              <div class="absolute bottom-3 left-4 right-4 text-white flex justify-between items-center text-xs font-semibold">
-                <span class="bg-black/60 px-3 py-1 rounded-full backdrop-blur-sm border border-white/20"><i class="fa-solid fa-radio text-vicomte-dorure mr-1"></i> Studio Meyssac</span>
-                <span class="text-vicomte-sable">Fréquence 103.9 FM</span>
-              </div>
             </div>
-
             <div class="flex items-center justify-between text-xs font-semibold text-gray-500 pt-2 border-t border-gray-100">
-              <span><i class="fa-solid fa-user-tie text-vicomte-brique mr-1"></i> Animation : <strong id="home-live-host" class="text-vicomte-chocolat">Jean-Pierre & Élodie</strong></span>
-              <span><i class="fa-solid fa-clock text-vicomte-brique mr-1"></i> Horaire : <strong id="home-live-time">07:00 - 09:30</strong></span>
+              <span><i class="fa-solid fa-user-tie text-vicomte-brique mr-1"></i> Animation : <strong class="text-vicomte-chocolat">Jean-Pierre & Élodie</strong></span>
+              <span><i class="fa-solid fa-clock text-vicomte-brique mr-1"></i> Horaire : <strong>07:00 - 09:30</strong></span>
             </div>
           </div>
 
-          <!-- À Suivre -->
           <div class="md:col-span-5 bg-vicomte-creme rounded-3xl p-6 shadow-lg border border-vicomte-sable flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center mb-3">
                 <span class="text-xs font-extrabold text-vicomte-dorure uppercase tracking-widest bg-vicomte-chocolat px-3 py-1 rounded-lg">À Suivre</span>
-                <span class="text-2xl font-black text-vicomte-brique font-display" id="home-next-time">09:30</span>
+                <span class="text-2xl font-black text-vicomte-brique font-display">09:30</span>
               </div>
-              <h3 class="font-display font-extrabold text-xl text-vicomte-chocolat mb-1" id="home-next-title">LE HIT PARADE DE MEYSSAC</h3>
-              <p class="text-xs text-gray-600 mb-4" id="home-next-desc">Les 20 plus grands titres plébiscités par nos auditeurs cette semaine.</p>
-            </div>
-
-            <div class="bg-white p-4 rounded-2xl border border-vicomte-sable shadow-sm flex items-center space-x-4 my-2">
-              <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&auto=format&fit=crop" class="w-16 h-16 rounded-xl object-cover border border-vicomte-sable" alt="Hit Parade">
-              <div class="text-xs">
-                <p class="font-bold text-vicomte-chocolat" id="home-next-host">Animation : Marc</p>
-                <p class="text-gray-500 mt-1">Direct depuis les studios de Meyssac</p>
-              </div>
-            </div>
-
-            <div class="pt-3 border-t border-vicomte-sable text-center">
-              <button onclick="switchPublicTab('grille')" class="text-xs text-vicomte-brique hover:text-vicomte-briqueDark font-bold uppercase tracking-wider inline-flex items-center">
-                Voir la grille complète des programmes <i class="fa-solid fa-arrow-right ml-1.5"></i>
-              </button>
+              <h3 class="font-display font-extrabold text-xl text-vicomte-chocolat mb-1">LE HIT PARADE DE MEYSSAC</h3>
+              <p class="text-xs text-gray-600 mb-4">Les 20 plus grands titres plébiscités par nos auditeurs cette semaine.</p>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Section Replays & Formulaire Dédicace -->
-        <div class="grid md:grid-cols-12 gap-8">
-          <div class="md:col-span-7 space-y-4">
-            <div class="flex justify-between items-center border-b-2 border-vicomte-sable pb-2">
-              <h3 class="font-display font-extrabold text-xl text-vicomte-brique flex items-center">
-                <i class="fa-solid fa-podcast mr-2 text-vicomte-dorure"></i> Derniers Replays
-              </h3>
-              <button onclick="switchPublicTab('replays')" class="text-xs font-bold text-vicomte-brique hover:underline">
-                Tout voir <i class="fa-solid fa-chevron-right text-[10px]"></i>
-              </button>
-            </div>
-            <div class="grid sm:grid-cols-2 gap-4" id="home-replays-preview"></div>
-          </div>
+      <!-- Autres vues publiques cachées par défaut -->
+      <div id="pub-view-emissions" class="hidden"></div>
+      <div id="pub-view-grille" class="hidden"></div>
+      <div id="pub-view-replays" class="hidden"></div>
+      <div id="pub-view-dedicaces" class="hidden"></div>
+      <div id="pub-view-pub" class="hidden"></div>
+      <div id="pub-view-photos" class="hidden"></div>
+      <div id="pub-view-presse" class="hidden"></div>
+      <div id="pub-view-contact" class="hidden"></div>
+    </main>
+  </div>
 
-          <!-- Formulaire Dédicace Rapide -->
-          <div class="md:col-span-5 bg-gradient-to-br from-vicomte-brique to-vicomte-chocolat text-white rounded-3xl p-6 shadow-xl space-y-4">
-            <div class="flex items-center space-x-3 border-b border-white/20 pb-3">
-              <div class="w-10 h-10 rounded-full bg-vicomte-dorure text-vicomte-chocolat flex items-center justify-center font-bold text-lg">
-                <i class="fa-solid fa-heart"></i>
-              </div>
-              <div>
-                <h3 class="font-display font-bold text-lg">Envoyez une Dédicace</h3>
-                <p class="text-[11px] text-vicomte-sable">Votre message sera diffusé à l'antenne après validation</p>
-              </div>
-            </div>
+  <!-- ========================================== -->
+  <!-- BACK-OFFICE ADMINISTRATEUR COMPLET       -->
+  <!-- ========================================== -->
+  <div id="admin-site" class="min-h-screen bg-admin-bg text-gray-200 hidden flex flex-col font-sans">
+    
+    <!-- En-tête Admin -->
+    <header class="bg-admin-card border-b border-admin-border px-6 py-4 flex flex-wrap justify-between items-center shadow-lg">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-lg bg-vicomte-brique border border-vicomte-dorure flex items-center justify-center text-white font-bold">
+          <i class="fa-solid fa-microphone-lines"></i>
+        </div>
+        <div>
+          <h1 class="font-display font-bold text-white text-base tracking-wide uppercase">RADIO VICOMTÉ — ESPACE ADMINISTRATEUR</h1>
+          <p class="text-[10px] text-admin-textMuted uppercase tracking-widest">PANNEAU DE GESTION DIRECT BACK-OFFICE</p>
+        </div>
+      </div>
 
-            <form onsubmit="submitDedicace(event)" class="space-y-3 text-xs">
-              <div>
-                <label class="block mb-1 text-vicomte-sable font-bold">Votre Prénom & Commune *</label>
-                <input type="text" id="ded-sender" required placeholder="Ex: Jean-Luc de Meyssac" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-white placeholder-white/40 focus:outline-none focus:border-vicomte-dorure">
-              </div>
-              <div>
-                <label class="block mb-1 text-vicomte-sable font-bold">Titre musical souhaité (facultatif)</label>
-                <input type="text" id="ded-track" placeholder="Ex: Francis Cabrel - Petite Marie" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-white placeholder-white/40 focus:outline-none focus:border-vicomte-dorure">
-              </div>
-              <div>
-                <label class="block mb-1 text-vicomte-sable font-bold">Votre Message *</label>
-                <textarea id="ded-msg" required rows="3" placeholder="Passez le bonjour à l'équipe et à ma famille..." class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-white placeholder-white/40 focus:outline-none focus:border-vicomte-dorure"></textarea>
-              </div>
-              <button type="submit" class="w-full bg-vicomte-dorure hover:bg-amber-500 text-vicomte-chocolat font-black py-2.5 rounded-
+      <div class="flex items-center space-x-4">
+        <button onclick="toggleAdminView(false)" class="px-3.5 py-1.5 bg-admin-bg hover:bg-admin-border text-xs text-gray-300 rounded-lg transition border border-admin-border flex items-center font-bold">
+          <i class="fa-solid fa-globe mr-1.5 text-blue-400"></i> Voir le Site Public
+        </button>
+        <button onclick="logoutAdmin()" class="px-3.5 py-1.5 bg-red-600/80 hover:bg-red-600 text-xs text-white rounded-lg transition font-bold flex items-center shadow">
+          <i class="fa-solid fa-arrow-right-from-bracket mr-1.5"></i> Se Déconnecter
+        </button>
+      </div>
+    </header>
+
+    <!-- Écran de Connexion Admin -->
+    <div id="admin-login-screen" class="max-w-md mx-auto my-12 p-8 bg-admin-card border border-admin-border rounded-2xl shadow-2xl space-y-6 text-xs text-gray-200">
+      <div class="text-center space-y-2">
+        <div class="w-16 h-16 rounded-full bg-vicomte-brique border-2 border-vicomte-dorure mx-auto flex items-center justify-center text-white text-2xl shadow-lg">
+          <i class="fa-solid fa-shield-halved text-vicomte-dorure"></i>
+        </div>
+        <h2 class="
