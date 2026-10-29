@@ -1748,8 +1748,9 @@
       showToast("Article supprimé.");
     }
 
-    // AUDIO STREAM PLAYER TOGGLE
-    function toggleAudioStream() {
+   // AUDIO STREAM PLAYER TOGGLE
+   function toggleAudioStream() {
+  const audioStream = document.getElementById('radio-audio-stream'); // <--- Ajoutez cette ligne ici
   isPlayingAudio = !isPlayingAudio;
   const icon = document.getElementById('header-play-icon');
   const text = document.getElementById('header-play-text');
