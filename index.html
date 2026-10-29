@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radio Vicomté Meyssac - 103.9 FM</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            vicomte: {
+              brique: '#8C2B1D',
+              briqueDark: '#661D12',
+              terre: '#543629',
+              sable: '#EBDCB9',
+              sableLight: '#F7F1E1',
+              dorure: '#D4A359',
+              creme: '#FFFBF5',
+              chocolat: '#2C1810'
+            },
+            admin: {
+              bg: '#12131A',
+              card: '#1C1E29',
+              border: '#2E3245',
+              accent: '#3B82F6',
+              accentHover: '#2563EB',
+              textMuted: '#9CA3AF'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Cinzel"', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .pattern-meyssac {
+      background-color: #8C2B1D;
+      background-image: radial-gradient(#D4A359 0.75px, transparent 0.75px), radial-gradient(#D4A359 0.75px, #8C2B1D 0.75px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+      opacity: 0.95;
+    }
+    body.admin-mode {
+      background-color: #12131A;
+      color: #E5E7EB;
+    }
+    .bg-halle-meyssac {
+      background-image: linear-gradient(rgba(247, 241, 225, 0.88), rgba(247, 241, 225, 0.88)), url('https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1600&auto=format&fit=crop');
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  </style>
+</head>
+<body class="bg-halle-meyssac text-vicomte-chocolat font-sans antialiased selection:bg-vicomte-brique selection:text-white min-h-screen flex flex-col">
+
+  <!-- Notification Toast Box -->
+  <div id="toast-notification" class="fixed bottom-5 right-5 z-50 bg-vicomte-chocolat text-white px-5 py-3 rounded-2xl shadow-2xl border-2 border-vicomte-dorure hidden transition-all duration-300 flex items-center space-x-3">
+    <i id="toast-icon" class="fa-solid fa-circle-check text-vicomte-dorure text-lg"></i>
+    <span id="toast-message" class="text-xs font-bold"></span>
+  </div>
+
+  <!-- SITE PUBLIC -->
+  <div id="public-site" class="flex-grow flex flex-col">
+    <!-- Ticker Direct -->
+    <div class="bg-vicomte-chocolat text-vicomte-sable px-4 py-2 text-xs font-semibold flex flex-wrap justify-between items-center shadow-inner border-b border-vicomte-dorure/30">
+      <div class="flex items-center space-x-3">
+        <span class="flex h-3 w-3 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
+        </span>
+        <span class="tracking-widest uppercase font-bold text-red-400">En Direct (103.9 FM) :</span>
+        <span id="header-now-playing" class="text-white truncate max-w-xs md:max-w-md font-medium">Les Matinales Corréziennes — Émission Spéciale Meyssac</span>
+      </div>
+
+      <div class="flex items-center space-x-4 mt-1 sm:mt-0">
+        <button onclick="toggleAdminView(true)" class="flex items-center space-x-1.5 text-vicomte-dorure hover:text-white transition font-bold border border-vicomte-dorure/40 px-3 py-1 rounded-lg">
+          <i class="fa-solid fa-lock text-[10px]"></i>
+          <span>Administration</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- En-tête Principal -->
+    <header class="pattern-meyssac text-white shadow-xl relative overflow-hidden border-b-4 border-vicomte-dorure">
+      <div class="max-w-7xl mx-auto px-4 py-6 md:py-8 flex flex-col md:flex-row justify-between items-center relative z-10">
+        <div class="flex items-center space-x-4 mb-4 md:mb-0 text-center md:text-left">
+          <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border-4 border-vicomte-dorure p-1.5 shadow-2xl flex-shrink-0 flex items-center justify-center">
+            <h2 class="font-display font-black text-xs text-vicomte-brique text-center">RADIO VICOMTE</h2>
+          </div>
+          <div>
+            <h1 class="font-display font-black text-2xl md:text-4xl tracking-wider text-white drop-shadow-md">RADIO VICOMTÉ</h1>
+            <p class="text-vicomte-sable text-xs md:text-sm font-semibold tracking-widest uppercase">103.9 FM — La Radio de la Corrèze Méridionale</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow space-y-10 w-full">
+      <div class="bg-white rounded-3xl p-8 shadow-xl border-2 border-vicomte-sable text-center space-y-4">
+        <h2 class="font-display font-black text-3xl text-vicomte-bripue">Bienvenue sur Radio Vicomté</h2>
+        <p class="text-sm text-gray-600">Votre site est désormais en ligne sur GitHub Pages. Le lecteur et le panneau d'administration sont prêts à être connectés à votre base de données.</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- ESPACE ADMINISTRATEUR -->
+  <div id="admin-site" class="min-h-screen bg-admin-bg text-gray-200 hidden flex flex-col font-sans">
+    <header class="bg-admin-card border-b border-admin-border px-6 py-4 flex justify-between items-center shadow-lg">
+      <h1 class="font-display font-bold text-white text-base tracking-wide uppercase">RADIO VICOMTÉ — ESPACE ADMINISTRATEUR</h1>
+      <button onclick="toggleAdminView(false)" class="px-3.5 py-1.5 bg-admin-bg text-xs text-gray-300 rounded-lg border border-admin-border font-bold">Retour au Site</button>
+    </header>
+    <div class="p-8 text-center">
+      <p class="text-sm">Panneau d'administration sécurisé.</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleAdminView(isAdmin) {
+      document.getElementById('public-site').classList.toggle('hidden', isAdmin);
+      document.getElementById('admin-site').classList.toggle('hidden', !isAdmin);
+    }
+    function showToast(msg) {
+      const t = document.getElementById('toast-notification');
+      document.getElementById('toast-message').textContent = msg;
+      t.classList.remove('hidden');
+      setTimeout(() => t.classList.add('hidden'), 3000);
+    }
+  </script>
+</body>
+</html>
