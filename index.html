@@ -215,6 +215,35 @@
           </div>
           <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" id="home-replays-preview"></div>
         </div>
+
+        <!-- BLOC ACCUEIL : PRESSE & DÉDICACES RÉCENTES -->
+        <div class="grid md:grid-cols-2 gap-8 pt-4">
+          <!-- Derniers articles de Presse -->
+          <div class="space-y-4">
+            <div class="flex justify-between items-center border-b-2 border-vicomte-sable pb-2">
+              <h3 class="font-display font-extrabold text-lg text-vicomte-brique flex items-center">
+                <i class="fa-solid fa-newspaper mr-2 text-vicomte-dorure"></i> On Parle de Nous
+              </h3>
+              <button onclick="switchPublicTab('presse')" class="text-xs font-bold text-vicomte-brique hover:underline cursor-pointer">
+                Toute la presse <i class="fa-solid fa-chevron-right text-[10px]"></i>
+              </button>
+            </div>
+            <div class="space-y-3" id="home-presse-preview"></div>
+          </div>
+
+          <!-- Dernières Dédicaces Validées -->
+          <div class="space-y-4">
+            <div class="flex justify-between items-center border-b-2 border-vicomte-sable pb-2">
+              <h3 class="font-display font-extrabold text-lg text-vicomte-brique flex items-center">
+                <i class="fa-solid fa-heart mr-2 text-vicomte-dorure"></i> Dédicaces Récentes
+              </h3>
+              <button onclick="switchPublicTab('dedicaces')" class="text-xs font-bold text-vicomte-brique hover:underline cursor-pointer">
+                Voir tout <i class="fa-solid fa-chevron-right text-[10px]"></i>
+              </button>
+            </div>
+            <div class="space-y-3" id="home-dedicaces-preview"></div>
+          </div>
+        </div>
       </div>
 
       <!-- TAB 2: ÉMISSIONS -->
@@ -1732,57 +1761,59 @@
 
     function renderPublicDedicaces() {
       const container = document.getElementById('public-dedicaces-feed');
-      if (!container) return;
+      const homePreview = document.getElementById('home-dedicaces-preview');
       const list = getData('rv_dedicaces').filter(d => d.approved);
-      container.innerHTML = list.length === 0 ? `<div class="col-span-2 text-center text-gray-500 text-xs italic py-6">Aucune dédicace validée.</div>` : list.map(d => `
-        <div class="bg-white p-5 rounded-2xl border border-vicomte-sable shadow-sm space-y-2">
-          <div class="flex justify-between items-center"><span class="font-bold text-xs text-vicomte-brique"><i class="fa-solid fa-user-heart mr-1"></i> ${d.sender}</span></div>
-          <p class="text-xs text-gray-700 italic">« ${d.msg} »</p>
-        </div>
-      `).join('');
+
+      if (container) {
+        container.innerHTML = list.length === 0 ? `<div class="col-span-2 text-center text-gray-500 text-xs italic py-6">Aucune dédicace validée.</div>` : list.map(d => `
+          <div class="bg-white p-5 rounded-2xl border border-vicomte-sable shadow-sm space-y-2">
+            <div class="flex justify-between items-center"><span class="font-bold text-xs text-vicomte-brique"><i class="fa-solid fa-user-heart mr-1"></i> ${d.sender}</span></div>
+            <p class="text-xs text-gray-700 italic">« ${d.msg} »</p>
+          </div>
+        `).join('');
+      }
+
+      if (homePreview) {
+        homePreview.innerHTML = list.length === 0 ? `<p class="text-xs text-gray-500 italic p-3">Aucune dédicace récente.</p>` : list.slice(0, 2).map(d => `
+          <div class="bg-white p-4 rounded-2xl border border-vicomte-sable shadow-sm space-y-1.5">
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-xs text-vicomte-brique"><i class="fa-solid fa-circle-user mr-1 text-vicomte-dorure"></i> ${d.sender}</span>
+            </div>
+            <p class="text-xs text-gray-700 italic">« ${d.msg} »</p>
+          </div>
+        `).join('');
+      }
     }
 
     function renderPublicPresse() {
       const container = document.getElementById('public-presse-container');
-      if (!container) return;
-      container.innerHTML = getData('rv_presse').map(p => `
-        <div class="bg-white p-5 rounded-2xl border border-vicomte-sable shadow-sm space-y-3">
-          <div class="flex justify-between items-center">
-            <span class="text-[10px] font-black uppercase text-vicomte-brique bg-vicomte-sableLight px-2.5 py-1 rounded-md">${p.source}</span>
-            ${p.link ? `<a href="${p.link}" target="_blank" class="text-xs font-bold text-vicomte-brique hover:underline flex items-center"><i class="fa-solid fa-arrow-up-right-from-square mr-1 text-[10px]"></i> Lire l'article</a>` : ''}
-          </div>
-          <h3 class="font-display font-bold text-sm text-vicomte-chocolat">${p.title}</h3>
-          <p class="text-xs text-gray-600">${p.snippet}</p>
-        </div>
-      `).join('');
-    }
+      const homePreview = document.getElementById('home-presse-preview');
+      const list = getData('rv_presse');
 
-    function toggleAudioStream() {
-      isPlayingAudio = !isPlayingAudio;
-      const icon = document.getElementById('header-play-icon');
-      const text = document.getElementById('header-play-text');
-      const bannerIcon = document.getElementById('banner-play-icon');
-      const bannerText = document.getElementById('banner-play-text');
-      
-      if (isPlayingAudio) {
-        if (audioStream) {
-          audioStream.play().catch(e => {
-            console.warn("Ouverture du flux direct de secours :", e);
-            window.open("https://sd-151888.dedibox.fr/proxy/vicomte/vicomte", "_blank");
-            showToast("Ouverture du flux direct...", "fa-tower-broadcast");
-            isPlayingAudio = false;
-            resetAudioUI();
-          });
-        }
-        if (icon) icon.className = "fa-solid fa-pause text-[10px]";
-        if (text) text.innerText = "Pause Radio";
-        if (bannerIcon) bannerIcon.className = "fa-solid fa-pause mr-2 text-vicomte-brique";
-        if (bannerText) bannerText.innerText = "Pause Radio";
-        showToast("Écoute du Direct activée !");
-      } else {
-        if (audioStream) audioStream.pause();
-        resetAudioUI();
-        showToast("Flux audio mis en pause.");
+      if (container) {
+        container.innerHTML = list.map(p => `
+          <div class="bg-white p-5 rounded-2xl border border-vicomte-sable shadow-sm space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-[10px] font-black uppercase text-vicomte-brique bg-vicomte-sableLight px-2.5 py-1 rounded-md">${p.source}</span>
+              ${p.link ? `<a href="${p.link}" target="_blank" class="text-xs font-bold text-vicomte-brique hover:underline flex items-center"><i class="fa-solid fa-arrow-up-right-from-square mr-1 text-[10px]"></i> Lire l'article</a>` : ''}
+            </div>
+            <h3 class="font-display font-bold text-sm text-vicomte-chocolat">${p.title}</h3>
+            <p class="text-xs text-gray-600">${p.snippet}</p>
+          </div>
+        `).join('');
+      }
+
+      if (homePreview) {
+        homePreview.innerHTML = list.length === 0 ? `<p class="text-xs text-gray-500 italic p-3">Aucun article disponible.</p>` : list.slice(0, 2).map(p => `
+          <div class="bg-white p-4 rounded-2xl border border-vicomte-sable shadow-sm space-y-1.5">
+            <div class="flex justify-between items-center">
+              <span class="text-[9px] font-black uppercase text-vicomte-brique bg-vicomte-sableLight px-2 py-0.5 rounded">${p.source}</span>
+              ${p.link ? `<a href="${p.link}" target="_blank" class="text-[11px] font-bold text-vicomte-brique hover:underline">Consulter</a>` : ''}
+            </div>
+            <h4 class="font-display font-bold text-xs text-vicomte-chocolat line-clamp-1">${p.title}</h4>
+            <p class="text-xs text-gray-600 line-clamp-2">${p.snippet}</p>
+          </div>
+        `).join('');
       }
     }
 
