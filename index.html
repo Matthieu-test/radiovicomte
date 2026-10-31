@@ -69,13 +69,6 @@
       background-repeat: no-repeat;
       background-size: cover;
     }
-    .audio-equalizer-bar {
-      animation: bounce 1.2s infinite ease-in-out alternate;
-    }
-    @keyframes bounce {
-      0% { height: 4px; }
-      100% { height: 16px; }
-    }
   </style>
 </head>
 <body class="bg-halle-meyssac text-vicomte-chocolat font-sans antialiased selection:bg-vicomte-brique selection:text-white min-h-screen flex flex-col">
@@ -508,7 +501,7 @@
         </div>
       </div>
 
-      <!-- ONGLETS DE L'ADMINISTRATION (Avec ajout de l'onglet Photos) -->
+      <!-- ONGLETS DE L'ADMINISTRATION -->
       <div class="flex flex-wrap gap-2 bg-admin-card/50 p-1.5 rounded-2xl border border-admin-border" id="admin-nav-tabs">
         <button onclick="switchAdminTab('grille')" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold transition flex items-center shadow" id="adm-btn-grille"><i class="fa-solid fa-calendar-days mr-2"></i> Grille des Programmes</button>
         <button onclick="switchAdminTab('emissions')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center" id="adm-btn-emissions"><i class="fa-solid fa-radio mr-2 text-amber-500"></i> Émissions</button>
@@ -577,7 +570,7 @@
         <div class="grid md:grid-cols-2 gap-4" id="admin-dedicaces-list"></div>
       </div>
 
-      <!-- ADMIN TAB 5: GESTION DES PHOTOS (AJOUTÉ) -->
+      <!-- ADMIN TAB 5: GESTION DES PHOTOS -->
       <div id="adm-view-photos" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
         <div class="flex justify-between items-center border-b border-admin-border pb-3">
           <h3 class="font-bold text-base text-white">Gestion de la Galerie Photos</h3>
@@ -620,7 +613,7 @@
     </div>
   </div>
 
-  <!-- MODALS -->
+  <!-- MODALS DU DASHBOARD -->
   <div id="slot-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
@@ -665,7 +658,7 @@
     </div>
   </div>
 
-  <!-- MODAL PHOTO (AJOUTÉ) -->
+  <!-- MODAL GESTION PHOTO -->
   <div id="photo-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
@@ -694,6 +687,17 @@
           <button type="submit" class="px-6 py-2 bg-pink-600 text-white font-bold rounded-xl shadow-lg">Enregistrer</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL LIGHTBOX PHOTO PLEIN ÉCRAN -->
+  <div id="photo-lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex flex-col items-center justify-center p-4 cursor-pointer" onclick="closePhotoLightbox()">
+    <button onclick="closePhotoLightbox()" class="absolute top-5 right-5 text-white hover:text-vicomte-dorure text-3xl font-bold transition focus:outline-none">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="max-w-4xl max-h-[85vh] flex flex-col items-center cursor-default" onclick="event.stopPropagation()">
+      <img id="lightbox-img" src="" alt="Photo agrandie" class="max-w-full max-h-[75vh] object-contain rounded-2xl shadow-2xl border-2 border-vicomte-dorure/40">
+      <p id="lightbox-caption" class="text-white font-display text-sm md:text-base font-bold mt-4 text-center px-4 py-2 bg-vicomte-chocolat/80 rounded-xl border border-vicomte-dorure/30 shadow-lg"></p>
     </div>
   </div>
 
@@ -780,13 +784,49 @@
       const container = document.getElementById('public-photos-grid');
       if (!container) return;
       const photos = getData('rv_photos');
+      
+      if (photos.length === 0) {
+        container.innerHTML = `<p class="col-span-3 text-center text-gray-500 text-xs italic py-6">Aucune photo dans la galerie.</p>`;
+        return;
+      }
+
       container.innerHTML = photos.map(p => `
-        <div class="bg-white p-3 rounded-2xl border border-vicomte-sable shadow-sm">
-          <img src="${p.img}" class="w-full h-48 object-cover rounded-xl mb-2" alt="Studio">
-          <p class="text-xs font-bold text-vicomte-chocolat text-center">${p.caption}</p>
+        <div onclick="openPhotoLightbox('${p.img.replace(/'/g, "\\'")}', '${p.caption.replace(/'/g, "\\'")}')" class="bg-white p-3 rounded-2xl border border-vicomte-sable shadow-sm cursor-pointer hover:shadow-xl hover:scale-[1.02] transition duration-200 group">
+          <div class="relative overflow-hidden rounded-xl mb-2">
+            <img src="${p.img}" class="w-full h-48 object-cover group-hover:scale-105 transition duration-300" alt="${p.caption}">
+            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-200 flex items-center justify-center">
+              <span class="bg-vicomte-brique/90 text-white p-2.5 rounded-full shadow-lg"><i class="fa-solid fa-magnifying-glass-plus text-sm"></i></span>
+            </div>
+          </div>
+          <p class="text-xs font-bold text-vicomte-chocolat text-center truncate">${p.caption}</p>
         </div>
       `).join('');
     }
+
+    function openPhotoLightbox(imgUrl, caption) {
+      const modal = document.getElementById('photo-lightbox-modal');
+      const img = document.getElementById('lightbox-img');
+      const cap = document.getElementById('lightbox-caption');
+
+      if (modal && img && cap) {
+        img.src = imgUrl;
+        cap.innerText = caption;
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closePhotoLightbox() {
+      const modal = document.getElementById('photo-lightbox-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closePhotoLightbox();
+    });
 
     function renderAdminPhotos() {
       const container = document.getElementById('admin-photos-list');
