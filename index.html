@@ -549,11 +549,8 @@
       </div>
 
       <div class="bg-admin-bg p-3.5 rounded-xl border border-amber-500/30 text-[11px] text-amber-200/90 space-y-1">
-        <p class="font-bold text-amber-400"><i class="fa-solid fa-key mr-1"></i> Identifiants de connexion :</p>
-        <div class="font-mono text-[11px] pl-4 text-gray-300">
-          <p>• Identifiant : <strong class="text-white">admin</strong></p>
-          <p>• Mot de passe : <strong class="text-white">vicomte107</strong></p>
-        </div>
+        <p class="font-bold text-amber-400"><i class="fa-solid fa-key mr-1"></i> Accès sécurisé :</p>
+        <p class="text-gray-300">Utilisez un des comptes d'administration configurés dans la base.</p>
       </div>
 
       <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
@@ -711,23 +708,103 @@
       </div>
 
       <!-- ADMIN TAB 7: COMPTES & MOT DE PASSE -->
-      <div id="adm-view-passwords" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
-        <h3 class="font-bold text-base text-white border-b border-admin-border pb-3">Comptes d'Accès & Sécurité</h3>
-        <div class="space-y-4 max-w-md text-xs">
-          <div>
-            <label class="block mb-1 text-gray-400 font-bold">Identifiant Administrateur</label>
-            <input type="text" value="admin" disabled class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-gray-400">
-          </div>
-          <div>
-            <label class="block mb-1 text-gray-400 font-bold">Nouveau mot de passe</label>
-            <input type="password" id="new-admin-pass" placeholder="Nouveau mot de passe..." class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
-          </div>
-          <button onclick="showToast('Mot de passe mis à jour avec succès !')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl transition cursor-pointer">
-            Mettre à jour le mot de passe
+    <div id="adm-view-passwords" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
+      <div class="flex justify-between items-center border-b border-admin-border pb-3">
+        <div>
+          <h3 class="font-bold text-base text-white">Comptes d'Accès & Sécurité</h3>
+          <p class="text-xs text-gray-400">Gérez les identifiants, rôles et mots de passe des accès administrateurs et animateurs.</p>
+        </div>
+        <button onclick="openAccountModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
+          <i class="fa-solid fa-user-plus mr-1.5"></i> Créer un Compte
+        </button>
+      </div>
+
+      <!-- LISTE DES COMPTES ADMINISTRATEURS -->
+      <div class="space-y-3" id="admin-accounts-list"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL CRÉATION / EDITION DE COMPTE ADMIN -->
+<div id="account-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+  <div class="bg-admin-card border border-admin-border w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
+    <div class="flex justify-between items-center border-b border-admin-border pb-3">
+      <h3 class="font-bold text-base text-white" id="account-modal-title">Créer un Nouveau Compte</h3>
+      <button onclick="closeAccountModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
+    </div>
+
+    <form onsubmit="handleAccountFormSubmit(event)" class="space-y-4">
+      <input type="hidden" id="acc-edit-index" value="-1">
+      <div>
+        <label class="block mb-1 text-gray-300 font-bold">Rôle du Compte *</label>
+        <select id="acc-input-role" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-500 font-bold">
+          <option value="animateur">Animateur (Accès Dédicaces & Auditeurs seulement)</option>
+          <option value="admin">Administrateur (Accès Complet)</option>
+        </select>
+      </div>
+      <div>
+        <label class="block mb-1 text-gray-300 font-bold">Identifiant *</label>
+        <input type="text" id="acc-input-user" required placeholder="Ex: animateur1" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-500">
+      </div>
+      <div>
+        <label class="block mb-1 text-gray-300 font-bold">Mot de Passe *</label>
+        <div class="relative">
+          <input type="password" id="acc-input-pass" required placeholder="Saisir un mot de passe" class="w-full bg-admin-bg border border-admin-border rounded-xl pl-3 pr-10 py-2 text-white focus:outline-none focus:border-emerald-500">
+          <button type="button" onclick="toggleModalPasswordVisibility()" class="absolute right-3 top-2.5 text-gray-400 hover:text-white cursor-pointer">
+            <i class="fa-solid fa-eye" id="modal-pass-eye-icon"></i>
           </button>
         </div>
       </div>
+      <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
+        <button type="button" onclick="closeAccountModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button>
+        <button type="submit" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg cursor-pointer">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+          <button onclick="openAccountModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
+            <i class="fa-solid fa-user-plus mr-1.5"></i> Créer un Compte
+          </button>
+        </div>
 
+        <!-- LISTE DES COMPTES ADMINISTRATEURS -->
+        <div class="space-y-3" id="admin-accounts-list"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL CRÉATION / EDITION DE COMPTE ADMIN -->
+  <div id="account-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-admin-card border border-admin-border w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
+      <div class="flex justify-between items-center border-b border-admin-border pb-3">
+        <h3 class="font-bold text-base text-white" id="account-modal-title">Créer un Nouveau Compte</h3>
+        <button onclick="closeAccountModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
+      </div>
+
+      <form onsubmit="handleAccountFormSubmit(event)" class="space-y-4">
+        <input type="hidden" id="acc-edit-index" value="-1">
+        <div>
+          <label class="block mb-1 text-gray-300 font-bold">Rôle du Compte *</label>
+          <select id="acc-input-role" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-500 font-bold">
+            <option value="animateur">Animateur (Accès Dédicaces & Auditeurs seulement)</option>
+            <option value="admin">Administrateur (Accès Complet)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-300 font-bold">Identifiant *</label>
+          <input type="text" id="acc-input-user" required placeholder="Ex: animateur1" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-500">
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-300 font-bold">Mot de Passe *</label>
+          <input type="password" id="acc-input-pass" required placeholder="Saisir un mot de passe" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-500">
+        </div>
+        <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
+          <button type="button" onclick="closeAccountModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button>
+          <button type="submit" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg cursor-pointer">Enregistrer</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -1010,9 +1087,13 @@
   <script>
     const DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
     let currentPublicDay = "Jeudi";
-    let currentAdminDay = "Jeudi";
-    let isPlayingAudio = false;
-    let selectedPodcastCategory = "TOUS";
+    let currentAdminRole = "admin"; // Rôle du compte connecté ("admin" ou "animateur")
+    let visiblePasswordsMap = {}; // Tableau associatif de suivi de visibilité des mdp par index
+
+    const DEFAULT_ACCOUNTS = [
+      { user: "admin", pass: "vicomte107", role: "admin" },
+      { user: "animateur", pass: "studio1039", role: "animateur" }
+    ];
 
     const DEFAULT_CATEGORIES = [
       "Les barastoles du morning",
@@ -1058,6 +1139,7 @@
     ];
 
     function initDatabase() {
+      if (!localStorage.getItem('rv_accounts')) localStorage.setItem('rv_accounts', JSON.stringify(DEFAULT_ACCOUNTS));
       if (!localStorage.getItem('rv_categories')) localStorage.setItem('rv_categories', JSON.stringify(DEFAULT_CATEGORIES));
       if (!localStorage.getItem('rv_grille')) localStorage.setItem('rv_grille', JSON.stringify(DEFAULT_GRILLE));
       if (!localStorage.getItem('rv_emissions')) localStorage.setItem('rv_emissions', JSON.stringify(DEFAULT_EMISSIONS));
@@ -1098,7 +1180,6 @@
         resetAudioUI();
         showToast("Direct mis en pause.");
       } else {
-        // Arrêter d'éventuels replays en cours
         document.querySelectorAll('audio').forEach(el => {
           if (el.id !== 'radio-audio-stream') {
             el.pause();
@@ -1146,7 +1227,6 @@
       if (bannerText) bannerText.innerText = "Écouter le Direct";
     }
 
-    // INTERROGATION DU STATUT ICECAST DIRECT POUR AUDITEURS RÉELS
     async function fetchIcecastListeners() {
       const listenerCounter = document.getElementById('stat-listeners');
       if (!listenerCounter) return;
@@ -1175,7 +1255,6 @@
       return await res.text();
     }
 
-    // ACCUEIL & COMPOSANTS
     function updateCurrentLiveShow() {
       const grille = getData('rv_grille');
       if (!grille) return;
@@ -1248,16 +1327,16 @@
       if (tabId === 'photos') renderPublicPhotos();
     }
 
-    // PODCASTS & SOUS-CATÉGORIES
     function renderPublicReplays() {
       const container = document.getElementById('public-replays-container');
-      const categoriesBar = document.getElementById('public-podcast-categories');
+      const categoriesBar = document.getElementById('public-podcast-categories Bar');
       const homePreview = document.getElementById('home-replays-preview');
       const replays = getData('rv_replays');
       const categories = getData('rv_categories');
 
-      if (categoriesBar) {
-        categoriesBar.innerHTML = `
+      const catBar = document.getElementById('public-podcast-categories');
+      if (catBar) {
+        catBar.innerHTML = `
           <button onclick="setFilterPodcastCategory('TOUS')" class="px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${selectedPodcastCategory === 'TOUS' ? 'bg-vicomte-brique text-white shadow' : 'bg-white text-vicomte-chocolat border border-vicomte-sable'}">
             Toutes les émissions
           </button>
@@ -1416,6 +1495,147 @@
       showToast(`Sous-catégorie "${removed}" supprimée.`);
     }
 
+    // GESTION COMPTES ADMINISTRATEURS ET MOTS DE PASSE
+    function renderAdminAccounts() {
+      const container = document.getElementById('admin-accounts-list');
+      if (!container) return;
+      const accounts = getData('rv_accounts');
+
+      container.innerHTML = accounts.map((acc, idx) => {
+        const isPassVisible = !!visiblePasswordsMap[idx];
+        const roleLabel = acc.role === 'animateur' ? 'Animateur' : 'Administrateur';
+        const roleBadgeColor = acc.role === 'animateur' ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+
+        return `
+          <div class="bg-admin-bg p-4 rounded-xl border border-admin-border flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-xs">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-user-shield ${acc.role === 'animateur' ? 'text-amber-400' : 'text-emerald-400'}"></i>
+                <span class="font-bold text-white text-sm">${acc.user}</span>
+                <span class="text-[10px] border px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${roleBadgeColor}">${roleLabel}</span>
+              </div>
+              <div class="flex items-center space-x-2 pt-0.5">
+                <span class="text-gray-400 font-mono text-[11px]">Mot de passe :</span>
+                <span class="text-white font-mono font-bold text-xs bg-admin-card px-2.5 py-1 rounded border border-admin-border tracking-wider select-all">
+                  ${isPassVisible ? acc.pass : '••••••••'}
+                </span>
+                <button onclick="togglePasswordVisibility(${idx})" class="text-gray-400 hover:text-white px-1.5 py-0.5 rounded hover:bg-admin-card transition cursor-pointer" title="${isPassVisible ? 'Masquer' : 'Afficher'} le mot de passe">
+                  <i class="fa-solid ${isPassVisible ? 'fa-eye-slash text-amber-400' : 'fa-eye'}"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-2 self-end md:self-center">
+              <button onclick="openAccountModal(${idx})" class="p-2 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition cursor-pointer font-bold flex items-center space-x-1">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>Éditer</span>
+              </button>
+              ${accounts.length > 1 ? `
+                <button onclick="deleteAccount(${idx})" class="p-2 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition cursor-pointer" title="Supprimer le compte">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function togglePasswordVisibility(idx) {
+      visiblePasswordsMap[idx] = !visiblePasswordsMap[idx];
+      renderAdminAccounts();
+    }
+
+    function toggleModalPasswordVisibility() {
+      const input = document.getElementById('acc-input-pass');
+      const icon = document.getElementById('modal-pass-eye-icon');
+      if (input && icon) {
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.className = 'fa-solid fa-eye-slash text-amber-400';
+        } else {
+          input.type = 'password';
+          icon.className = 'fa-solid fa-eye';
+        }
+      }
+    }
+
+    function openAccountModal(idx = -1) {
+      document.getElementById('acc-edit-index').value = idx;
+      const userInput = document.getElementById('acc-input-user');
+      const passInput = document.getElementById('acc-input-pass');
+      const roleInput = document.getElementById('acc-input-role');
+      const eyeIcon = document.getElementById('modal-pass-eye-icon');
+
+      if (passInput) passInput.type = 'password';
+      if (eyeIcon) eyeIcon.className = 'fa-solid fa-eye';
+
+      if (idx >= 0) {
+        const accounts = getData('rv_accounts');
+        const acc = accounts[idx];
+        document.getElementById('account-modal-title').innerText = `Modifier le compte (${acc.user})`;
+        userInput.value = acc.user;
+        userInput.disabled = true;
+        passInput.value = acc.pass;
+        roleInput.value = acc.role || 'admin';
+      } else {
+        document.getElementById('account-modal-title').innerText = "Créer un Nouveau Compte";
+        userInput.value = '';
+        userInput.disabled = false;
+        passInput.value = '';
+        roleInput.value = 'animateur';
+      }
+
+      const modal = document.getElementById('account-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function handleAccountFormSubmit(e) {
+      e.preventDefault();
+      const idx = parseInt(document.getElementById('acc-edit-index').value);
+      const user = document.getElementById('acc-input-user').value.trim();
+      const pass = document.getElementById('acc-input-pass').value.trim();
+      const role = document.getElementById('acc-input-role').value;
+
+      if (!user || !pass) {
+        showToast("Identifiant et mot de passe requis.", "fa-triangle-exclamation");
+        return;
+      }
+
+      const accounts = getData('rv_accounts');
+
+      if (idx >= 0) {
+        accounts[idx].pass = pass;
+        accounts[idx].role = role;
+        setData('rv_accounts', accounts);
+        showToast(`Compte "${accounts[idx].user}" mis à jour !`);
+      } else {
+        if (accounts.some(a => a.user.toLowerCase() === user.toLowerCase())) {
+          showToast("Un compte avec cet identifiant existe déjà.", "fa-triangle-exclamation");
+          return;
+        }
+        accounts.push({ user, pass, role });
+        setData('rv_accounts', accounts);
+        showToast(`Compte "${user}" (${role}) créé avec succès !`);
+      }
+
+      closeAccountModal();
+      renderAdminAccounts();
+    }
+
+    function deleteAccount(idx) {
+      const accounts = getData('rv_accounts');
+      if (accounts.length <= 1) {
+        showToast("Impossible de supprimer le seul compte administrateur.", "fa-triangle-exclamation");
+        return;
+      }
+      const removed = accounts.splice(idx, 1);
+      setData('rv_accounts', accounts);
+      renderAdminAccounts();
+      showToast(`Compte "${removed[0].user}" supprimé.`);
+    }
+
     // MODAL REPLAY AVEC SELECT SOUS-CATÉGORIES
     function openReplayModal(idx = -1) {
       document.getElementById('rep-edit-index').value = idx;
@@ -1533,7 +1753,6 @@
       showToast("Replay supprimé.");
     }
 
-    // MODALES & GESTION ADMIN (GRILLE / ÉMISSIONS / PHOTOS / PRESSE / DÉDICACES)
     function openDedicaceModal() {
       const modal = document.getElementById('dedicace-modal');
       if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
@@ -1574,17 +1793,21 @@
 
     function handleLoginSubmit(e) {
       e.preventDefault();
-      const user = document.getElementById('admin-user-input').value;
-      const pass = document.getElementById('admin-pass-input').value;
+      const user = document.getElementById('admin-user-input').value.trim();
+      const pass = document.getElementById('admin-pass-input').value.trim();
 
-      if (user === 'admin' && pass === 'vicomte107') {
+      const accounts = getData('rv_accounts');
+      const validAccount = accounts.find(a => a.user.toLowerCase() === user.toLowerCase() && a.pass === pass);
+
+      if (validAccount) {
         document.getElementById('admin-login-screen').classList.add('hidden');
         document.getElementById('admin-dashboard').classList.remove('hidden');
         renderAdminGrille();
+        renderAdminAccounts();
         fetchIcecastListeners();
-        showToast("Connexion administration réussie !");
+        showToast(`Connexion réussie ! Bienvenue ${validAccount.user}`);
       } else {
-        showToast("Identifiants incorrects !", "fa-triangle-exclamation");
+        showToast("Identifiant ou mot de passe incorrect !", "fa-triangle-exclamation");
       }
     }
 
@@ -1616,6 +1839,7 @@
       if (tabId === 'dedicaces') renderAdminDedicaces();
       if (tabId === 'photos') renderAdminPhotos();
       if (tabId === 'presse') renderAdminPresse();
+      if (tabId === 'passwords') renderAdminAccounts();
     }
 
     function renderAdminGrille() {
