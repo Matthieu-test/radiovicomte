@@ -63,7 +63,7 @@
       color: #E5E7EB;
     }
     .bg-halle-meyssac {
-      background-image: linear-gradient(rgba(247, 241, 225, 0.88), rgba(247, 241, 225, 0.88)), url('https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1600&auto=format&fit=crop');
+      background-image: linear-gradient(rgba(247, 241, 225, 0.92), rgba(247, 241, 225, 0.92)), url('https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1600&auto=format&fit=crop');
       background-attachment: fixed;
       background-position: center;
       background-repeat: no-repeat;
@@ -72,6 +72,11 @@
   </style>
 </head>
 <body class="bg-halle-meyssac text-vicomte-chocolat font-sans antialiased selection:bg-vicomte-brique selection:text-white min-h-screen flex flex-col">
+
+  <!-- Stream Audio Element -->
+  <audio id="radio-audio-stream" preload="none" crossorigin="anonymous">
+    <source src="https://sd-151888.dedibox.fr/proxy/vicomte/vicomte" type="audio/mpeg">
+  </audio>
 
   <!-- Notification Toast Box -->
   <div id="toast-notification" class="fixed bottom-5 right-5 z-50 bg-vicomte-chocolat text-white px-5 py-3 rounded-2xl shadow-2xl border-2 border-vicomte-dorure hidden transition-all duration-300 flex items-center space-x-3">
@@ -304,146 +309,104 @@
 
       <!-- TAB 6: PUBLICITÉS -->
       <div id="pub-view-pub" class="space-y-6 hidden">
-        <div class="border-b-2 border-vicomte-sable pb-3 flex items-center space-x-3">
-          <i class="fa-solid fa-bullhorn text-vicomte-brique text-xl"></i>
-          <div>
-            <h2 class="font-display font-black text-2xl text-vicomte-brique">Spots Radio 103.9 FM & Formules d'Annonce</h2>
-            <p class="text-xs text-gray-600">Faites rayonner votre entreprise ou votre association sur l'antenne de Radio Vicomté.</p>
-          </div>
+        <div class="border-b-2 border-vicomte-sable pb-3">
+          <h2 class="font-display font-black text-2xl text-vicomte-brique">Espace Publicitaire & Partenaires</h2>
+          <p class="text-xs text-gray-600">Faites rayonner votre entreprise ou votre association sur l'antenne et le site de Radio Vicomté.</p>
         </div>
 
-        <!-- 3 Colonnes Tarifaires & Formules (Style de la maquette validée) -->
-        <div class="grid md:grid-cols-3 gap-6">
-          
-          <!-- Carte 1 : Associations - Campagne Unique -->
-          <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable flex flex-col justify-between space-y-6 relative overflow-hidden">
-            <div class="space-y-4">
-              <!-- En-tête style carte -->
-              <div class="bg-[#8C2B1D] text-white rounded-2xl py-3 px-4 text-center shadow-md border border-amber-600/30">
-                <h3 class="font-display font-black text-sm tracking-widest uppercase">Associations</h3>
-                <p class="text-[10px] text-vicomte-sable italic">Campagne publicitaire unique</p>
-              </div>
+        <!-- SECTION TARIFS & SPOTS RADIO : 3 COLONNES -->
+        <div class="space-y-4">
+          <h3 class="font-display font-bold text-lg text-vicomte-brique flex items-center">
+            <i class="fa-solid fa-bullhorn text-vicomte-dorure mr-2"></i> Spots Radio 103.9 FM & Formules d'Annonce
+          </h3>
 
-              <!-- Liste des caractéristiques -->
-              <div class="space-y-3 text-xs text-gray-700 pt-2">
-                <p class="flex items-start space-x-2.5">
-                  <i class="fa-solid fa-check text-vicomte-brique mt-0.5 flex-shrink-0"></i>
-                  <span><strong class="text-vicomte-chocolat">35 messages</strong> par semaine</span>
-                </p>
-                <p class="flex items-start space-x-2.5">
-                  <i class="fa-solid fa-microphone text-vicomte-brique mt-0.5 flex-shrink-0"></i>
-                  <span>Possibilité de venir <strong class="text-vicomte-chocolat">en direct</strong> parler de la manifestation</span>
-                </p>
-                <p class="flex items-start space-x-2.5">
-                  <i class="fa-solid fa-podcast text-vicomte-brique mt-0.5 flex-shrink-0"></i>
-                  <span>Replay de l'émission disponible sur le site</span>
-                </p>
-              </div>
-            </div>
-
-            <!-- Bloc Tarif -->
-            <div class="pt-4 border-t border-vicomte-sable text-center space-y-1">
-              <span class="text-[10px] uppercase tracking-widest font-bold text-gray-400 block">Tarif</span>
-              <div class="font-display font-black text-3xl text-vicomte-brique">40 <span class="text-xl">€</span></div>
-              <p class="text-[9px] text-gray-500 italic pt-1">* Tarif préférentiel aux associations dont communes partenaires</p>
-            </div>
-          </div>
-
-          <!-- Carte 2 : Associations - Campagne Annuelle -->
-          <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-dorure flex flex-col justify-between space-y-6 relative overflow-hidden ring-2 ring-vicomte-dorure/30">
-            <!-- Badge coin supérieur -->
-            <div class="absolute top-0 right-0 bg-vicomte-dorure w-12 h-12 transform rotate-45 translate-x-6 -translate-y-6 shadow-sm"></div>
-
-            <div class="space-y-4">
-              <!-- En-tête style carte -->
-              <div class="bg-[#2C1810] text-vicomte-sable rounded-2xl py-3 px-4 text-center shadow-md border border-vicomte-dorure/40">
-                <h3 class="font-display font-black text-sm tracking-widest uppercase text-vicomte-dorure">Associations</h3>
-                <p class="text-[10px] text-gray-300 italic">Campagne publicitaire annuelle</p>
-              </div>
-
-              <!-- Liste des caractéristiques -->
-              <div class="space-y-3 text-xs text-gray-700 pt-2">
-                <p class="flex items-start space-x-2.5">
-                  <i class="fa-solid fa-star text-vicomte-dorure mt-0.5 flex-shrink-0"></i>
-                  <span>Nombre de manifestations <strong class="text-vicomte-chocolat">illimitées</strong></span>
-                </p>
-                <p class="flex items-start space-x-2.5">
-                  <i class="fa-solid fa-bullhorn text-vicomte-brique mt-0.5 flex-shrink-0"></i>
-                  <span><strong class="text-vicomte-chocolat">35 messages</strong> par semaine pour chaque évènement</span>
-                </p>
-                <p class="flex items-start space-x-2.5">
-                  <i class="fa-solid fa-microphone text-vicomte-brique mt-0.5 flex-shrink-0"></i>
-                  <span>Possibilité de venir <strong class="text-vicomte-chocolat">en direct</strong> parler de chaque manifestation</span>
-                </p>
-                <p class="flex items-start space-x-2.5">
-                  <i class="fa-solid fa-podcast text-vicomte-brique mt-0.5 flex-shrink-0"></i>
-                  <span>Replay de l'émission disponible sur le site</span>
-                </p>
-              </div>
-            </div>
-
-            <!-- Bloc Tarif -->
-            <div class="pt-4 border-t border-vicomte-sable text-center space-y-1">
-              <span class="text-[10px] uppercase tracking-widest font-bold text-gray-400 block">Tarif</span>
-              <div class="font-display font-black text-3xl text-vicomte-brique">70 <span class="text-xl">€</span></div>
-              <p class="text-[9px] text-gray-500 italic pt-1">* Tarif préférentiel aux associations dont communes partenaires</p>
-            </div>
-          </div>
-
-          <!-- Carte 3 : Entreprises -->
-          <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable flex flex-col justify-between space-y-6 relative overflow-hidden">
-            <div class="space-y-4">
-              <!-- En-tête style carte -->
-              <div class="bg-[#543629] text-white rounded-2xl py-3 px-4 text-center shadow-md border border-amber-600/30">
-                <h3 class="font-display font-black text-sm tracking-widest uppercase">Entreprises</h3>
-                <p class="text-[9px] text-vicofte-sable italic">Commerçants, Artisans, Auto-entrepreneurs...</p>
-              </div>
-
-              <!-- Liste des caractéristiques -->
-              <div class="space-y-3 text-xs text-gray-700 pt-2">
-                <p class="font-bold text-vicomte-chocolat text-[11px]">Pour vos opérations :</p>
-                <div class="space-y-1.5 pl-1">
-                  <p class="flex items-center space-x-2">
-                    <i class="fa-solid fa-tag text-vicomte-brique text-[10px]"></i>
-                    <span>Commerciales</span>
-                  </p>
-                  <p class="flex items-center space-x-2">
-                    <i class="fa-solid fa-percent text-vicomte-brique text-[10px]"></i>
-                    <span>Promotions</span>
-                  </p>
-                  <p class="flex items-center space-x-2">
-                    <i class="fa-solid fa-store text-vicomte-brique text-[10px]"></i>
-                    <span>Ouvertures spéciales</span>
-                  </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Colonne 1 : Associations - Campagne Unique -->
+            <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-vicomte-sable flex flex-col justify-between space-y-4 hover:shadow-xl transition">
+              <div class="space-y-3">
+                <div class="bg-vicomte-brique text-white px-3 py-1 rounded-xl text-center">
+                  <h4 class="font-display font-bold text-sm tracking-wider uppercase">Associations</h4>
+                  <p class="text-[10px] text-vicomte-sable font-medium">Campagne publicitaire unique</p>
                 </div>
-                <p class="text-gray-500 italic text-[11px] pt-1">et bien plus...</p>
+                
+                <ul class="text-xs text-gray-700 space-y-2 pt-2">
+                  <li class="flex items-start"><i class="fa-solid fa-check text-vicomte-brique mt-0.5 mr-2 text-[10px]"></i> <span><strong>35 messages</strong> par semaine</span></li>
+                  <li class="flex items-start"><i class="fa-solid fa-microphone text-vicomte-brique mt-0.5 mr-2 text-[10px]"></i> <span>Possibilité de venir <strong>en direct</strong> parler de la manifestation</span></li>
+                  <li class="flex items-start"><i class="fa-solid fa-podcast text-vicomte-brique mt-0.5 mr-2 text-[10px]"></i> <span>Replay de l'émission disponible sur le site</span></li>
+                </ul>
+              </div>
+
+              <div class="pt-4 border-t border-vicomte-sable/60 text-center space-y-1">
+                <p class="text-xs font-bold text-vicomte-chocolat">Tarif</p>
+                <p class="text-3xl font-display font-black text-vicomte-brique">40 <span class="text-lg">€</span></p>
+                <p class="text-[10px] text-gray-500 italic">* Tarif préférentiel aux associations dont communes partenaires</p>
               </div>
             </div>
 
-            <!-- Bloc Tarif -->
-            <div class="pt-4 border-t border-vicomte-sable text-center space-y-1">
-              <span class="text-[10px] uppercase tracking-widest font-bold text-gray-400 block">Tarif</span>
-              <div class="font-display font-black text-lg md:text-xl text-vicomte-brique tracking-tight pt-1">NOUS CONSULTER</div>
-              <p class="text-[9px] text-gray-500 italic pt-1">* Une étude selon vos besoins vous sera proposée</p>
-            </div>
-          </div>
+            <!-- Colonne 2 : Associations - Campagne Annuelle -->
+            <div class="bg-white rounded-3xl p-6 shadow-lg border-2 border-vicomte-dorure flex flex-col justify-between space-y-4 relative overflow-hidden hover:shadow-xl transition">
+              <div class="absolute -right-8 -top-8 bg-vicomte-dorure text-vicomte-chocolat text-[9px] font-black uppercase px-8 py-2 transform rotate-45">Populaire</div>
 
+              <div class="space-y-3">
+                <div class="bg-vicomte-chocolat text-vicomte-dorure px-3 py-1 rounded-xl text-center">
+                  <h4 class="font-display font-bold text-sm tracking-wider uppercase">Associations</h4>
+                  <p class="text-[10px] text-white font-medium">Campagne publicitaire annuelle</p>
+                </div>
+                
+                <ul class="text-xs text-gray-700 space-y-2 pt-2">
+                  <li class="flex items-start"><li class="flex items-start"><i class="fa-solid fa-star text-vicomte-dorure mt-0.5 mr-2 text-[10px]"></i> <span>Nombre de manifestations <strong>illimitées</strong></span></li>
+                  <li class="flex items-start"><i class="fa-solid fa-bullhorn text-vicomte-brique mt-0.5 mr-2 text-[10px]"></i> <span><strong>35 messages</strong> par semaine pour chaque évènement</span></li>
+                  <li class="flex items-start"><i class="fa-solid fa-microphone text-vicomte-brique mt-0.5 mr-2 text-[10px]"></i> <span>Possibilité de venir <strong>en direct</strong> parler de chaque manifestation</span></li>
+                  <li class="flex items-start"><i class="fa-solid fa-podcast text-vicomte-brique mt-0.5 mr-2 text-[10px]"></i> <span>Replay de l'émission disponible sur le site</span></li>
+                </ul>
+              </div>
+
+              <div class="pt-4 border-t border-vicomte-sable/60 text-center space-y-1">
+                <p class="text-xs font-bold text-vicomte-chocolat">Tarif</p>
+                <p class="text-3xl font-display font-black text-vicomte-brique">70 <span class="text-lg">€</span></p>
+                <p class="text-[10px] text-gray-500 italic">* Tarif préférentiel aux associations dont communes partenaires</p>
+              </div>
+            </div>
+
+            <!-- Colonne 3 : Entreprises -->
+            <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-vicomte-sable flex flex-col justify-between space-y-4 hover:shadow-xl transition">
+              <div class="space-y-3">
+                <div class="bg-vicomte-terre text-white px-3 py-1 rounded-xl text-center">
+                  <h4 class="font-display font-bold text-sm tracking-wider uppercase">Entreprises</h4>
+                  <p class="text-[10px] text-vicomte-sable font-medium">Commerçants, Artisans, Auto-entrepreneurs...</p>
+                </div>
+                
+                <p class="text-xs font-semibold text-vicomte-chocolat border-b border-vicomte-sable/40 pb-1">Pour vos opérations :</p>
+                <ul class="text-xs text-gray-700 space-y-1.5">
+                  <li class="flex items-center"><i class="fa-solid fa-tag text-vicomte-brique mr-2 text-[10px]"></i> <span>Commerciales</span></li>
+                  <li class="flex items-center"><i class="fa-solid fa-percent text-vicomte-brique mr-2 text-[10px]"></i> <span>Promotions</span></li>
+                  <li class="flex items-center"><i class="fa-solid fa-door-open text-vicomte-brique mr-2 text-[10px]"></i> <span>Ouvertures spéciales</span></li>
+                  <li class="flex items-center text-gray-500 italic"><span>et bien plus...</span></li>
+                </ul>
+              </div>
+
+              <div class="pt-4 border-t border-vicomte-sable/60 text-center space-y-1">
+                <p class="text-xs font-bold text-vicomte-chocolat">Tarif</p>
+                <p class="text-xl font-display font-black text-vicomte-brique uppercase">Nous consulter</p>
+                <p class="text-[10px] text-gray-500 italic">* Une étude selon vos besoins vous sera proposée</p>
+              </div>
+            </div>
+
+          </div>
         </div>
 
-        <!-- Bloc Bannière Web & Sponsoring -->
-        <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable flex flex-col md:flex-row justify-between items-center gap-6">
-          <div class="space-y-1 text-center md:text-left">
-            <h3 class="font-display font-bold text-base text-vicomte-brique flex items-center justify-center md:justify-start">
-              <span class="bg-vicomte-dorure text-vicomte-chocolat px-2 py-0.5 rounded text-[10px] font-black uppercase mr-2 shadow-sm">Ad</span>
-              Bannières & Sponsoring Web
+        <!-- BLOC SECONDAIRE : SPONSORING WEB & DEVIS -->
+        <div class="bg-white rounded-3xl p-6 shadow-md border border-vicomte-sable flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="space-y-1">
+            <h3 class="font-display font-bold text-base text-vicomte-brique flex items-center">
+              <i class="fa-solid fa-rectangle-ad text-vicomte-dorure mr-2"></i> Bannières & Sponsoring Web
             </h3>
             <p class="text-xs text-gray-600">Affichez votre logo et vos offres directement sur notre site web et nos réseaux sociaux.</p>
           </div>
-          <div>
-            <button onclick="switchPublicTab('contact')" class="bg-vicomte-brique hover:bg-vicomte-briqueDark text-white px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-wider transition shadow-lg cursor-pointer">
-              Demander un devis publicitaire
-            </button>
-          </div>
+          <button onclick="switchPublicTab('contact')" class="bg-vicomte-brique hover:bg-vicomte-briqueDark text-white px-5 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer shadow whitespace-nowrap">
+            Demander un devis publicitaire
+          </button>
         </div>
       </div>
 
@@ -787,15 +750,11 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block mb-1 text-gray-300 font-bold">Heure de début *</label>
-            <select id="slot-input-start" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
-              <option value="00:00">00:00</option><option value="00:30">00:30</option><option value="01:00">01:00</option><option value="01:30">01:30</option><option value="02:00">02:00</option><option value="02:30">02:30</option><option value="03:00">03:00</option><option value="03:30">03:30</option><option value="04:00">04:00</option><option value="04:30">04:30</option><option value="05:00">05:00</option><option value="05:30">05:30</option><option value="06:00">06:00</option><option value="06:30">06:30</option><option value="07:00">07:00</option><option value="07:30">07:30</option><option value="08:00">08:00</option><option value="08:30">08:30</option><option value="09:00">09:00</option><option value="09:30">09:30</option><option value="10:00">10:00</option><option value="10:30">10:30</option><option value="11:00">11:00</option><option value="11:30">11:30</option><option value="12:00">12:00</option><option value="12:30">12:30</option><option value="13:00">13:00</option><option value="13:30">13:30</option><option value="14:00">14:00</option><option value="14:30">14:30</option><option value="15:00">15:00</option><option value="15:30">15:30</option><option value="16:00">16:00</option><option value="16:30">16:30</option><option value="17:00">17:00</option><option value="17:30">17:30</option><option value="18:00">18:00</option><option value="18:30">18:30</option><option value="19:00">19:00</option><option value="19:30">19:30</option><option value="20:00">20:00</option><option value="20:30">20:30</option><option value="21:00">21:00</option><option value="21:30">21:30</option><option value="22:00">22:00</option><option value="22:30">22:30</option><option value="23:00">23:00</option><option value="23:30">23:30</option>
-            </select>
+            <input type="text" id="slot-input-start" required placeholder="07:00" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
           </div>
           <div>
             <label class="block mb-1 text-gray-300 font-bold">Heure de fin *</label>
-            <select id="slot-input-end" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
-              <option value="00:00">00:00</option><option value="00:30">00:30</option><option value="01:00">01:00</option><option value="01:30">01:30</option><option value="02:00">02:00</option><option value="02:30">02:30</option><option value="03:00">03:00</option><option value="03:30">03:30</option><option value="04:00">04:00</option><option value="04:30">04:30</option><option value="05:00">05:00</option><option value="05:30">05:30</option><option value="06:00">06:00</option><option value="06:30">06:30</option><option value="07:00">07:00</option><option value="07:30">07:30</option><option value="08:00">08:00</option><option value="08:30">08:30</option><option value="09:00">09:00</option><option value="09:30">09:30</option><option value="10:00">10:00</option><option value="10:30">10:30</option><option value="11:00">11:00</option><option value="11:30">11:30</option><option value="12:00">12:00</option><option value="12:30">12:30</option><option value="13:00">13:00</option><option value="13:30">13:30</option><option value="14:00">14:00</option><option value="14:30">14:30</option><option value="15:00">15:00</option><option value="15:30">15:30</option><option value="16:00">16:00</option><option value="16:30">16:30</option><option value="17:00">17:00</option><option value="17:30">17:30</option><option value="18:00">18:00</option><option value="18:30">18:30</option><option value="19:00">19:00</option><option value="19:30">19:30</option><option value="20:00">20:00</option><option value="20:30">20:30</option><option value="21:00">21:00</option><option value="21:30">21:30</option><option value="22:00">22:00</option><option value="22:30">22:30</option><option value="23:00">23:00</option><option value="23:30">23:30</option>
-            </select>
+            <input type="text" id="slot-input-end" required placeholder="09:30" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
           </div>
         </div>
         <div>
@@ -871,7 +830,7 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block mb-1 text-gray-300 font-bold">Date de diffusion *</label>
-            <input type="text" id="rep-input-date" required placeholder="28 Oct 2026" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
+            <input type="text" id="rep-input-date" required placeholder="28 Octobre 2026" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
           </div>
           <div>
             <label class="block mb-1 text-gray-300 font-bold">Durée *</label>
@@ -879,15 +838,8 @@
           </div>
         </div>
         <div class="space-y-2">
-          <label class="block text-gray-300 font-bold">Fichier Audio ou Lien *</label>
-          <div class="bg-admin-bg border border-admin-border rounded-xl p-2.5 flex items-center space-x-3">
-            <label class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-3.5 py-1.5 rounded-lg cursor-pointer transition text-xs">
-              Choisir un fichier audio
-              <input type="file" id="rep-input-file" accept="audio/*" class="hidden" onchange="handleReplayFileSelect(event)">
-            </label>
-            <span id="rep-file-name" class="text-gray-400 text-xs">Aucun fichier choisi</span>
-          </div>
-          <input type="text" id="rep-input-url" placeholder="Ou coller un lien URL audio (https://...)" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+          <label class="block text-gray-300 font-bold">Lien audio URL (https://...)</label>
+          <input type="text" id="rep-input-url" placeholder="https://..." class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
         </div>
         <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
           <button type="button" onclick="closeReplayModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button>
@@ -944,15 +896,8 @@
           <input type="text" id="pho-input-caption" required placeholder="Ex: Studio Meyssac" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-pink-500">
         </div>
         <div class="space-y-2">
-          <label class="block text-gray-300 font-bold">Source de l'image *</label>
-          <div class="bg-admin-bg border border-admin-border rounded-xl p-2.5 flex items-center space-x-3">
-            <label class="bg-pink-600 hover:bg-pink-500 text-white font-bold px-3.5 py-1.5 rounded-lg cursor-pointer transition text-xs">
-              Choisir un fichier
-              <input type="file" id="pho-input-file" accept="image/*" class="hidden" onchange="handlePhotoFileSelect(event)">
-            </label>
-            <span id="pho-file-name" class="text-gray-400 text-xs">Aucun fichier choisi</span>
-          </div>
-          <input type="text" id="pho-input-url" placeholder="Ou coller un lien URL d'image (https://...)" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-pink-500">
+          <label class="block text-gray-300 font-bold">Lien URL de l'image *</label>
+          <input type="text" id="pho-input-url" required placeholder="https://..." class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-pink-500">
         </div>
         <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
           <button type="button" onclick="closePhotoModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button>
@@ -975,7 +920,6 @@
 
   <!-- SCRIPT JS COMPLET -->
   <script>
-    const audioStream = document.getElementById('radio-audio-stream');
     const DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
     let currentPublicDay = "Jeudi";
     let currentAdminDay = "Jeudi";
@@ -1029,6 +973,37 @@
     function getData(key) { initDatabase(); return JSON.parse(localStorage.getItem(key)); }
     function setData(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 
+    // FLUX AUDIO STREAMING
+    function toggleAudioStream() {
+      const audio = document.getElementById('radio-audio-stream');
+      const icon = document.getElementById('header-play-icon');
+      const text = document.getElementById('header-play-text');
+      const bannerIcon = document.getElementById('banner-play-icon');
+      const bannerText = document.getElementById('banner-play-text');
+
+      if (isPlayingAudio) {
+        audio.pause();
+        isPlayingAudio = false;
+        if (icon) icon.className = "fa-solid fa-play text-[10px]";
+        if (text) text.innerText = "Écouter la Radio";
+        if (bannerIcon) bannerIcon.className = "fa-solid fa-play mr-2 text-vicomte-brique";
+        if (bannerText) bannerText.innerText = "Écouter le Direct";
+        showToast("Flux audio mis en pause.");
+      } else {
+        audio.play().then(() => {
+          isPlayingAudio = true;
+          if (icon) icon.className = "fa-solid fa-pause text-[10px]";
+          if (text) text.innerText = "Pause Direct";
+          if (bannerIcon) bannerIcon.className = "fa-solid fa-pause mr-2 text-vicomte-brique";
+          if (bannerText) bannerText.innerText = "Pause Direct";
+          showToast("Lecture du direct 103.9 FM lancée !");
+        }).catch(err => {
+          console.error(err);
+          showToast("Impossible de lancer le flux en direct.", "fa-triangle-exclamation");
+        });
+      }
+    }
+
     // GESTION MODALE DÉDICACE AUDITEUR
     function openDedicaceModal() {
       const modal = document.getElementById('dedicace-modal');
@@ -1061,7 +1036,7 @@
       showToast("Dédicace envoyée au studio avec succès !");
     }
 
-    // FONCTION D'ACTUALISATION DYNAMIQUE DE L'ÉMISSION EN DIRECT
+    // ACTUALISATION DU DIRECT
     function updateCurrentLiveShow() {
       const grille = getData('rv_grille');
       if (!grille) return;
@@ -1471,29 +1446,8 @@
       `).join('');
     }
 
-    let loadedAudioBase64 = "";
-    function handleReplayFileSelect(event) {
-      const file = event.target.files[0];
-      if (file) {
-        if (file.size > 4 * 1024 * 1024) {
-          showToast("Attention : Fichier volumineux (>4Mo). Risque de saturation !", "fa-triangle-exclamation");
-        }
-        document.getElementById('rep-file-name').innerText = file.name;
-        const reader = new FileReader();
-        reader.onload = function(e) { 
-          loadedAudioBase64 = e.target.result; 
-          showToast("Fichier audio chargé en mémoire !"); 
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
     function openReplayModal(idx = -1) {
       document.getElementById('rep-edit-index').value = idx;
-      loadedAudioBase64 = "";
-      document.getElementById('rep-file-name').innerText = "Aucun fichier choisi";
-      if (document.getElementById('rep-input-file')) document.getElementById('rep-input-file').value = "";
-
       if (idx >= 0) {
         const list = getData('rv_replays');
         const r = list[idx];
@@ -1502,7 +1456,7 @@
         document.getElementById('rep-input-show').value = r.show;
         document.getElementById('rep-input-date').value = r.date;
         document.getElementById('rep-input-duration').value = r.duration || '20 min';
-        document.getElementById('rep-input-url').value = (r.audio && !r.audio.startsWith('data:')) ? r.audio : '';
+        document.getElementById('rep-input-url').value = r.audio || '';
       } else {
         document.getElementById('replay-modal-title').innerText = "Ajouter un Replay";
         document.getElementById('rep-input-title').value = '';
@@ -1529,10 +1483,7 @@
       const show = document.getElementById('rep-input-show').value;
       const date = document.getElementById('rep-input-date').value;
       const duration = document.getElementById('rep-input-duration').value;
-      const urlAudio = document.getElementById('rep-input-url').value;
-      
-      const existingAudio = idx >= 0 ? getData('rv_replays')[idx].audio : "";
-      const audio = loadedAudioBase64 || urlAudio || existingAudio;
+      const audio = document.getElementById('rep-input-url').value;
 
       const list = getData('rv_replays');
       if (idx >= 0) {
@@ -1626,28 +1577,14 @@
       `).join('');
     }
 
-    let loadedPhotoBase64 = "";
-    function handlePhotoFileSelect(event) {
-      const file = event.target.files[0];
-      if (file) {
-        document.getElementById('pho-file-name').innerText = file.name;
-        const reader = new FileReader();
-        reader.onload = function(e) { loadedPhotoBase64 = e.target.result; showToast("Image chargée !"); };
-        reader.readAsDataURL(file);
-      }
-    }
-
     function openPhotoModal(idx = -1) {
       document.getElementById('pho-edit-index').value = idx;
-      loadedPhotoBase64 = "";
-      document.getElementById('pho-file-name').innerText = "Aucun fichier choisi";
-      if (document.getElementById('pho-input-file')) document.getElementById('pho-input-file').value = "";
       if (idx >= 0) {
         const list = getData('rv_photos');
         const p = list[idx];
         document.getElementById('photo-modal-title').innerText = "Modifier la Photo";
         document.getElementById('pho-input-caption').value = p.caption;
-        document.getElementById('pho-input-url').value = p.img.startsWith('data:') ? '' : p.img;
+        document.getElementById('pho-input-url').value = p.img;
       } else {
         document.getElementById('photo-modal-title').innerText = "Ajouter une Photo";
         document.getElementById('pho-input-caption').value = '';
@@ -1668,9 +1605,7 @@
       event.preventDefault();
       const idx = parseInt(document.getElementById('pho-edit-index').value);
       const caption = document.getElementById('pho-input-caption').value;
-      const urlImg = document.getElementById('pho-input-url').value;
-      const img = loadedPhotoBase64 || urlImg;
-      if (!img) { showToast("Veuillez choisir un fichier ou une URL.", "fa-triangle-exclamation"); return; }
+      const img = document.getElementById('pho-input-url').value;
 
       const list = getData('rv_photos');
       if (idx >= 0) { list[idx] = { ...list[idx], caption, img }; showToast("Photo modifiée !"); }
@@ -1890,16 +1825,44 @@
       if (text) text.innerText = "Écouter à nouveau";
     }
 
-    function submitDedicace(e) {
-      e.preventDefault();
-      const sender = document.getElementById('ded-sender').value;
-      const track = document.getElementById('ded-track').value;
-      const msg = document.getElementById('ded-msg').value;
-      const list = getData('rv_dedicaces');
-      list.unshift({ id: Date.now(), sender, track, msg, approved: false });
-      setData('rv_dedicaces', list);
-      e.target.reset();
-      showToast("Dédicace envoyée au studio !");
+    function renderPublicDedicaces() {
+      const container = document.getElementById('public-dedicaces-feed');
+      const homePreview = document.getElementById('home-dedicaces-preview');
+      const list = getData('rv_dedicaces').filter(d => d.approved);
+
+      if (container) {
+        if (list.length === 0) {
+          container.innerHTML = `<p class="col-span-2 text-center text-gray-500 text-xs italic py-6">Aucune dédicace récente.</p>`;
+          return;
+        }
+        container.innerHTML = list.map(d => `
+          <div class="bg-white p-5 rounded-2xl border border-vicomte-sable shadow-sm space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-vicomte-brique"><i class="fa-solid fa-user mr-1.5"></i> ${d.sender}</span>
+              ${d.track ? `<span class="text-[10px] bg-vicomte-sableLight text-vicomte-chocolat font-semibold px-2 py-0.5 rounded-md"><i class="fa-solid fa-music mr-1"></i> ${d.track}</span>` : ''}
+            </div>
+            <p class="text-xs text-gray-700 italic font-medium">"${d.msg}"</p>
+          </div>
+        `).join('');
+      }
+
+      if (homePreview) {
+        homePreview.innerHTML = list.length === 0 ? `<p class="text-xs text-gray-500 italic p-3">Aucune dédicace publiée.</p>` : list.slice(0, 3).map(d => `
+          <div class="bg-white p-3.5 rounded-2xl border border-vicomte-sable shadow-sm space-y-1">
+            <p class="text-[11px] font-bold text-vicomte-brique">${d.sender}</p>
+            <p class="text-xs text-gray-700 italic truncate">"${d.msg}"</p>
+          </div>
+        `).join('');
+      }
+    }
+
+    function filterPublicReplays() {
+      const query = document.getElementById('replay-search-input').value.toLowerCase();
+      const items = document.querySelectorAll('#public-replays-container > div');
+      items.forEach(el => {
+        const text = el.innerText.toLowerCase();
+        el.style.display = text.includes(query) ? 'block' : 'none';
+      });
     }
 
     function sendContactEmail(e) {
@@ -1911,7 +1874,6 @@
       const subject = encodeURIComponent(`Message depuis le site web - ${name}`);
       const body = encodeURIComponent(`Nom: ${name}\nE-mail: ${email}\n\nMessage:\n${msg}`);
 
-      // Ouverture du logiciel de messagerie vers l'adresse du studio
       window.location.href = `mailto:contactradiovicom@gmail.com?subject=${subject}&body=${body}`;
       showToast("Préparation du message vers contactradiovicom@gmail.com...");
     }
@@ -1941,22 +1903,11 @@
               <span class="text-[9px] font-black uppercase text-vicomte-brique bg-vicomte-sableLight px-2 py-0.5 rounded">${p.source}</span>
               ${p.link ? `<a href="${p.link}" target="_blank" class="text-[11px] font-bold text-vicomte-brique hover:underline">Consulter</a>` : ''}
             </div>
-            <h4 class="font-display font-bold text-xs text-vicomte-chocolat line-clamp-1">${p.title}</h4>
+            <h4 class="font-display font-bold text-xs text-vicomte-chocolat truncate">${p.title}</h4>
             <p class="text-xs text-gray-600 line-clamp-2">${p.snippet}</p>
           </div>
         `).join('');
       }
-    }
-
-    function resetAudioUI() {
-      const icon = document.getElementById('header-play-icon');
-      const text = document.getElementById('header-play-text');
-      const bannerIcon = document.getElementById('banner-play-icon');
-      const bannerText = document.getElementById('banner-play-text');
-      if (icon) icon.className = "fa-solid fa-play text-[10px]";
-      if (text) text.innerText = "Écouter la Radio";
-      if (bannerIcon) bannerIcon.className = "fa-solid fa-play mr-2 text-vicomte-brique";
-      if (bannerText) bannerText.innerText = "Écouter le Direct";
     }
 
     function showToast(msg, iconClass = "fa-circle-check") {
@@ -1980,14 +1931,9 @@
       renderPublicPresse();
       renderPublicPhotos();
       
-      // Lancement de l'actualisation dynamique du direct
       updateCurrentLiveShow();
       setInterval(updateCurrentLiveShow, 60000);
     };
   </script>
-  
-  <audio id="radio-audio-stream" preload="none" crossorigin="anonymous">
-    <source src="https://sd-151888.dedibox.fr/proxy/vicomte/vicomte" type="audio/mpeg">
-  </audio>
 </body>
 </html>
