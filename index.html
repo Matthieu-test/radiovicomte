@@ -69,6 +69,13 @@
       background-repeat: no-repeat;
       background-size: cover;
     }
+    .audio-equalizer-bar {
+      animation: bounce 1.2s infinite ease-in-out alternate;
+    }
+    @keyframes bounce {
+      0% { height: 4px; }
+      100% { height: 16px; }
+    }
   </style>
 </head>
 <body class="bg-halle-meyssac text-vicomte-chocolat font-sans antialiased selection:bg-vicomte-brique selection:text-white min-h-screen flex flex-col">
@@ -338,7 +345,7 @@
         </div>
       </div>
 
-      <!-- TAB 7: PHOTOS (Géré dynamiquement par JS) -->
+      <!-- TAB 7: PHOTOS (GÉRÉ DYNAMIQUEMENT) -->
       <div id="pub-view-photos" class="space-y-6 hidden">
         <div class="border-b-2 border-vicomte-sable pb-3">
           <h2 class="font-display font-black text-2xl text-vicomte-brique">Galerie Photos & Vie du Studio</h2>
@@ -613,7 +620,8 @@
     </div>
   </div>
 
-  <!-- MODALS DU DASHBOARD -->
+  <!-- MODALS -->
+  <!-- MODAL GRILLE -->
   <div id="slot-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
@@ -625,7 +633,13 @@
         <div>
           <label class="block mb-1 text-gray-300 font-bold">Jour *</label>
           <select id="slot-input-day" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
-            <option value="Lundi">Lundi</option><option value="Mardi">Mardi</option><option value="Mercredi">Mercredi</option><option value="Jeudi">Jeudi</option><option value="Vendredi">Vendredi</option><option value="Samedi">Samedi</option><option value="Dimanche">Dimanche</option>
+            <option value="Lundi">Lundi</option>
+            <option value="Mardi">Mardi</option>
+            <option value="Mercredi">Mercredi</option>
+            <option value="Jeudi">Jeudi</option>
+            <option value="Vendredi">Vendredi</option>
+            <option value="Samedi">Samedi</option>
+            <option value="Dimanche">Dimanche</option>
           </select>
         </div>
         <div class="grid grid-cols-2 gap-3">
@@ -658,7 +672,82 @@
     </div>
   </div>
 
-  <!-- MODAL GESTION PHOTO -->
+  <!-- MODAL ÉMISSIONS -->
+  <div id="emission-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
+      <div class="flex justify-between items-center border-b border-admin-border pb-3">
+        <h3 class="font-bold text-sm text-white" id="emission-modal-title">Modifier l'Émission</h3>
+        <button onclick="closeEmissionModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+      </div>
+      <form onsubmit="handleEmissionFormSubmit(event)" class="space-y-3">
+        <input type="hidden" id="em-edit-index" value="-1">
+        <div>
+          <label class="block mb-1 text-gray-400 font-bold">Titre de l'émission *</label>
+          <input type="text" id="em-input-title" required placeholder="Ex: Les Matinales Corréziennes" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-400 font-bold">Animateur(s) *</label>
+          <input type="text" id="em-input-host" required placeholder="Ex: Jean-Pierre & Élodie" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
+        </div>
+        <div class="space-y-2">
+          <label class="block text-gray-400 font-bold">Photo / Image (Optionnel)</label>
+          <div class="bg-admin-bg border border-admin-border rounded-xl p-2.5 flex items-center space-x-3">
+            <label class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3.5 py-1.5 rounded-lg cursor-pointer transition text-xs">
+              Choisir un fichier
+              <input type="file" id="em-input-file" accept="image/*" class="hidden" onchange="handleEmissionFileSelect(event)">
+            </label>
+            <span id="em-file-name" class="text-gray-400 text-xs">Aucun fichier choisi</span>
+          </div>
+          <input type="text" id="em-input-img" placeholder="Ou coller un lien URL d'image (https://...)" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-400 font-bold">Description courte *</label>
+          <textarea id="em-input-desc" required rows="3" placeholder="Description de l'émission..." class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></textarea>
+        </div>
+        <div class="flex justify-end space-x-2 pt-2 border-t border-admin-border">
+          <button type="button" onclick="closeEmissionModal()" class="px-4 py-2 bg-admin-bg hover:bg-admin-border text-gray-300 rounded-xl">Annuler</button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL REPLAYS -->
+  <div id="replay-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
+      <div class="flex justify-between items-center border-b border-admin-border pb-3">
+        <h3 class="font-bold text-sm text-white" id="replay-modal-title">Éditer le Replay</h3>
+        <button onclick="closeReplayModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+      </div>
+      <form onsubmit="handleReplayFormSubmit(event)" class="space-y-3">
+        <input type="hidden" id="rep-edit-index" value="-1">
+        <div>
+          <label class="block mb-1 text-gray-400 font-bold">Titre du Replay / Episode *</label>
+          <input type="text" id="rep-input-title" required placeholder="Ex: Interview du Maire de Meyssac" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-400 font-bold">Nom de l'émission *</label>
+          <input type="text" id="rep-input-show" required placeholder="Ex: Les Matinales" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block mb-1 text-gray-400 font-bold">Date de diffusion *</label>
+            <input type="text" id="rep-input-date" required placeholder="Ex: 28 Oct 2026" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
+          </div>
+          <div>
+            <label class="block mb-1 text-gray-400 font-bold">Durée *</label>
+            <input type="text" id="rep-input-duration" required placeholder="Ex: 25 min" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
+          </div>
+        </div>
+        <div class="flex justify-end space-x-2 pt-2 border-t border-admin-border">
+          <button type="button" onclick="closeReplayModal()" class="px-4 py-2 bg-admin-bg hover:bg-admin-border text-gray-300 rounded-xl">Annuler</button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL GESTION PHOTOS -->
   <div id="photo-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
@@ -690,6 +779,35 @@
     </div>
   </div>
 
+  <!-- MODAL PRESSE -->
+  <div id="presse-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
+      <div class="flex justify-between items-center border-b border-admin-border pb-3">
+        <h3 class="font-bold text-base text-white" id="presse-modal-title">Article de Presse & Médias</h3>
+        <button onclick="closePresseModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+      </div>
+      <form onsubmit="handlePresseFormSubmit(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="prs-edit-index" value="-1">
+        <div>
+          <label class="block mb-1 text-gray-300 font-bold">Nom du Média / Journal *</label>
+          <input type="text" id="prs-input-source" required placeholder="Ex: La Montagne" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-300 font-bold">Titre de l'article *</label>
+          <input type="text" id="prs-input-title" required placeholder="Ex: Radio Vicomté célèbre ses nouveaux locaux" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-300 font-bold">Texte / Extrait *</label>
+          <textarea id="prs-input-snippet" required rows="3" placeholder="Résumé de l'article..." class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500"></textarea>
+        </div>
+        <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
+          <button type="button" onclick="closePresseModal()" class="px-5 py-2 bg-admin-bg hover:bg-admin-border border border-admin-border text-gray-300 rounded-xl font-bold">Annuler</button>
+          <button type="submit" class="px-6 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl shadow-lg">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- MODAL LIGHTBOX PHOTO PLEIN ÉCRAN -->
   <div id="photo-lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex flex-col items-center justify-center p-4 cursor-pointer" onclick="closePhotoLightbox()">
     <button onclick="closePhotoLightbox()" class="absolute top-5 right-5 text-white hover:text-vicomte-dorure text-3xl font-bold transition focus:outline-none">
@@ -709,6 +827,7 @@
     let currentAdminDay = "Jeudi";
     let isPlayingAudio = false;
 
+    // Données initiales par défaut
     const DEFAULT_GRILLE = {
       "Lundi": [{ horaire: "07:00 - 09:30", emission: "Les Matinales Corréziennes", animateur: "Jean-Pierre & Élodie", description: "L'actu locale, la météo et la bonne humeur du matin." }],
       "Mardi": [{ horaire: "08:00 - 10:00", emission: "La Matinale Melloise", animateur: "Élodie", description: "Découverte des artisans de la région." }],
@@ -724,7 +843,7 @@
 
     const DEFAULT_EMISSIONS = [
       { id: 1, title: "Les Matinales Corréziennes", host: "Jean-Pierre & Élodie", desc: "Le rendez-vous incontournable pour bien commencer la journée en Corrèze.", img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop" },
-      { id: 2, title: "Le Hit Parade de Meyssac", host: "Marc", desc: "Le classement hebdomadaire voté par les auditeurs du 103.9 FM.", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500&auto=format&fit=crop" }
+      { id: 2, title: "Le Hit Parade de Meyssac", host: "Marc", desc: "Le classement hebdomadaire voté par nos auditeurs.", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500&auto=format&fit=crop" }
     ];
 
     const DEFAULT_REPLAYS = [
@@ -745,6 +864,7 @@
       { id: 3, caption: "Directs extérieurs à Meyssac", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&auto=format&fit=crop" }
     ];
 
+    // Initialisation du Stockage Local
     function initDatabase() {
       if (!localStorage.getItem('rv_grille')) localStorage.setItem('rv_grille', JSON.stringify(DEFAULT_GRILLE));
       if (!localStorage.getItem('rv_emissions')) localStorage.setItem('rv_emissions', JSON.stringify(DEFAULT_EMISSIONS));
@@ -757,6 +877,7 @@
     function getData(key) { initDatabase(); return JSON.parse(localStorage.getItem(key)); }
     function setData(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 
+    // Navigation Onglets Publics
     function switchPublicTab(tabId) {
       document.querySelectorAll('main > div').forEach(el => el.classList.add('hidden'));
       const target = document.getElementById(`pub-view-${tabId}`);
@@ -780,11 +901,12 @@
       if (tabId === 'photos') renderPublicPhotos();
     }
 
+    // GESTION ET AFFICHAGE PUBLIC PHOTOS & LIGHTBOX
     function renderPublicPhotos() {
       const container = document.getElementById('public-photos-grid');
       if (!container) return;
       const photos = getData('rv_photos');
-      
+
       if (photos.length === 0) {
         container.innerHTML = `<p class="col-span-3 text-center text-gray-500 text-xs italic py-6">Aucune photo dans la galerie.</p>`;
         return;
@@ -828,14 +950,17 @@
       if (e.key === 'Escape') closePhotoLightbox();
     });
 
+    // ADMIN: GESTION DE LA GALERIE PHOTOS (CRUD)
     function renderAdminPhotos() {
       const container = document.getElementById('admin-photos-list');
       if (!container) return;
       const list = getData('rv_photos');
+
       if (list.length === 0) {
         container.innerHTML = `<p class="col-span-2 text-center text-gray-500 text-xs italic py-6">Aucune photo enregistrée.</p>`;
         return;
       }
+
       container.innerHTML = list.map((p, idx) => `
         <div class="bg-admin-bg p-3.5 rounded-xl border border-admin-border flex justify-between items-center">
           <div class="flex items-center space-x-3 pr-2">
@@ -843,20 +968,24 @@
             <span class="font-bold text-white text-xs">${p.caption}</span>
           </div>
           <div class="flex items-center space-x-2 flex-shrink-0">
-            <button onclick="editPhoto(${idx})" class="p-1.5 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button onclick="deletePhoto(${idx})" class="p-1.5 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="editPhoto(${idx})" class="p-1.5 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition" title="Modifier"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onclick="deletePhoto(${idx})" class="p-1.5 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition" title="Supprimer"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
       `).join('');
     }
 
     let loadedPhotoBase64 = "";
+
     function handlePhotoFileSelect(event) {
       const file = event.target.files[0];
       if (file) {
         document.getElementById('pho-file-name').innerText = file.name;
         const reader = new FileReader();
-        reader.onload = function(e) { loadedPhotoBase64 = e.target.result; showToast("Image chargée !"); };
+        reader.onload = function(e) {
+          loadedPhotoBase64 = e.target.result;
+          showToast("Image chargée !");
+        };
         reader.readAsDataURL(file);
       }
     }
@@ -866,6 +995,7 @@
       loadedPhotoBase64 = "";
       document.getElementById('pho-file-name').innerText = "Aucun fichier choisi";
       if (document.getElementById('pho-input-file')) document.getElementById('pho-input-file').value = "";
+
       if (idx >= 0) {
         const list = getData('rv_photos');
         const p = list[idx];
@@ -880,7 +1010,9 @@
       document.getElementById('photo-modal').classList.remove('hidden');
     }
 
-    function closePhotoModal() { document.getElementById('photo-modal').classList.add('hidden'); }
+    function closePhotoModal() {
+      document.getElementById('photo-modal').classList.add('hidden');
+    }
 
     function handlePhotoFormSubmit(event) {
       event.preventDefault();
@@ -888,11 +1020,20 @@
       const caption = document.getElementById('pho-input-caption').value;
       const urlImg = document.getElementById('pho-input-url').value;
       const img = loadedPhotoBase64 || urlImg;
-      if (!img) { showToast("Veuillez choisir un fichier ou une URL.", "fa-triangle-exclamation"); return; }
+
+      if (!img) {
+        showToast("Veuillez choisir un fichier ou une URL.", "fa-triangle-exclamation");
+        return;
+      }
 
       const list = getData('rv_photos');
-      if (idx >= 0) { list[idx] = { ...list[idx], caption, img }; showToast("Photo modifiée !"); }
-      else { list.push({ id: Date.now(), caption, img }); showToast("Photo ajoutée !"); }
+      if (idx >= 0) {
+        list[idx] = { ...list[idx], caption, img };
+        showToast("Photo modifiée !");
+      } else {
+        list.push({ id: Date.now(), caption, img });
+        showToast("Photo ajoutée !");
+      }
 
       setData('rv_photos', list);
       closePhotoModal();
@@ -901,6 +1042,7 @@
     }
 
     function editPhoto(idx) { openPhotoModal(idx); }
+
     function deletePhoto(idx) {
       const list = getData('rv_photos');
       list.splice(idx, 1);
@@ -910,6 +1052,7 @@
       showToast("Photo supprimée.");
     }
 
+    // AUTRES RENDUS ET GESTION (Grille, Émissions, Replays, Dédicaces, Presse)
     function renderPublicGrille() {
       const dayBtns = document.getElementById('public-day-buttons');
       if (dayBtns) {
@@ -920,9 +1063,11 @@
       const timeline = document.getElementById('public-grille-timeline');
       const titleText = document.getElementById('grille-title-text');
       if (titleText) titleText.innerText = `Planning du ${currentPublicDay}`;
+
       const data = getData('rv_grille');
       const slots = data[currentPublicDay] || [];
       if (!timeline) return;
+
       timeline.innerHTML = slots.length === 0 ? `<div class="text-center py-10 text-gray-500 italic text-xs">Aucun programme.</div>` : slots.map(s => `
         <div class="p-4 rounded-2xl bg-vicomte-sableLight border border-vicomte-sable/80 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
@@ -941,7 +1086,7 @@
       if (!container) return;
       container.innerHTML = getData('rv_emissions').map(e => `
         <div class="bg-white rounded-3xl overflow-hidden border border-vicomte-sable shadow-md flex flex-col justify-between">
-          <img src="${e.img}" class="h-40 w-full object-cover">
+          <img src="${e.img || 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop'}" class="h-40 w-full object-cover">
           <div class="p-5 flex-grow space-y-2">
             <h3 class="font-display font-bold text-lg text-vicomte-chocolat">${e.title}</h3>
             <p class="text-xs font-semibold text-vicomte-brique"><i class="fa-solid fa-microphone mr-1"></i> ${e.host}</p>
@@ -959,7 +1104,7 @@
         <div class="bg-white p-4 rounded-2xl border border-vicomte-sable shadow-sm space-y-2">
           <div class="flex justify-between items-center text-[10px] text-vicomte-brique font-bold uppercase"><span>${r.show}</span><span>${r.date}</span></div>
           <h4 class="font-bold text-xs text-vicomte-chocolat">${r.title}</h4>
-          <button onclick="showToast('Lecture : ${r.title}')" class="w-full mt-2 bg-vicomte-sableLight text-vicomte-chocolat font-bold py-1.5 rounded-lg text-xs"><i class="fa-solid fa-circle-play text-vicomte-brique mr-1.5"></i> Écouter (${r.duration})</button>
+          <button onclick="showToast('Lecture : ${r.title}')" class="w-full mt-2 bg-vicomte-sableLight text-vicomte-chocolat font-bold py-1.5 rounded-lg text-xs"><i class="fa-solid fa-circle-play text-vicomte-brique mr-1.5"></i> Écouter (${r.duration || '20 min'})</button>
         </div>
       `).join('');
       if (homePreview) homePreview.innerHTML = replays.slice(0, 2).map(r => `
@@ -969,6 +1114,14 @@
           <button onclick="showToast('Lecture : ${r.title}')" class="text-xs text-vicomte-brique font-bold hover:underline flex items-center mt-1"><i class="fa-solid fa-play text-[10px] mr-1"></i> Écouter</button>
         </div>
       `).join('');
+    }
+
+    function filterPublicReplays() {
+      const term = document.getElementById('replay-search-input').value.toLowerCase();
+      const items = document.querySelectorAll('#public-replays-container > div');
+      items.forEach(it => {
+        it.style.display = it.innerText.toLowerCase().includes(term) ? 'block' : 'none';
+      });
     }
 
     function renderPublicDedicaces() {
@@ -1007,11 +1160,20 @@
       `).join('');
     }
 
+    // CONTROLES ADMIN & NAVIGATION
     function toggleAdminView(showAdmin) {
       const pubSite = document.getElementById('public-site');
       const adminSite = document.getElementById('admin-site');
-      if (showAdmin) { pubSite.classList.add('hidden'); adminSite.classList.remove('hidden'); document.body.classList.add('admin-mode'); }
-      else { adminSite.classList.add('hidden'); pubSite.classList.remove('hidden'); document.body.classList.remove('admin-mode'); switchPublicTab('home'); }
+      if (showAdmin) {
+        pubSite.classList.add('hidden');
+        adminSite.classList.remove('hidden');
+        document.body.classList.add('admin-mode');
+      } else {
+        adminSite.classList.add('hidden');
+        pubSite.classList.remove('hidden');
+        document.body.classList.remove('admin-mode');
+        switchPublicTab('home');
+      }
     }
 
     function handleLoginSubmit(e) {
@@ -1021,7 +1183,9 @@
         document.getElementById('admin-dashboard').classList.remove('hidden');
         renderAdminGrille();
         showToast("Connecté à l'administration !");
-      } else { showToast("Identifiants incorrects !", "fa-triangle-exclamation"); }
+      } else {
+        showToast("Identifiants incorrects !", "fa-triangle-exclamation");
+      }
     }
 
     function logoutAdmin() {
@@ -1041,7 +1205,10 @@
         btn.classList.add('bg-transparent', 'text-gray-300');
       });
       const activeBtn = document.getElementById(`adm-btn-${tabId}`);
-      if (activeBtn) { activeBtn.classList.add('bg-blue-600', 'text-white'); activeBtn.classList.remove('bg-transparent', 'text-gray-300'); }
+      if (activeBtn) {
+        activeBtn.classList.add('bg-blue-600', 'text-white');
+        activeBtn.classList.remove('bg-transparent', 'text-gray-300');
+      }
 
       if (tabId === 'grille') renderAdminGrille();
       if (tabId === 'emissions') renderAdminEmissions();
@@ -1051,6 +1218,7 @@
       if (tabId === 'presse') renderAdminPresse();
     }
 
+    // CRUD GRILLE
     function renderAdminGrille() {
       const container = document.getElementById('admin-day-buttons');
       if (container) {
@@ -1082,8 +1250,8 @@
       if (idx >= 0) {
         const s = getData('rv_grille')[currentAdminDay][idx];
         const times = (s.horaire || "08:00 - 09:30").split(" - ");
-        document.getElementById('slot-input-start').value = times[0];
-        document.getElementById('slot-input-end').value = times[1];
+        document.getElementById('slot-input-start').value = times[0] || "08:00";
+        document.getElementById('slot-input-end').value = times[1] || "09:30";
         document.getElementById('slot-input-emission').value = s.emission;
         document.getElementById('slot-input-animateur').value = s.animateur;
         document.getElementById('slot-input-desc').value = s.description;
@@ -1129,36 +1297,129 @@
       showToast("Créneau supprimé.");
     }
 
+    // CRUD ÉMISSIONS
     function renderAdminEmissions() {
       const container = document.getElementById('admin-emissions-list');
       if (!container) return;
       container.innerHTML = getData('rv_emissions').map((e, idx) => `
         <div class="bg-admin-bg p-4 rounded-xl border border-admin-border flex justify-between items-center">
           <div><h4 class="font-bold text-white text-xs">${e.title}</h4><p class="text-[11px] text-blue-400">${e.host}</p></div>
-          <button onclick="deleteEmission(${idx})" class="text-red-400"><i class="fa-solid fa-trash"></i></button>
+          <div class="space-x-2">
+            <button onclick="editEmission(${idx})" class="text-blue-400"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onclick="deleteEmission(${idx})" class="text-red-400"><i class="fa-solid fa-trash"></i></button>
+          </div>
         </div>
       `).join('');
     }
+    let loadedEmissionImageBase64 = "";
+    function handleEmissionFileSelect(e) {
+      const file = e.target.files[0];
+      if (file) {
+        document.getElementById('em-file-name').innerText = file.name;
+        const reader = new FileReader();
+        reader.onload = (ev) => { loadedEmissionImageBase64 = ev.target.result; showToast("Image chargée !"); };
+        reader.readAsDataURL(file);
+      }
+    }
+    function openEmissionModal(idx = -1) {
+      document.getElementById('em-edit-index').value = idx;
+      loadedEmissionImageBase64 = "";
+      document.getElementById('em-file-name').innerText = "Aucun fichier choisi";
+      if (idx >= 0) {
+        const e = getData('rv_emissions')[idx];
+        document.getElementById('em-input-title').value = e.title;
+        document.getElementById('em-input-host').value = e.host;
+        document.getElementById('em-input-img').value = e.img || '';
+        document.getElementById('em-input-desc').value = e.desc;
+      } else {
+        document.getElementById('em-input-title').value = '';
+        document.getElementById('em-input-host').value = '';
+        document.getElementById('em-input-img').value = '';
+        document.getElementById('em-input-desc').value = '';
+      }
+      document.getElementById('emission-modal').classList.remove('hidden');
+    }
+    function closeEmissionModal() { document.getElementById('emission-modal').classList.add('hidden'); }
+    function handleEmissionFormSubmit(e) {
+      e.preventDefault();
+      const idx = parseInt(document.getElementById('em-edit-index').value);
+      const title = document.getElementById('em-input-title').value;
+      const host = document.getElementById('em-input-host').value;
+      const img = loadedEmissionImageBase64 || document.getElementById('em-input-img').value;
+      const desc = document.getElementById('em-input-desc').value;
+
+      const list = getData('rv_emissions');
+      if (idx >= 0) list[idx] = { ...list[idx], title, host, img, desc };
+      else list.push({ id: Date.now(), title, host, img, desc });
+
+      setData('rv_emissions', list);
+      closeEmissionModal();
+      renderAdminEmissions();
+      renderPublicEmissions();
+      showToast("Émission enregistrée !");
+    }
+    function editEmission(idx) { openEmissionModal(idx); }
     function deleteEmission(idx) {
       const list = getData('rv_emissions'); list.splice(idx, 1);
       setData('rv_emissions', list); renderAdminEmissions(); renderPublicEmissions(); showToast("Supprimé.");
     }
 
+    // CRUD REPLAYS
     function renderAdminReplays() {
       const container = document.getElementById('admin-replays-list');
       if (!container) return;
       container.innerHTML = getData('rv_replays').map((r, idx) => `
         <div class="bg-admin-bg p-3.5 rounded-xl border border-admin-border flex justify-between items-center text-xs">
           <span class="font-bold text-white">${r.title}</span>
-          <button onclick="deleteReplay(${idx})" class="text-red-400"><i class="fa-solid fa-trash"></i></button>
+          <div class="space-x-2">
+            <button onclick="editReplay(${idx})" class="text-blue-400"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onclick="deleteReplay(${idx})" class="text-red-400"><i class="fa-solid fa-trash"></i></button>
+          </div>
         </div>
       `).join('');
     }
+    function openReplayModal(idx = -1) {
+      document.getElementById('rep-edit-index').value = idx;
+      if (idx >= 0) {
+        const r = getData('rv_replays')[idx];
+        document.getElementById('rep-input-title').value = r.title;
+        document.getElementById('rep-input-show').value = r.show;
+        document.getElementById('rep-input-date').value = r.date;
+        document.getElementById('rep-input-duration').value = r.duration || '20 min';
+      } else {
+        document.getElementById('rep-input-title').value = '';
+        document.getElementById('rep-input-show').value = '';
+        document.getElementById('rep-input-date').value = '';
+        document.getElementById('rep-input-duration').value = '20 min';
+      }
+      document.getElementById('replay-modal').classList.remove('hidden');
+    }
+    function closeReplayModal() { document.getElementById('replay-modal').classList.add('hidden'); }
+    function handleReplayFormSubmit(e) {
+      e.preventDefault();
+      const idx = parseInt(document.getElementById('rep-edit-index').value);
+      const title = document.getElementById('rep-input-title').value;
+      const show = document.getElementById('rep-input-show').value;
+      const date = document.getElementById('rep-input-date').value;
+      const duration = document.getElementById('rep-input-duration').value;
+
+      const list = getData('rv_replays');
+      if (idx >= 0) list[idx] = { ...list[idx], title, show, date, duration };
+      else list.unshift({ id: Date.now(), title, show, date, duration });
+
+      setData('rv_replays', list);
+      closeReplayModal();
+      renderAdminReplays();
+      renderPublicReplays();
+      showToast("Replay enregistré !");
+    }
+    function editReplay(idx) { openReplayModal(idx); }
     function deleteReplay(idx) {
       const list = getData('rv_replays'); list.splice(idx, 1);
       setData('rv_replays', list); renderAdminReplays(); renderPublicReplays(); showToast("Supprimé.");
     }
 
+    // MODÉRATION DÉDICACES
     function renderAdminDedicaces() {
       const container = document.getElementById('admin-dedicaces-list');
       if (!container) return;
@@ -1181,21 +1442,59 @@
       setData('rv_dedicaces', list); renderAdminDedicaces(); renderPublicDedicaces(); showToast("Supprimé.");
     }
 
+    // CRUD PRESSE
     function renderAdminPresse() {
       const container = document.getElementById('admin-presse-list');
       if (!container) return;
       container.innerHTML = getData('rv_presse').map((p, idx) => `
         <div class="bg-admin-bg p-3.5 rounded-xl border border-admin-border flex justify-between items-center text-xs">
           <span class="font-bold text-white">${p.title} (${p.source})</span>
-          <button onclick="deletePresse(${idx})" class="text-red-400"><i class="fa-solid fa-trash"></i></button>
+          <div class="space-x-2">
+            <button onclick="editPresse(${idx})" class="text-blue-400"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onclick="deletePresse(${idx})" class="text-red-400"><i class="fa-solid fa-trash"></i></button>
+          </div>
         </div>
       `).join('');
     }
+    function openPresseModal(idx = -1) {
+      document.getElementById('prs-edit-index').value = idx;
+      if (idx >= 0) {
+        const p = getData('rv_presse')[idx];
+        document.getElementById('prs-input-source').value = p.source;
+        document.getElementById('prs-input-title').value = p.title;
+        document.getElementById('prs-input-snippet').value = p.snippet;
+      } else {
+        document.getElementById('prs-input-source').value = '';
+        document.getElementById('prs-input-title').value = '';
+        document.getElementById('prs-input-snippet').value = '';
+      }
+      document.getElementById('presse-modal').classList.remove('hidden');
+    }
+    function closePresseModal() { document.getElementById('presse-modal').classList.add('hidden'); }
+    function handlePresseFormSubmit(e) {
+      e.preventDefault();
+      const idx = parseInt(document.getElementById('prs-edit-index').value);
+      const source = document.getElementById('prs-input-source').value;
+      const title = document.getElementById('prs-input-title').value;
+      const snippet = document.getElementById('prs-input-snippet').value;
+
+      const list = getData('rv_presse');
+      if (idx >= 0) list[idx] = { ...list[idx], source, title, snippet };
+      else list.unshift({ id: Date.now(), source, title, snippet });
+
+      setData('rv_presse', list);
+      closePresseModal();
+      renderAdminPresse();
+      renderPublicPresse();
+      showToast("Article enregistré !");
+    }
+    function editPresse(idx) { openPresseModal(idx); }
     function deletePresse(idx) {
       const list = getData('rv_presse'); list.splice(idx, 1);
       setData('rv_presse', list); renderAdminPresse(); renderPublicPresse(); showToast("Supprimé.");
     }
 
+    // AUDIO STREAM
     function toggleAudioStream() {
       isPlayingAudio = !isPlayingAudio;
       const icon = document.getElementById('header-play-icon');
@@ -1216,6 +1515,7 @@
       }
     }
 
+    // TOAST NOTIFICATION
     function showToast(msg, iconClass = "fa-circle-check") {
       const toast = document.getElementById('toast-notification');
       const icon = document.getElementById('toast-icon');
@@ -1244,3 +1544,10 @@
   </audio>
 </body>
 </html>
+```
+
+### Synthèse des mises à jour effectuées :
+1. **Fichier autonome unique** : Intégration de Tailwind CSS, FontAwesome, Google Fonts, et des métadonnées `<head>` / `<!DOCTYPE html>`.
+2. **Onglet Admin "Gestion des Photos"** : Présent dans le menu admin avec sa vue de gestion, sa modale d'édition/ajout (support des fichiers locaux via FileReader Base64 ou d'URL web) et la suppression.
+3. **Galerie Publique synchronisée** : Reliée dynamiquement aux données du `localStorage`.
+4. **Lightbox Plein Écran** : Visionneuse d'images activée lorsqu'on clique sur n'importe quelle photo publique, avec animation de survol et légende contextuelle.
