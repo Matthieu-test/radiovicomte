@@ -63,7 +63,7 @@
       color: #E5E7EB;
     }
     .bg-halle-meyssac {
-      background-image: linear-gradient(rgba(247, 241, 225, 0.92), rgba(247, 241, 225, 0.92)), url('https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1600&auto=format&fit=crop');
+      background-image: linear-gradient(rgba(247, 241, 225, 0.88), rgba(247, 241, 225, 0.88)), url('https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1600&auto=format&fit=crop');
       background-attachment: fixed;
       background-position: center;
       background-repeat: no-repeat;
@@ -72,11 +72,6 @@
   </style>
 </head>
 <body class="bg-halle-meyssac text-vicomte-chocolat font-sans antialiased selection:bg-vicomte-brique selection:text-white min-h-screen flex flex-col">
-
-  <!-- Stream Audio Element -->
-  <audio id="radio-audio-stream" preload="none" crossorigin="anonymous">
-    <source src="https://sd-151888.dedibox.fr/proxy/vicomte/vicomte" type="audio/mpeg">
-  </audio>
 
   <!-- Notification Toast Box -->
   <div id="toast-notification" class="fixed bottom-5 right-5 z-50 bg-vicomte-chocolat text-white px-5 py-3 rounded-2xl shadow-2xl border-2 border-vicomte-dorure hidden transition-all duration-300 flex items-center space-x-3">
@@ -223,7 +218,6 @@
 
         <!-- BLOC ACCUEIL : PRESSE & DÉDICACES RÉCENTES -->
         <div class="grid md:grid-cols-2 gap-8 pt-4">
-          <!-- Derniers articles de Presse -->
           <div class="space-y-4">
             <div class="flex justify-between items-center border-b-2 border-vicomte-sable pb-2">
               <h3 class="font-display font-extrabold text-lg text-vicomte-brique flex items-center">
@@ -236,7 +230,6 @@
             <div class="space-y-3" id="home-presse-preview"></div>
           </div>
 
-          <!-- Dernières Dédicaces Validées -->
           <div class="space-y-4">
             <div class="flex justify-between items-center border-b-2 border-vicomte-sable pb-2">
               <h3 class="font-display font-extrabold text-lg text-vicomte-brique flex items-center">
@@ -291,8 +284,8 @@
           </div>
         </div>
 
-        <!-- Boutons Filtres par Sous-Catégories / Émissions -->
-        <div class="flex flex-wrap gap-2" id="public-replay-categories-filter"></div>
+        <!-- BARRE DE SOUS-CATÉGORIES / ÉMISSIONS -->
+        <div class="flex flex-wrap gap-2 pb-2 border-b border-vicomte-sable/60" id="public-podcast-categories"></div>
 
         <div class="grid md:grid-cols-3 gap-6" id="public-replays-container"></div>
       </div>
@@ -313,104 +306,130 @@
 
       <!-- TAB 6: PUBLICITÉS -->
       <div id="pub-view-pub" class="space-y-6 hidden">
-        <div class="border-b-2 border-vicomte-sable pb-3">
-          <h2 class="font-display font-black text-2xl text-vicomte-brique">Espace Publicitaire & Partenaires</h2>
-          <p class="text-xs text-gray-600">Faites rayonner votre entreprise ou votre association sur l'antenne et le site de Radio Vicomté.</p>
-        </div>
-
-        <!-- SECTION TARIFS & SPOTS RADIO : 3 COLONNES -->
-        <div class="space-y-4">
-          <h3 class="font-display font-bold text-lg text-vicomte-brique flex items-center">
-            <i class="fa-solid fa-bullhorn text-vicomte-dorure mr-2"></i> Spots Radio 103.9 FM & Formules d'Annonce
-          </h3>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <!-- Colonne 1 : Associations - Campagne Unique -->
-            <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-vicomte-sable flex flex-col justify-between space-y-4 hover:shadow-xl transition">
-              <div class="space-y-3">
-                <div class="bg-vicomte-brique text-white px-3 py-1 rounded-xl text-center">
-                  <h4 class="font-display font-bold text-sm tracking-wider uppercase">Associations</h4>
-                  <p class="text-[10px] text-vicomte-sable font-medium">Campagne publicitaire unique</p>
-                </div>
-                
-                <ul class="text-xs text-gray-700 space-y-2 pt-2">
-                  <li class="flex items-start"><i class="fa-solid fa-check text-vicomte-brique mt-0.5 mr-2 text-[10px]"></i> <span><strong>35 messages</strong> par semaine</span></li>
-                  <li class="flex items-start"><i class="fa-solid fa-microphone text-vicomte-brique mt-0.5 mr-2 text-[10px]"></i> <span>Possibilité de venir <strong>en direct</strong> parler de la manifestation</span></li>
-                  <li class="flex items-start"><i class="fa-solid fa-podcast text-vicomte-brique mt-0.5 mr-2 text-[10px]"></i> <span>Replay de l'émission disponible sur le site</span></li>
-                </ul>
-              </div>
-
-              <div class="pt-4 border-t border-vicomte-sable/60 text-center space-y-1">
-                <p class="text-xs font-bold text-vicomte-chocolat">Tarif</p>
-                <p class="text-3xl font-display font-black text-vicomte-brique">40 <span class="text-lg">€</span></p>
-                <p class="text-[10px] text-gray-500 italic">* Tarif préférentiel aux associations dont communes partenaires</p>
-              </div>
-            </div>
-
-            <!-- Colonne 2 : Associations - Campagne Annuelle -->
-            <div class="bg-white rounded-3xl p-6 shadow-lg border-2 border-vicomte-dorure flex flex-col justify-between space-y-4 relative overflow-hidden hover:shadow-xl transition">
-              <div class="absolute -right-8 -top-8 bg-vicomte-dorure text-vicomte-chocolat text-[9px] font-black uppercase px-8 py-2 transform rotate-45">Populaire</div>
-
-              <div class="space-y-3">
-                <div class="bg-vicomte-chocolat text-vicomte-dorure px-3 py-1 rounded-xl text-center">
-                  <h4 class="font-display font-bold text-sm tracking-wider uppercase">Associations</h4>
-                  <p class="text-[10px] text-white font-medium">Campagne publicitaire annuelle</p>
-                </div>
-                
-                <ul class="text-xs text-gray-700 space-y-2 pt-2">
-                  <li class="flex items-start"><li class="flex items-start"><i class="fa-solid fa-star text-vicomte-dorure mt-0.5 mr-2 text-[10px]"></i> <span>Nombre de manifestations <strong>illimitées</strong></span></li>
-                  <li class="flex items-start"><i class="fa-solid fa-bullhorn text-vicomte-brique mt-0.5 mr-2 text-[10px]"></i> <span><strong>35 messages</strong> par semaine pour chaque évènement</span></li>
-                  <li class="flex items-start"><i class="fa-solid fa-microphone text-vicomte-brique mt-0.5 mr-2 text-[10px]"></i> <span>Possibilité de venir <strong>en direct</strong> parler de chaque manifestation</span></li>
-                  <li class="flex items-start"><i class="fa-solid fa-podcast text-vicomte-brique mt-0.5 mr-2 text-[10px]"></i> <span>Replay de l'émission disponible sur le site</span></li>
-                </ul>
-              </div>
-
-              <div class="pt-4 border-t border-vicomte-sable/60 text-center space-y-1">
-                <p class="text-xs font-bold text-vicomte-chocolat">Tarif</p>
-                <p class="text-3xl font-display font-black text-vicomte-brique">70 <span class="text-lg">€</span></p>
-                <p class="text-[10px] text-gray-500 italic">* Tarif préférentiel aux associations dont communes partenaires</p>
-              </div>
-            </div>
-
-            <!-- Colonne 3 : Entreprises -->
-            <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-vicomte-sable flex flex-col justify-between space-y-4 hover:shadow-xl transition">
-              <div class="space-y-3">
-                <div class="bg-vicomte-terre text-white px-3 py-1 rounded-xl text-center">
-                  <h4 class="font-display font-bold text-sm tracking-wider uppercase">Entreprises</h4>
-                  <p class="text-[10px] text-vicomte-sable font-medium">Commerçants, Artisans, Auto-entrepreneurs...</p>
-                </div>
-                
-                <p class="text-xs font-semibold text-vicomte-chocolat border-b border-vicomte-sable/40 pb-1">Pour vos opérations :</p>
-                <ul class="text-xs text-gray-700 space-y-1.5">
-                  <li class="flex items-center"><i class="fa-solid fa-tag text-vicomte-brique mr-2 text-[10px]"></i> <span>Commerciales</span></li>
-                  <li class="flex items-center"><i class="fa-solid fa-percent text-vicomte-brique mr-2 text-[10px]"></i> <span>Promotions</span></li>
-                  <li class="flex items-center"><i class="fa-solid fa-door-open text-vicomte-brique mr-2 text-[10px]"></i> <span>Ouvertures spéciales</span></li>
-                  <li class="flex items-center text-gray-500 italic"><span>et bien plus...</span></li>
-                </ul>
-              </div>
-
-              <div class="pt-4 border-t border-vicomte-sable/60 text-center space-y-1">
-                <p class="text-xs font-bold text-vicomte-chocolat">Tarif</p>
-                <p class="text-xl font-display font-black text-vicomte-brique uppercase">Nous consulter</p>
-                <p class="text-[10px] text-gray-500 italic">* Une étude selon vos besoins vous sera proposée</p>
-              </div>
-            </div>
-
+        <div class="border-b-2 border-vicomte-sable pb-3 flex items-center space-x-3">
+          <i class="fa-solid fa-bullhorn text-vicomte-brique text-xl"></i>
+          <div>
+            <h2 class="font-display font-black text-2xl text-vicomte-brique">Spots Radio 103.9 FM & Formules d'Annonce</h2>
+            <p class="text-xs text-gray-600">Faites rayonner votre entreprise ou votre association sur l'antenne de Radio Vicomté.</p>
           </div>
         </div>
 
-        <!-- BLOC SECONDAIRE : SPONSORING WEB & DEVIS -->
-        <div class="bg-white rounded-3xl p-6 shadow-md border border-vicomte-sable flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div class="space-y-1">
-            <h3 class="font-display font-bold text-base text-vicomte-brique flex items-center">
-              <i class="fa-solid fa-rectangle-ad text-vicomte-dorure mr-2"></i> Bannières & Sponsoring Web
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable flex flex-col justify-between space-y-6 relative overflow-hidden">
+            <div class="space-y-4">
+              <div class="bg-[#8C2B1D] text-white rounded-2xl py-3 px-4 text-center shadow-md border border-amber-600/30">
+                <h3 class="font-display font-black text-sm tracking-widest uppercase">Associations</h3>
+                <p class="text-[10px] text-vicomte-sable italic">Campagne publicitaire unique</p>
+              </div>
+
+              <div class="space-y-3 text-xs text-gray-700 pt-2">
+                <p class="flex items-start space-x-2.5">
+                  <i class="fa-solid fa-check text-vicomte-brique mt-0.5 flex-shrink-0"></i>
+                  <span><strong class="text-vicomte-chocolat">35 messages</strong> par semaine</span>
+                </p>
+                <p class="flex items-start space-x-2.5">
+                  <i class="fa-solid fa-microphone text-vicomte-brique mt-0.5 flex-shrink-0"></i>
+                  <span>Possibilité de venir <strong class="text-vicomte-chocolat">en direct</strong> parler de la manifestation</span>
+                </p>
+                <p class="flex items-start space-x-2.5">
+                  <i class="fa-solid fa-podcast text-vicomte-brique mt-0.5 flex-shrink-0"></i>
+                  <span>Replay de l'émission disponible sur le site</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-vicomte-sable text-center space-y-1">
+              <span class="text-[10px] uppercase tracking-widest font-bold text-gray-400 block">Tarif</span>
+              <div class="font-display font-black text-3xl text-vicomte-brique">40 <span class="text-xl">€</span></div>
+              <p class="text-[9px] text-gray-500 italic pt-1">* Tarif préférentiel aux associations dont communes partenaires</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-dorure flex flex-col justify-between space-y-6 relative overflow-hidden ring-2 ring-vicomte-dorure/30">
+            <div class="absolute top-0 right-0 bg-vicomte-dorure w-12 h-12 transform rotate-45 translate-x-6 -translate-y-6 shadow-sm"></div>
+
+            <div class="space-y-4">
+              <div class="bg-[#2C1810] text-vicomte-sable rounded-2xl py-3 px-4 text-center shadow-md border border-vicomte-dorure/40">
+                <h3 class="font-display font-black text-sm tracking-widest uppercase text-vicomte-dorure">Associations</h3>
+                <p class="text-[10px] text-gray-300 italic">Campagne publicitaire annuelle</p>
+              </div>
+
+              <div class="space-y-3 text-xs text-gray-700 pt-2">
+                <p class="flex items-start space-x-2.5">
+                  <i class="fa-solid fa-star text-vicomte-dorure mt-0.5 flex-shrink-0"></i>
+                  <span>Nombre de manifestations <strong class="text-vicomte-chocolat">illimitées</strong></span>
+                </p>
+                <p class="flex items-start space-x-2.5">
+                  <i class="fa-solid fa-bullhorn text-vicomte-brique mt-0.5 flex-shrink-0"></i>
+                  <span><strong class="text-vicomte-chocolat">35 messages</strong> par semaine pour chaque évènement</span>
+                </p>
+                <p class="flex items-start space-x-2.5">
+                  <i class="fa-solid fa-microphone text-vicomte-brique mt-0.5 flex-shrink-0"></i>
+                  <span>Possibilité de venir <strong class="text-vicomte-chocolat">en direct</strong> parler de chaque manifestation</span>
+                </p>
+                <p class="flex items-start space-x-2.5">
+                  <i class="fa-solid fa-podcast text-vicomte-brique mt-0.5 flex-shrink-0"></i>
+                  <span>Replay de l'émission disponible sur le site</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-vicomte-sable text-center space-y-1">
+              <span class="text-[10px] uppercase tracking-widest font-bold text-gray-400 block">Tarif</span>
+              <div class="font-display font-black text-3xl text-vicomte-brique">70 <span class="text-xl">€</span></div>
+              <p class="text-[9px] text-gray-500 italic pt-1">* Tarif préférentiel aux associations dont communes partenaires</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable flex flex-col justify-between space-y-6 relative overflow-hidden">
+            <div class="space-y-4">
+              <div class="bg-[#543629] text-white rounded-2xl py-3 px-4 text-center shadow-md border border-amber-600/30">
+                <h3 class="font-display font-black text-sm tracking-widest uppercase">Entreprises</h3>
+                <p class="text-[9px] text-vicomte-sable italic">Commerçants, Artisans, Auto-entrepreneurs...</p>
+              </div>
+
+              <div class="space-y-3 text-xs text-gray-700 pt-2">
+                <p class="font-bold text-vicomte-chocolat text-[11px]">Pour vos opérations :</p>
+                <div class="space-y-1.5 pl-1">
+                  <p class="flex items-center space-x-2">
+                    <i class="fa-solid fa-tag text-vicomte-brique text-[10px]"></i>
+                    <span>Commerciales</span>
+                  </p>
+                  <p class="flex items-center space-x-2">
+                    <i class="fa-solid fa-percent text-vicomte-brique text-[10px]"></i>
+                    <span>Promotions</span>
+                  </p>
+                  <p class="flex items-center space-x-2">
+                    <i class="fa-solid fa-store text-vicomte-brique text-[10px]"></i>
+                    <span>Ouvertures spéciales</span>
+                  </p>
+                </div>
+                <p class="text-gray-500 italic text-[11px] pt-1">et bien plus...</p>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-vicomte-sable text-center space-y-1">
+              <span class="text-[10px] uppercase tracking-widest font-bold text-gray-400 block">Tarif</span>
+              <div class="font-display font-black text-lg md:text-xl text-vicomte-brique tracking-tight pt-1">NOUS CONSULTER</div>
+              <p class="text-[9px] text-gray-500 italic pt-1">* Une étude selon vos besoins vous sera proposée</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable flex flex-col md:flex-row justify-between items-center gap-6">
+          <div class="space-y-1 text-center md:text-left">
+            <h3 class="font-display font-bold text-base text-vicomte-brique flex items-center justify-center md:justify-start">
+              <span class="bg-vicomte-dorure text-vicomte-chocolat px-2 py-0.5 rounded text-[10px] font-black uppercase mr-2 shadow-sm">Ad</span>
+              Bannières & Sponsoring Web
             </h3>
             <p class="text-xs text-gray-600">Affichez votre logo et vos offres directement sur notre site web et nos réseaux sociaux.</p>
           </div>
-          <button onclick="switchPublicTab('contact')" class="bg-vicomte-brique hover:bg-vicomte-briqueDark text-white px-5 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer shadow whitespace-nowrap">
-            Demander un devis publicitaire
-          </button>
+          <div>
+            <button onclick="switchPublicTab('contact')" class="bg-vicomte-brique hover:bg-vicomte-briqueDark text-white px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-wider transition shadow-lg cursor-pointer">
+              Demander un devis publicitaire
+            </button>
+          </div>
         </div>
       </div>
 
@@ -499,7 +518,6 @@
   <!-- ========================================== -->
   <div id="admin-site" class="min-h-screen bg-admin-bg text-gray-200 hidden flex flex-col font-sans">
     
-    <!-- En-tête Admin -->
     <header class="bg-admin-card border-b border-admin-border px-6 py-4 flex flex-wrap justify-between items-center shadow-lg">
       <div class="flex items-center space-x-3">
         <div class="w-9 h-9 rounded-lg bg-vicomte-brique border border-vicomte-dorure flex items-center justify-center text-white font-bold">
@@ -521,7 +539,6 @@
       </div>
     </header>
 
-    <!-- Écran de Connexion Admin -->
     <div id="admin-login-screen" class="max-w-md mx-auto my-12 p-8 bg-admin-card border border-admin-border rounded-2xl shadow-2xl space-y-6 text-xs text-gray-200">
       <div class="text-center space-y-2">
         <div class="w-16 h-16 rounded-full bg-vicomte-brique border-2 border-vicomte-dorure mx-auto flex items-center justify-center text-white text-2xl shadow-lg">
@@ -557,7 +574,6 @@
     <!-- Tableau de Bord Admin -->
     <div id="admin-dashboard" class="hidden p-8 max-w-7xl mx-auto w-full space-y-6 flex-grow">
       
-      <!-- STATS HEADERS -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-admin-card border border-admin-border rounded-2xl p-5 flex justify-between items-center shadow-lg">
           <div>
@@ -587,7 +603,6 @@
         </div>
       </div>
 
-      <!-- ONGLETS DE L'ADMINISTRATION -->
       <div class="flex flex-wrap gap-2 bg-admin-card/50 p-1.5 rounded-2xl border border-admin-border" id="admin-nav-tabs">
         <button onclick="switchAdminTab('grille')" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold transition flex items-center shadow cursor-pointer" id="adm-btn-grille"><i class="fa-solid fa-calendar-days mr-2"></i> Grille des Programmes</button>
         <button onclick="switchAdminTab('emissions')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-emissions"><i class="fa-solid fa-radio mr-2 text-amber-500"></i> Émissions</button>
@@ -598,7 +613,7 @@
         <button onclick="switchAdminTab('passwords')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-passwords"><i class="fa-solid fa-user-gear mr-2 text-emerald-400"></i> Comptes & Mot de passe</button>
       </div>
 
-      <!-- ADMIN TAB 1: GRILLE DES PROGRAMMES -->
+      <!-- ADMIN TAB 1: GRILLE -->
       <div id="adm-view-grille" class="bg-admin-card rounded-2xl border border-admin-border space-y-6 overflow-hidden shadow-xl">
         <div class="p-5 bg-admin-card border-b border-admin-border flex flex-wrap justify-between items-center gap-4">
           <div class="flex items-center space-x-3">
@@ -636,22 +651,31 @@
         <div class="grid md:grid-cols-2 gap-4" id="admin-emissions-list"></div>
       </div>
 
-      <!-- ADMIN TAB 3: REPLAYS -->
+      <!-- ADMIN TAB 3: REPLAYS & SOUS-CATÉGORIES -->
       <div id="adm-view-replays" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-admin-border pb-4 gap-4">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-admin-border pb-3">
           <div>
-            <h3 class="font-bold text-base text-white">Gestion des Podcasts / Replays & Sous-Catégories</h3>
-            <p class="text-xs text-gray-400">Gérez les émissions thématiques et les fichiers audio.</p>
+            <h3 class="font-bold text-base text-white">Gestion des Podcasts & Sous-Catégories</h3>
+            <p class="text-xs text-gray-400">Gérez vos sous-catégories/émissions et vos enregistrements réécoutables.</p>
           </div>
-          <div class="flex space-x-2">
-            <button onclick="openReplayCategoryModal()" class="bg-purple-700 hover:bg-purple-600 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
-              <i class="fa-solid fa-folder-plus mr-1.5"></i> Gérer les Sous-Catégories
+          <div class="flex flex-wrap gap-2">
+            <button onclick="openCategoryModal()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
+              <i class="fa-solid fa-tags mr-1.5"></i> Sous-Catégories
             </button>
             <button onclick="openReplayModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
               <i class="fa-solid fa-plus mr-1.5"></i> Ajouter un Replay
             </button>
           </div>
         </div>
+
+        <!-- LISTE DES SOUS-CATÉGORIES ACTIVES -->
+        <div class="bg-admin-bg p-4 rounded-xl border border-admin-border space-y-3">
+          <h4 class="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center">
+            <i class="fa-solid fa-folder-tree mr-2"></i> Sous-Catégories D'Émissions Configurees :
+          </h4>
+          <div class="flex flex-wrap gap-2" id="admin-categories-tags"></div>
+        </div>
+
         <div class="space-y-3" id="admin-replays-list"></div>
       </div>
 
@@ -664,7 +688,7 @@
         <div class="grid md:grid-cols-2 gap-4" id="admin-dedicaces-list"></div>
       </div>
 
-      <!-- ADMIN TAB 5: GESTION DES PHOTOS -->
+      <!-- ADMIN TAB 5: PHOTOS -->
       <div id="adm-view-photos" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
         <div class="flex justify-between items-center border-b border-admin-border pb-3">
           <h3 class="font-bold text-base text-white">Gestion de la Galerie Photos</h3>
@@ -704,6 +728,35 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- MODAL SOUS-CATÉGORIES PODCASTS -->
+  <div id="category-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-admin-card border border-admin-border w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
+      <div class="flex justify-between items-center border-b border-admin-border pb-3">
+        <h3 class="font-bold text-base text-white">Gérer les Sous-Catégories / Émissions</h3>
+        <button onclick="closeCategoryModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
+      </div>
+
+      <form onsubmit="handleAddCategory(event)" class="space-y-3">
+        <label class="block text-gray-300 font-bold">Ajouter une nouvelle sous-catégorie *</label>
+        <div class="flex gap-2">
+          <input type="text" id="new-cat-input" required placeholder="Ex: Les barastoles du morning" class="flex-grow bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+          <button type="submit" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-4 py-2 rounded-xl shadow cursor-pointer">
+            Ajouter
+          </button>
+        </div>
+      </form>
+
+      <div class="space-y-2 pt-2 border-t border-admin-border">
+        <label class="block text-gray-400 font-bold text-[11px] uppercase">Sous-Catégories Existantes :</label>
+        <div class="space-y-1.5 max-h-48 overflow-y-auto pr-1" id="categories-modal-list"></div>
+      </div>
+
+      <div class="flex justify-end pt-2">
+        <button onclick="closeCategoryModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Fermer</button>
+      </div>
     </div>
   </div>
 
@@ -762,11 +815,15 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block mb-1 text-gray-300 font-bold">Heure de début *</label>
-            <input type="text" id="slot-input-start" required placeholder="07:00" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+            <select id="slot-input-start" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+              <option value="00:00">00:00</option><option value="00:30">00:30</option><option value="01:00">01:00</option><option value="01:30">01:30</option><option value="02:00">02:00</option><option value="02:30">02:30</option><option value="03:00">03:00</option><option value="03:30">03:30</option><option value="04:00">04:00</option><option value="04:30">04:30</option><option value="05:00">05:00</option><option value="05:30">05:30</option><option value="06:00">06:00</option><option value="06:30">06:30</option><option value="07:00">07:00</option><option value="07:30">07:30</option><option value="08:00">08:00</option><option value="08:30">08:30</option><option value="09:00">09:00</option><option value="09:30">09:30</option><option value="10:00">10:00</option><option value="10:30">10:30</option><option value="11:00">11:00</option><option value="11:30">11:30</option><option value="12:00">12:00</option><option value="12:30">12:30</option><option value="13:00">13:00</option><option value="13:30">13:30</option><option value="14:00">14:00</option><option value="14:30">14:30</option><option value="15:00">15:00</option><option value="15:30">15:30</option><option value="16:00">16:00</option><option value="16:30">16:30</option><option value="17:00">17:00</option><option value="17:30">17:30</option><option value="18:00">18:00</option><option value="18:30">18:30</option><option value="19:00">19:00</option><option value="19:30">19:30</option><option value="20:00">20:00</option><option value="20:30">20:30</option><option value="21:00">21:00</option><option value="21:30">21:30</option><option value="22:00">22:00</option><option value="22:30">22:30</option><option value="23:00">23:00</option><option value="23:30">23:30</option>
+            </select>
           </div>
           <div>
             <label class="block mb-1 text-gray-300 font-bold">Heure de fin *</label>
-            <input type="text" id="slot-input-end" required placeholder="09:30" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+            <select id="slot-input-end" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+              <option value="00:00">00:00</option><option value="00:30">00:30</option><option value="01:00">01:00</option><option value="01:30">01:30</option><option value="02:00">02:00</option><option value="02:30">02:30</option><option value="03:00">03:00</option><option value="03:30">03:30</option><option value="04:00">04:00</option><option value="04:30">04:30</option><option value="05:00">05:00</option><option value="05:30">05:30</option><option value="06:00">06:00</option><option value="06:30">06:30</option><option value="07:00">07:00</option><option value="07:30">07:30</option><option value="08:00">08:00</option><option value="08:30">08:30</option><option value="09:00">09:00</option><option value="09:30">09:30</option><option value="10:00">10:00</option><option value="10:30">10:30</option><option value="11:00">11:00</option><option value="11:30">11:30</option><option value="12:00">12:00</option><option value="12:30">12:30</option><option value="13:00">13:00</option><option value="13:30">13:30</option><option value="14:00">14:00</option><option value="14:30">14:30</option><option value="15:00">15:00</option><option value="15:30">15:30</option><option value="16:00">16:00</option><option value="16:30">16:30</option><option value="17:00">17:00</option><option value="17:30">17:30</option><option value="18:00">18:00</option><option value="18:30">18:30</option><option value="19:00">19:00</option><option value="19:30">19:30</option><option value="20:00">20:00</option><option value="20:30">20:30</option><option value="21:00">21:00</option><option value="21:30">21:30</option><option value="22:00">22:00</option><option value="22:30">22:30</option><option value="23:00">23:00</option><option value="23:30">23:30</option>
+            </select>
           </div>
         </div>
         <div>
@@ -822,7 +879,7 @@
     </div>
   </div>
 
-  <!-- MODAL REPLAYS -->
+  <!-- MODAL REPLAYS (AVEC MENU DÉROULANT SOUS-CATÉGORIE) -->
   <div id="replay-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
@@ -835,12 +892,13 @@
           <label class="block mb-1 text-gray-300 font-bold">Titre du Replay *</label>
           <input type="text" id="rep-input-title" required placeholder="Ex: Interview Maire" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
         </div>
+
+        <!-- MENU DÉROULANT DES SOUS-CATÉGORIES -->
         <div>
           <label class="block mb-1 text-gray-300 font-bold">Sous-Catégorie / Émission *</label>
-          <select id="rep-input-show" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
-            <!-- Rempli dynamiquement -->
-          </select>
+          <select id="rep-input-show-select" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500"></select>
         </div>
+
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block mb-1 text-gray-300 font-bold">Date de diffusion *</label>
@@ -852,39 +910,21 @@
           </div>
         </div>
         <div class="space-y-2">
-          <label class="block text-gray-300 font-bold">Lien audio URL (https://...)</label>
-          <input type="text" id="rep-input-url" placeholder="https://..." class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+          <label class="block text-gray-300 font-bold">Fichier Audio ou Lien *</label>
+          <div class="bg-admin-bg border border-admin-border rounded-xl p-2.5 flex items-center space-x-3">
+            <label class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-3.5 py-1.5 rounded-lg cursor-pointer transition text-xs">
+              Choisir un fichier audio
+              <input type="file" id="rep-input-file" accept="audio/*" class="hidden" onchange="handleReplayFileSelect(event)">
+            </label>
+            <span id="rep-file-name" class="text-gray-400 text-xs">Aucun fichier choisi</span>
+          </div>
+          <input type="text" id="rep-input-url" placeholder="Ou coller un lien URL audio (https://...)" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
         </div>
         <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
           <button type="button" onclick="closeReplayModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button>
           <button type="submit" class="px-6 py-2 bg-purple-600 text-white font-bold rounded-xl shadow-lg cursor-pointer">Enregistrer</button>
         </div>
       </form>
-    </div>
-  </div>
-
-  <!-- MODAL GESTION DES SOUS-CATÉGORIES REPLAYS -->
-  <div id="replay-category-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-admin-card border border-admin-border w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
-      <div class="flex justify-between items-center border-b border-admin-border pb-3">
-        <h3 class="font-bold text-base text-white">Gérer les Sous-Catégories (Émissions)</h3>
-        <button onclick="closeReplayCategoryModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
-      </div>
-
-      <div class="space-y-3">
-        <div class="flex space-x-2">
-          <input type="text" id="new-category-name" placeholder="Nom de la nouvelle sous-catégorie..." class="flex-grow bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white text-xs">
-          <button onclick="addReplayCategory()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-4 py-2 rounded-xl transition cursor-pointer">Ajouter</button>
-        </div>
-
-        <div class="space-y-2 max-h-60 overflow-y-auto" id="admin-categories-list">
-          <!-- Rempli dynamiquement -->
-        </div>
-      </div>
-      
-      <div class="flex justify-end pt-3 border-t border-admin-border">
-        <button type="button" onclick="closeReplayCategoryModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Fermer</button>
-      </div>
     </div>
   </div>
 
@@ -935,8 +975,15 @@
           <input type="text" id="pho-input-caption" required placeholder="Ex: Studio Meyssac" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-pink-500">
         </div>
         <div class="space-y-2">
-          <label class="block text-gray-300 font-bold">Lien URL de l'image *</label>
-          <input type="text" id="pho-input-url" required placeholder="https://..." class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-pink-500">
+          <label class="block text-gray-300 font-bold">Source de l'image *</label>
+          <div class="bg-admin-bg border border-admin-border rounded-xl p-2.5 flex items-center space-x-3">
+            <label class="bg-pink-600 hover:bg-pink-500 text-white font-bold px-3.5 py-1.5 rounded-lg cursor-pointer transition text-xs">
+              Choisir un fichier
+              <input type="file" id="pho-input-file" accept="image/*" class="hidden" onchange="handlePhotoFileSelect(event)">
+            </label>
+            <span id="pho-file-name" class="text-gray-400 text-xs">Aucun fichier choisi</span>
+          </div>
+          <input type="text" id="pho-input-url" placeholder="Ou coller un lien URL d'image (https://...)" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-pink-500">
         </div>
         <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
           <button type="button" onclick="closePhotoModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button>
@@ -957,21 +1004,30 @@
     </div>
   </div>
 
-  <!-- SCRIPT JS COMPLET -->
+  <audio id="radio-audio-stream" src="https://sd-151888.dedibox.fr/proxy/vicomte/vicomte" preload="none"></audio>
+
+  <!-- SCRIPT JS PRINCIPAL -->
   <script>
     const DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
     let currentPublicDay = "Jeudi";
     let currentAdminDay = "Jeudi";
     let isPlayingAudio = false;
-    let selectedReplayCategory = "Tous";
+    let selectedPodcastCategory = "TOUS";
+
+    const DEFAULT_CATEGORIES = [
+      "Les barastoles du morning",
+      "Les Matinales",
+      "La Radio d'Ici",
+      "Interview Spéciale",
+      "Chansons Françaises"
+    ];
 
     const DEFAULT_GRILLE = {
       "Lundi": [{ horaire: "07:00 - 09:30", emission: "Les Matinales Corréziennes", animateur: "Jean-Pierre & Élodie", description: "L'actu locale, la météo et la bonne humeur du matin." }],
       "Mardi": [{ horaire: "08:00 - 10:00", emission: "La Matinale Melloise", animateur: "Élodie", description: "Découverte des artisans de la région." }],
       "Mercredi": [{ horaire: "14:00 - 16:00", emission: "Génération Jeunesse", animateur: "Lucas", description: "Hit-parade et nouveautés musicales." }],
       "Jeudi": [
-        { horaire: "07:00 - 09:30", emission: "Les Matinales Corréziennes", animateur: "Jean-Pierre & Élodie", description: "Réveil en douceur, météo locale, infos cantonales et musique." },
-        { horaire: "09:30 - 11:30", emission: "Le Hit Parade de Meyssac", animateur: "Marc", description: "Le classement des meilleures chansons du moment." }
+        { horaire: "09:30 - 11:30", emission: "Les Barastoles du morning", animateur: "Christian, André, Jean Marie", description: "Chronique et actualités de la matinale." }
       ],
       "Vendredi": [{ horaire: "20:00 - 22:00", emission: "Jazz & Bastides", animateur: "Michel", description: "Une sélection raffinée de jazz et blues." }],
       "Samedi": [{ horaire: "09:00 - 12:00", emission: "Le Marché de Meyssac en Direct", animateur: "Jean-Pierre", description: "Ambiance au cœur de la halle sous les granges." }],
@@ -979,14 +1035,13 @@
     };
 
     const DEFAULT_EMISSIONS = [
-      { id: 1, title: "Les Matinales Corréziennes", host: "Jean-Pierre & Élodie", desc: "Le rendez-vous incontournable pour bien commencer la journée en Corrèze.", img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop" },
-      { id: 2, title: "Le Hit Parade de Meyssac", host: "Marc", desc: "Le classement hebdomadaire voté par les auditeurs du 103.9 FM.", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500&auto=format&fit=crop" }
+      { id: 1, title: "Les Barastoles du morning", host: "Christian, André, Jean Marie", desc: "Humour, bonne humeur et actus du matin en Corrèze.", img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop" },
+      { id: 2, title: "La Radio d'Ici", host: "Jean-Pierre", desc: "L'actualité culturelle et associative du canton.", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500&auto=format&fit=crop" }
     ];
 
-    const DEFAULT_REPLAY_CATEGORIES = ["Les baristoles du morning", "Les Matinales", "La Radio d'Ici", "Le Hit Parade de Meyssac"];
-
     const DEFAULT_REPLAYS = [
-      { id: 1, title: "la radio d'ici", show: "Les baristoles du morning", date: "27/11/2027", duration: "25 min", audio: "" }
+      { id: 1, title: "la radio d'ici", show: "La Radio d'Ici", date: "27/10/2027", duration: "25 min", audio: "" },
+      { id: 2, title: "info locale", show: "Les Matinales", date: "28 OCTOBRE 2026", duration: "18 min", audio: "" }
     ];
 
     const DEFAULT_DEDICACES = [
@@ -999,14 +1054,13 @@
 
     const DEFAULT_PHOTOS = [
       { id: 1, caption: "Les régies du studio en direct", img: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&auto=format&fit=crop" },
-      { id: 2, caption: "Interviews d'invités régionaux", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&auto=format&fit=crop" },
-      { id: 3, caption: "Directs extérieurs à Meyssac", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&auto=format&fit=crop" }
+      { id: 2, caption: "Interviews d'invités régionaux", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&auto=format&fit=crop" }
     ];
 
     function initDatabase() {
+      if (!localStorage.getItem('rv_categories')) localStorage.setItem('rv_categories', JSON.stringify(DEFAULT_CATEGORIES));
       if (!localStorage.getItem('rv_grille')) localStorage.setItem('rv_grille', JSON.stringify(DEFAULT_GRILLE));
       if (!localStorage.getItem('rv_emissions')) localStorage.setItem('rv_emissions', JSON.stringify(DEFAULT_EMISSIONS));
-      if (!localStorage.getItem('rv_replay_categories')) localStorage.setItem('rv_replay_categories', JSON.stringify(DEFAULT_REPLAY_CATEGORIES));
       if (!localStorage.getItem('rv_replays')) localStorage.setItem('rv_replays', JSON.stringify(DEFAULT_REPLAYS));
       if (!localStorage.getItem('rv_dedicaces')) localStorage.setItem('rv_dedicaces', JSON.stringify(DEFAULT_DEDICACES));
       if (!localStorage.getItem('rv_presse')) localStorage.setItem('rv_presse', JSON.stringify(DEFAULT_PRESSE));
@@ -1016,70 +1070,112 @@
     function getData(key) { initDatabase(); return JSON.parse(localStorage.getItem(key)); }
     function setData(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 
-    // FLUX AUDIO STREAMING
+    function showToast(msg, iconClass = "fa-circle-check") {
+      const toast = document.getElementById('toast-notification');
+      const icon = document.getElementById('toast-icon');
+      const message = document.getElementById('toast-message');
+      if (toast && message) {
+        message.innerText = msg;
+        if (icon) icon.className = `fa-solid ${iconClass} text-vicomte-dorure text-lg`;
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 3500);
+      }
+    }
+
+    // GESTION LECTURE DU DIRECT ICECAST
     function toggleAudioStream() {
       const audio = document.getElementById('radio-audio-stream');
-      const icon = document.getElementById('header-play-icon');
-      const text = document.getElementById('header-play-text');
+      const headerIcon = document.getElementById('header-play-icon');
+      const headerText = document.getElementById('header-play-text');
       const bannerIcon = document.getElementById('banner-play-icon');
       const bannerText = document.getElementById('banner-play-text');
+
+      if (!audio) return;
 
       if (isPlayingAudio) {
         audio.pause();
         isPlayingAudio = false;
-        if (icon) icon.className = "fa-solid fa-play text-[10px]";
-        if (text) text.innerText = "Écouter la Radio";
-        if (bannerIcon) bannerIcon.className = "fa-solid fa-play mr-2 text-vicomte-brique";
-        if (bannerText) bannerText.innerText = "Écouter le Direct";
-        showToast("Flux audio mis en pause.");
+        resetAudioUI();
+        showToast("Direct mis en pause.");
       } else {
-        audio.play().then(() => {
-          isPlayingAudio = true;
-          if (icon) icon.className = "fa-solid fa-pause text-[10px]";
-          if (text) text.innerText = "Pause Direct";
-          if (bannerIcon) bannerIcon.className = "fa-solid fa-pause mr-2 text-vicomte-brique";
-          if (bannerText) bannerText.innerText = "Pause Direct";
-          showToast("Lecture du direct 103.9 FM lancée !");
-        }).catch(err => {
-          console.error(err);
-          showToast("Impossible de lancer le flux en direct.", "fa-triangle-exclamation");
+        // Arrêter d'éventuels replays en cours
+        document.querySelectorAll('audio').forEach(el => {
+          if (el.id !== 'radio-audio-stream') {
+            el.pause();
+            el.currentTime = 0;
+          }
         });
+
+        const streamUrl = "https://sd-151888.dedibox.fr/proxy/vicomte/vicomte";
+        if (audio.getAttribute('src') !== streamUrl) {
+          audio.setAttribute('src', streamUrl);
+        }
+
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            isPlayingAudio = true;
+            if (headerIcon) headerIcon.className = "fa-solid fa-pause text-[10px]";
+            if (headerText) headerText.innerText = "Pause";
+            if (bannerIcon) bannerIcon.className = "fa-solid fa-pause mr-2 text-vicomte-brique";
+            if (bannerText) bannerText.innerText = "En Pause";
+            showToast("Lecture du direct 103.9 FM...");
+          }).catch(error => {
+            if (error.name === 'AbortError') {
+              console.warn("Chargement audio interrompu.");
+              return;
+            }
+            console.error("Erreur direct :", error);
+            isPlayingAudio = false;
+            resetAudioUI();
+            showToast("Impossible de démarrer la lecture du direct.", "fa-triangle-exclamation");
+          });
+        }
       }
     }
 
-    // GESTION MODALE DÉDICACE AUDITEUR
-    function openDedicaceModal() {
-      const modal = document.getElementById('dedicace-modal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
+    function resetAudioUI() {
+      const headerIcon = document.getElementById('header-play-icon');
+      const headerText = document.getElementById('header-play-text');
+      const bannerIcon = document.getElementById('banner-play-icon');
+      const bannerText = document.getElementById('banner-play-text');
+      if (headerIcon) headerIcon.className = "fa-solid fa-play text-[10px]";
+      if (headerText) headerText.innerText = "Écouter la Radio";
+      if (bannerIcon) bannerIcon.className = "fa-solid fa-play mr-2 text-vicomte-brique";
+      if (bannerText) bannerText.innerText = "Écouter le Direct";
+    }
+
+    // INTERROGATION DU STATUT ICECAST DIRECT POUR AUDITEURS RÉELS
+    async function fetchIcecastListeners() {
+      const listenerCounter = document.getElementById('stat-listeners');
+      if (!listenerCounter) return;
+
+      try {
+        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://sd-151888.dedibox.fr/proxy/vicomte/status.xsl');
+        const response = await fetch(proxyUrl);
+        const html = await textOrNull(response);
+
+        if (html) {
+          const match = html.match(/Listeners\s*\(\s*current\s*\)\s*:\s*<\/td>\s*<td[^>]*>\s*(\d+)\s*<\/td>/i) ||
+                        html.match(/Listeners\s*\(\s*current\s*\)\s*:\s*(\d+)/i);
+          if (match && match[1]) {
+            listenerCounter.innerText = match[1];
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn("Impossible de récupérer les auditeurs Icecast via proxy CORS:", e);
       }
+      listenerCounter.innerText = "1";
     }
 
-    function closeDedicaceModal() {
-      const modal = document.getElementById('dedicace-modal');
-      if (modal) {
-        modal.classList.remove('flex');
-        modal.classList.add('hidden');
-      }
+    async function textOrNull(res) {
+      if (!res.ok) return null;
+      return await res.text();
     }
 
-    function submitDedicaceModal(e) {
-      e.preventDefault();
-      const sender = document.getElementById('modal-ded-sender').value;
-      const track = document.getElementById('modal-ded-track').value;
-      const msg = document.getElementById('modal-ded-msg').value;
-
-      const list = getData('rv_dedicaces');
-      list.unshift({ id: Date.now(), sender, track, msg, approved: false });
-      setData('rv_dedicaces', list);
-
-      e.target.reset();
-      closeDedicaceModal();
-      showToast("Dédicace envoyée au studio avec succès !");
-    }
-
-    // ACTUALISATION DU DIRECT
+    // ACCUEIL & COMPOSANTS
     function updateCurrentLiveShow() {
       const grille = getData('rv_grille');
       if (!grille) return;
@@ -1098,7 +1194,6 @@
         if (parts.length === 2) {
           const startParts = parts[0].split(":");
           const endParts = parts[1].split(":");
-          
           const startMins = parseInt(startParts[0]) * 60 + parseInt(startParts[1]);
           const endMins = parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
 
@@ -1119,14 +1214,14 @@
         if (liveTitle) liveTitle.innerText = activeSlot.emission.toUpperCase();
         if (liveTime) liveTime.innerText = activeSlot.horaire;
         if (liveHost) liveHost.innerText = activeSlot.animateur;
-        if (liveDesc) liveDesc.innerText = activeSlot.description || "Infos, Dédicaces & Musique";
+        if (liveDesc) liveDesc.innerText = activeSlot.description || "Infos & Musique";
         if (headerNowPlaying) headerNowPlaying.innerText = `${activeSlot.emission} — ${activeSlot.animateur}`;
       } else {
         if (liveTitle) liveTitle.innerText = "PROGRAMME MUSICAL NON STOP";
         if (liveTime) liveTime.innerText = "En direct";
         if (liveHost) liveHost.innerText = "Radio Vicomté 103.9 FM";
         if (liveDesc) liveDesc.innerText = "La sélection musicale du canton";
-        if (headerNowPlaying) headerNowPlaying.innerText = "Radio Vicomté 103.9 FM — Le meilleur de la Corrèze";
+        if (headerNowPlaying) headerNowPlaying.innerText = "Radio Vicomté 103.9 FM — La radio d'ici";
       }
     }
 
@@ -1153,58 +1248,313 @@
       if (tabId === 'photos') renderPublicPhotos();
     }
 
-    function renderPublicPhotos() {
-      const container = document.getElementById('public-photos-grid');
-      if (!container) return;
-      const photos = getData('rv_photos');
-      
-      if (photos.length === 0) {
-        container.innerHTML = `<p class="col-span-3 text-center text-gray-500 text-xs italic py-6">Aucune photo dans la galerie.</p>`;
+    // PODCASTS & SOUS-CATÉGORIES
+    function renderPublicReplays() {
+      const container = document.getElementById('public-replays-container');
+      const categoriesBar = document.getElementById('public-podcast-categories');
+      const homePreview = document.getElementById('home-replays-preview');
+      const replays = getData('rv_replays');
+      const categories = getData('rv_categories');
+
+      if (categoriesBar) {
+        categoriesBar.innerHTML = `
+          <button onclick="setFilterPodcastCategory('TOUS')" class="px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${selectedPodcastCategory === 'TOUS' ? 'bg-vicomte-brique text-white shadow' : 'bg-white text-vicomte-chocolat border border-vicomte-sable'}">
+            Toutes les émissions
+          </button>
+        ` + categories.map(c => `
+          <button onclick="setFilterPodcastCategory('${c.replace(/'/g, "\\'")}')" class="px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${selectedPodcastCategory === c ? 'bg-vicomte-brique text-white shadow' : 'bg-white text-vicomte-chocolat border border-vicomte-sable'}">
+            ${c}
+          </button>
+        `).join('');
+      }
+
+      let filtered = replays;
+      if (selectedPodcastCategory !== 'TOUS') {
+        filtered = replays.filter(r => r.show && r.show.toLowerCase() === selectedPodcastCategory.toLowerCase());
+      }
+
+      if (container) {
+        if (filtered.length === 0) {
+          container.innerHTML = `<div class="col-span-3 text-center py-10 text-gray-500 text-xs italic bg-white rounded-3xl border border-vicomte-sable p-6">Aucun replay disponible pour la catégorie "${selectedPodcastCategory}".</div>`;
+        } else {
+          container.innerHTML = filtered.map((r, idx) => `
+            <div class="bg-white p-5 rounded-3xl border border-vicomte-sable shadow-md space-y-3 flex flex-col justify-between">
+              <div class="space-y-1">
+                <div class="flex justify-between items-center text-[10px]">
+                  <span class="font-black uppercase tracking-wider text-vicomte-brique bg-vicomte-sableLight px-2 py-0.5 rounded">${r.show}</span>
+                  <span class="text-gray-400 font-medium">${r.date}</span>
+                </div>
+                <h4 class="font-display font-bold text-sm text-vicomte-chocolat pt-1">${r.title}</h4>
+              </div>
+
+              <div class="space-y-2 pt-2">
+                <audio id="audio-replay-${idx}" src="${r.audio || ''}" preload="none" onended="resetReplayPlayer(${idx})" class="w-full h-8 hidden"></audio>
+                <button onclick="toggleReplayAudio(${idx})" id="play-btn-replay-${idx}" class="w-full bg-vicomte-sableLight hover:bg-vicomte-sable text-vicomte-chocolat font-bold py-2.5 rounded-2xl text-xs flex items-center justify-center space-x-2 transition cursor-pointer shadow-sm">
+                  <i class="fa-solid fa-play text-vicomte-brique" id="play-icon-replay-${idx}"></i>
+                  <span id="play-text-replay-${idx}">Écouter (${r.duration || 'Podcast'})</span>
+                </button>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+
+      if (homePreview) {
+        homePreview.innerHTML = replays.slice(0, 4).map((r, idx) => `
+          <div class="bg-white p-4 rounded-2xl border border-vicomte-sable shadow-sm space-y-2 flex flex-col justify-between">
+            <div>
+              <span class="text-[9px] font-black uppercase text-vicomte-brique bg-vicomte-sableLight px-2 py-0.5 rounded">${r.show}</span>
+              <p class="font-bold text-xs text-vicomte-chocolat truncate mt-1">${r.title}</p>
+            </div>
+            <button onclick="switchPublicTab('replays')" class="text-xs text-vicomte-brique font-bold hover:underline flex items-center pt-1 cursor-pointer">
+              <i class="fa-solid fa-play text-[10px] mr-1.5"></i> Écouter
+            </button>
+          </div>
+        `).join('');
+      }
+    }
+
+    function setFilterPodcastCategory(cat) {
+      selectedPodcastCategory = cat;
+      renderPublicReplays();
+    }
+
+    function toggleReplayAudio(idx) {
+      const audio = document.getElementById(`audio-replay-${idx}`);
+      const icon = document.getElementById(`play-icon-replay-${idx}`);
+      const text = document.getElementById(`play-text-replay-${idx}`);
+
+      if (!audio || !audio.src || audio.src === window.location.href) {
+        showToast("Aucun fichier audio valide associé à ce replay.", "fa-triangle-exclamation");
         return;
       }
 
-      container.innerHTML = photos.map(p => `
-        <div onclick="openPhotoLightbox('${p.img.replace(/'/g, "\\'")}', '${p.caption.replace(/'/g, "\\'")}')" class="bg-white p-3 rounded-2xl border border-vicomte-sable shadow-sm cursor-pointer hover:shadow-xl hover:scale-[1.02] transition duration-200 group">
-          <div class="relative overflow-hidden rounded-xl mb-2">
-            <img src="${p.img}" class="w-full h-48 object-cover group-hover:scale-105 transition duration-300" alt="${p.caption}">
-            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-200 flex items-center justify-center">
-              <span class="bg-vicomte-brique/90 text-white p-2.5 rounded-full shadow-lg"><i class="fa-solid fa-magnifying-glass-plus text-sm"></i></span>
-            </div>
+      if (audio.paused) {
+        document.querySelectorAll('audio').forEach(el => { el.pause(); el.currentTime = 0; });
+        document.querySelectorAll('[id^="play-icon-replay-"]').forEach(el => el.className = "fa-solid fa-play text-vicomte-brique");
+
+        audio.play().then(() => {
+          icon.className = "fa-solid fa-pause text-vicomte-brique";
+          text.innerText = "Pause";
+        }).catch(e => {
+          showToast("Erreur de lecture audio.", "fa-triangle-exclamation");
+        });
+      } else {
+        audio.pause();
+        icon.className = "fa-solid fa-play text-vicomte-brique";
+        text.innerText = "Reprendre";
+      }
+    }
+
+    function resetReplayPlayer(idx) {
+      const icon = document.getElementById(`play-icon-replay-${idx}`);
+      const text = document.getElementById(`play-text-replay-${idx}`);
+      if (icon) icon.className = "fa-solid fa-play text-vicomte-brique";
+      if (text) text.innerText = "Écouter à nouveau";
+    }
+
+    // ADMIN - GESTION SOUS-CATÉGORIES
+    function openCategoryModal() {
+      renderCategoryModalList();
+      const modal = document.getElementById('category-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeCategoryModal() {
+      const modal = document.getElementById('category-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    function renderCategoryModalList() {
+      const container = document.getElementById('categories-modal-list');
+      const tagsContainer = document.getElementById('admin-categories-tags');
+      const categories = getData('rv_categories');
+
+      if (container) {
+        container.innerHTML = categories.map((c, idx) => `
+          <div class="flex justify-between items-center bg-admin-bg p-2 rounded-lg border border-admin-border">
+            <span class="text-white font-bold text-xs">${c}</span>
+            <button onclick="deleteCategory(${idx})" class="text-red-400 hover:text-red-300 p-1 cursor-pointer"><i class="fa-solid fa-trash"></i></button>
           </div>
-          <p class="text-xs font-bold text-vicomte-chocolat text-center truncate">${p.caption}</p>
+        `).join('');
+      }
+
+      if (tagsContainer) {
+        tagsContainer.innerHTML = categories.map(c => `
+          <span class="bg-purple-600/20 text-purple-300 border border-purple-500/30 text-xs px-2.5 py-1 rounded-lg font-bold">${c}</span>
+        `).join('');
+      }
+    }
+
+    function handleAddCategory(e) {
+      e.preventDefault();
+      const input = document.getElementById('new-cat-input');
+      const val = input.value.trim();
+      if (!val) return;
+
+      const categories = getData('rv_categories');
+      if (!categories.includes(val)) {
+        categories.push(val);
+        setData('rv_categories', categories);
+        input.value = "";
+        renderCategoryModalList();
+        renderPublicReplays();
+        showToast(`Sous-catégorie "${val}" ajoutée !`);
+      } else {
+        showToast("Cette sous-catégorie existe déjà.", "fa-triangle-exclamation");
+      }
+    }
+
+    function deleteCategory(idx) {
+      const categories = getData('rv_categories');
+      const removed = categories.splice(idx, 1);
+      setData('rv_categories', categories);
+      renderCategoryModalList();
+      renderPublicReplays();
+      showToast(`Sous-catégorie "${removed}" supprimée.`);
+    }
+
+    // MODAL REPLAY AVEC SELECT SOUS-CATÉGORIES
+    function openReplayModal(idx = -1) {
+      document.getElementById('rep-edit-index').value = idx;
+      loadedAudioBase64 = "";
+      document.getElementById('rep-file-name').innerText = "Aucun fichier choisi";
+      if (document.getElementById('rep-input-file')) document.getElementById('rep-input-file').value = "";
+
+      const selectShow = document.getElementById('rep-input-show-select');
+      const categories = getData('rv_categories');
+
+      if (selectShow) {
+        selectShow.innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
+      }
+
+      if (idx >= 0) {
+        const list = getData('rv_replays');
+        const r = list[idx];
+        document.getElementById('replay-modal-title').innerText = "Modifier le Replay";
+        document.getElementById('rep-input-title').value = r.title;
+        if (selectShow) selectShow.value = r.show;
+        document.getElementById('rep-input-date').value = r.date;
+        document.getElementById('rep-input-duration').value = r.duration || '25 min';
+        document.getElementById('rep-input-url').value = (r.audio && !r.audio.startsWith('data:')) ? r.audio : '';
+      } else {
+        document.getElementById('replay-modal-title').innerText = "Ajouter un Replay";
+        document.getElementById('rep-input-title').value = '';
+        document.getElementById('rep-input-date').value = '';
+        document.getElementById('rep-input-duration').value = '25 min';
+        document.getElementById('rep-input-url').value = '';
+      }
+      const modal = document.getElementById('replay-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeReplayModal() {
+      const modal = document.getElementById('replay-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    function handleReplayFormSubmit(event) {
+      event.preventDefault();
+      const idx = parseInt(document.getElementById('rep-edit-index').value);
+      const title = document.getElementById('rep-input-title').value;
+      const show = document.getElementById('rep-input-show-select').value;
+      const date = document.getElementById('rep-input-date').value;
+      const duration = document.getElementById('rep-input-duration').value;
+      const urlAudio = document.getElementById('rep-input-url').value;
+      
+      const existingAudio = idx >= 0 ? getData('rv_replays')[idx].audio : "";
+      const audio = loadedAudioBase64 || urlAudio || existingAudio;
+
+      const list = getData('rv_replays');
+      if (idx >= 0) {
+        list[idx] = { ...list[idx], title, show, date, duration, audio };
+        showToast("Replay modifié !");
+      } else {
+        list.unshift({ id: Date.now(), title, show, date, duration, audio });
+        showToast("Replay ajouté avec succès !");
+      }
+
+      setData('rv_replays', list);
+      closeReplayModal();
+      renderAdminReplays();
+      renderPublicReplays();
+    }
+
+    let loadedAudioBase64 = "";
+    function handleReplayFileSelect(event) {
+      const file = event.target.files[0];
+      if (file) {
+        document.getElementById('rep-file-name').innerText = file.name;
+        const reader = new FileReader();
+        reader.onload = function(e) { loadedAudioBase64 = e.target.result; showToast("Fichier audio prêt !"); };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function renderAdminReplays() {
+      const container = document.getElementById('admin-replays-list');
+      if (!container) return;
+      const list = getData('rv_replays');
+      const statCounter = document.getElementById('stat-replays');
+      if (statCounter) statCounter.innerText = list.length;
+
+      renderCategoryModalList();
+
+      if (list.length === 0) {
+        container.innerHTML = `<p class="text-center text-gray-500 text-xs italic py-6">Aucun replay enregistré.</p>`;
+        return;
+      }
+
+      container.innerHTML = list.map((r, idx) => `
+        <div class="bg-admin-bg p-3.5 rounded-xl border border-admin-border flex justify-between items-center text-xs">
+          <div>
+            <span class="font-bold text-white">${r.title}</span>
+            <span class="text-purple-400 font-bold ml-2">[${r.show}]</span>
+            <span class="text-gray-400 ml-1">— ${r.date} — ${r.duration}</span>
+          </div>
+          <div class="flex items-center space-x-2 flex-shrink-0">
+            <button onclick="openReplayModal(${idx})" class="p-1.5 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onclick="deleteReplay(${idx})" class="p-1.5 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition cursor-pointer"><i class="fa-solid fa-trash"></i></button>
+          </div>
         </div>
       `).join('');
     }
 
-    function openPhotoLightbox(imgUrl, caption) {
-      const modal = document.getElementById('photo-lightbox-modal');
-      const img = document.getElementById('lightbox-img');
-      const cap = document.getElementById('lightbox-caption');
-
-      if (modal && img && cap) {
-        img.src = imgUrl;
-        cap.innerText = caption;
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-      }
+    function deleteReplay(idx) {
+      const list = getData('rv_replays');
+      list.splice(idx, 1);
+      setData('rv_replays', list);
+      renderAdminReplays();
+      renderPublicReplays();
+      showToast("Replay supprimé.");
     }
 
-    function closePhotoLightbox() {
-      const modal = document.getElementById('photo-lightbox-modal');
-      if (modal) {
-        modal.classList.remove('flex');
-        modal.classList.add('hidden');
-        document.body.style.overflow = '';
-      }
+    // MODALES & GESTION ADMIN (GRILLE / ÉMISSIONS / PHOTOS / PRESSE / DÉDICACES)
+    function openDedicaceModal() {
+      const modal = document.getElementById('dedicace-modal');
+      if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
     }
+    function closeDedicaceModal() {
+      const modal = document.getElementById('dedicace-modal');
+      if (modal) { modal.classList.remove('flex'); modal.classList.add('hidden'); }
+    }
+    function submitDedicaceModal(e) {
+      e.preventDefault();
+      const sender = document.getElementById('modal-ded-sender').value;
+      const track = document.getElementById('modal-ded-track').value;
+      const msg = document.getElementById('modal-ded-msg').value;
 
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closePhotoLightbox();
-        closeDedicaceModal();
-      }
-    });
+      const list = getData('rv_dedicaces');
+      list.unshift({ id: Date.now(), sender, track, msg, approved: false });
+      setData('rv_dedicaces', list);
+      e.target.reset();
+      closeDedicaceModal();
+      showToast("Dédicace envoyée au studio avec succès !");
+    }
 
     function toggleAdminView(showAdmin) {
       const pubSite = document.getElementById('public-site');
@@ -1213,6 +1563,7 @@
         pubSite.classList.add('hidden');
         adminSite.classList.remove('hidden');
         document.body.classList.add('admin-mode');
+        fetchIcecastListeners();
       } else {
         adminSite.classList.add('hidden');
         pubSite.classList.remove('hidden');
@@ -1230,6 +1581,7 @@
         document.getElementById('admin-login-screen').classList.add('hidden');
         document.getElementById('admin-dashboard').classList.remove('hidden');
         renderAdminGrille();
+        fetchIcecastListeners();
         showToast("Connexion administration réussie !");
       } else {
         showToast("Identifiants incorrects !", "fa-triangle-exclamation");
@@ -1301,10 +1653,7 @@
       `).join('');
     }
 
-    function setAdminDay(day) {
-      currentAdminDay = day;
-      renderAdminGrille();
-    }
+    function setAdminDay(day) { currentAdminDay = day; renderAdminGrille(); }
 
     function openAddSlotModal(idx = -1) {
       document.getElementById('slot-edit-index').value = idx;
@@ -1352,7 +1701,7 @@
 
       if (idx >= 0) {
         data[day][idx] = { horaire, emission, animateur, description };
-        showToast(`Créneau du ${day} modifié avec succès !`);
+        showToast(`Créneau du ${day} modifié !`);
       } else {
         data[day].push({ horaire, emission, animateur, description });
         showToast(`Nouveau créneau ajouté pour le ${day} !`);
@@ -1463,179 +1812,6 @@
       showToast("Émission supprimée.");
     }
 
-    function renderAdminReplays() {
-      const container = document.getElementById('admin-replays-list');
-      if (!container) return;
-      const list = getData('rv_replays');
-      const statCounter = document.getElementById('stat-replays');
-      if (statCounter) statCounter.innerText = list.length;
-
-      if (list.length === 0) {
-        container.innerHTML = `<p class="text-center text-gray-500 text-xs italic py-6">Aucun replay enregistré.</p>`;
-        return;
-      }
-
-      container.innerHTML = list.map((r, idx) => `
-        <div class="bg-admin-bg p-3.5 rounded-xl border border-admin-border flex justify-between items-center text-xs">
-          <div>
-            <span class="font-bold text-white">${r.title}</span>
-            <span class="text-purple-400 font-semibold ml-2">[${r.show}]</span>
-            <span class="text-gray-400 ml-2">(${r.date} — ${r.duration})</span>
-          </div>
-          <div class="flex items-center space-x-2 flex-shrink-0">
-            <button onclick="openReplayModal(${idx})" class="p-1.5 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button onclick="deleteReplay(${idx})" class="p-1.5 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition cursor-pointer"><i class="fa-solid fa-trash"></i></button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function populateReplayCategoriesSelect(selectedVal = "") {
-      const select = document.getElementById('rep-input-show');
-      if (!select) return;
-      const categories = getData('rv_replay_categories');
-      select.innerHTML = categories.map(c => `
-        <option value="${c}" ${c === selectedVal ? 'selected' : ''}>${c}</option>
-      `).join('');
-    }
-
-    function openReplayCategoryModal() {
-      renderAdminCategoriesList();
-      const modal = document.getElementById('replay-category-modal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-      }
-    }
-
-    function closeReplayCategoryModal() {
-      const modal = document.getElementById('replay-category-modal');
-      if (modal) {
-        modal.classList.remove('flex');
-        modal.classList.add('hidden');
-      }
-    }
-
-    function renderAdminCategoriesList() {
-      const container = document.getElementById('admin-categories-list');
-      if (!container) return;
-      const categories = getData('rv_replay_categories');
-
-      container.innerHTML = categories.map((cat, idx) => `
-        <div class="bg-admin-bg p-2.5 rounded-xl border border-admin-border flex justify-between items-center text-xs">
-          <span class="font-bold text-white">${cat}</span>
-          <div class="flex items-center space-x-2">
-            <button onclick="editReplayCategory(${idx})" class="text-blue-400 hover:text-blue-300 px-2 py-1 cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button onclick="deleteReplayCategory(${idx})" class="text-red-400 hover:text-red-300 px-2 py-1 cursor-pointer"><i class="fa-solid fa-trash"></i></button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function addReplayCategory() {
-      const input = document.getElementById('new-category-name');
-      const val = input.value.trim();
-      if (!val) return;
-
-      const categories = getData('rv_replay_categories');
-      if (!categories.includes(val)) {
-        categories.push(val);
-        setData('rv_replay_categories', categories);
-        input.value = '';
-        renderAdminCategoriesList();
-        showToast("Sous-catégorie ajoutée avec succès !");
-      } else {
-        showToast("Cette sous-catégorie existe déjà.", "fa-triangle-exclamation");
-      }
-    }
-
-    function editReplayCategory(idx) {
-      const categories = getData('rv_replay_categories');
-      const current = categories[idx];
-      const newVal = prompt("Modifier le nom de la sous-catégorie :", current);
-      if (newVal && newVal.trim() !== "") {
-        categories[idx] = newVal.trim();
-        setData('rv_replay_categories', categories);
-        renderAdminCategoriesList();
-        showToast("Sous-catégorie modifiée !");
-      }
-    }
-
-    function deleteReplayCategory(idx) {
-      const categories = getData('rv_replay_categories');
-      if (categories.length <= 1) {
-        showToast("Vous devez garder au moins une sous-catégorie.", "fa-triangle-exclamation");
-        return;
-      }
-      categories.splice(idx, 1);
-      setData('rv_replay_categories', categories);
-      renderAdminCategoriesList();
-      showToast("Sous-catégorie supprimée.");
-    }
-
-    function openReplayModal(idx = -1) {
-      document.getElementById('rep-edit-index').value = idx;
-      populateReplayCategoriesSelect(idx >= 0 ? getData('rv_replays')[idx].show : "");
-
-      if (idx >= 0) {
-        const list = getData('rv_replays');
-        const r = list[idx];
-        document.getElementById('replay-modal-title').innerText = "Modifier le Replay";
-        document.getElementById('rep-input-title').value = r.title;
-        document.getElementById('rep-input-date').value = r.date;
-        document.getElementById('rep-input-duration').value = r.duration || '20 min';
-        document.getElementById('rep-input-url').value = r.audio || '';
-      } else {
-        document.getElementById('replay-modal-title').innerText = "Ajouter un Replay";
-        document.getElementById('rep-input-title').value = '';
-        document.getElementById('rep-input-date').value = '';
-        document.getElementById('rep-input-duration').value = '20 min';
-        document.getElementById('rep-input-url').value = '';
-      }
-      const modal = document.getElementById('replay-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeReplayModal() {
-      const modal = document.getElementById('replay-modal');
-      modal.classList.remove('flex');
-      modal.classList.add('hidden');
-    }
-
-    function handleReplayFormSubmit(event) {
-      event.preventDefault();
-      const idx = parseInt(document.getElementById('rep-edit-index').value);
-      const title = document.getElementById('rep-input-title').value;
-      const show = document.getElementById('rep-input-show').value;
-      const date = document.getElementById('rep-input-date').value;
-      const duration = document.getElementById('rep-input-duration').value;
-      const audio = document.getElementById('rep-input-url').value;
-
-      const list = getData('rv_replays');
-      if (idx >= 0) {
-        list[idx] = { ...list[idx], title, show, date, duration, audio };
-        showToast("Replay modifié !");
-      } else {
-        list.unshift({ id: Date.now(), title, show, date, duration, audio });
-        showToast("Replay ajouté avec succès !");
-      }
-
-      setData('rv_replays', list);
-      closeReplayModal();
-      renderAdminReplays();
-      renderPublicReplays();
-    }
-
-    function deleteReplay(idx) {
-      const list = getData('rv_replays');
-      list.splice(idx, 1);
-      setData('rv_replays', list);
-      renderAdminReplays();
-      renderPublicReplays();
-      showToast("Replay supprimé.");
-    }
-
     function renderAdminDedicaces() {
       const container = document.getElementById('admin-dedicaces-list');
       if (!container) return;
@@ -1682,6 +1858,35 @@
       showToast("Dédicace supprimée.");
     }
 
+    function renderPublicDedicaces() {
+      const feed = document.getElementById('public-dedicaces-feed');
+      const homePreview = document.getElementById('home-dedicaces-preview');
+      const list = getData('rv_dedicaces').filter(d => d.approved);
+
+      if (feed) {
+        feed.innerHTML = list.length === 0 ? `<div class="col-span-2 text-center py-10 text-gray-500 italic text-xs">Aucune dédicace validée pour le moment.</div>` : list.map(d => `
+          <div class="bg-white p-5 rounded-3xl border border-vicomte-sable shadow-md space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-vicomte-brique"><i class="fa-solid fa-user mr-1"></i> ${d.sender}</span>
+              ${d.track ? `<span class="text-[10px] bg-vicomte-sableLight text-vicomte-chocolat px-2.5 py-0.5 rounded-full font-bold"><i class="fa-solid fa-music mr-1 text-vicomte-brique"></i> ${d.track}</span>` : ''}
+            </div>
+            <p class="text-xs text-gray-700 italic">"${d.msg}"</p>
+          </div>
+        `).join('');
+      }
+
+      if (homePreview) {
+        homePreview.innerHTML = list.length === 0 ? `<p class="text-xs text-gray-500 italic p-3">Aucune dédicace récente.</p>` : list.slice(0, 3).map(d => `
+          <div class="bg-white p-3.5 rounded-2xl border border-vicomte-sable shadow-sm space-y-1">
+            <div class="flex justify-between items-center text-[11px]">
+              <span class="font-bold text-vicomte-brique">${d.sender}</span>
+            </div>
+            <p class="text-xs text-gray-600 italic truncate">"${d.msg}"</p>
+          </div>
+        `).join('');
+      }
+    }
+
     function renderAdminPhotos() {
       const container = document.getElementById('admin-photos-list');
       if (!container) return;
@@ -1704,14 +1909,28 @@
       `).join('');
     }
 
+    let loadedPhotoBase64 = "";
+    function handlePhotoFileSelect(event) {
+      const file = event.target.files[0];
+      if (file) {
+        document.getElementById('pho-file-name').innerText = file.name;
+        const reader = new FileReader();
+        reader.onload = function(e) { loadedPhotoBase64 = e.target.result; showToast("Image chargée !"); };
+        reader.readAsDataURL(file);
+      }
+    }
+
     function openPhotoModal(idx = -1) {
       document.getElementById('pho-edit-index').value = idx;
+      loadedPhotoBase64 = "";
+      document.getElementById('pho-file-name').innerText = "Aucun fichier choisi";
+      if (document.getElementById('pho-input-file')) document.getElementById('pho-input-file').value = "";
       if (idx >= 0) {
         const list = getData('rv_photos');
         const p = list[idx];
         document.getElementById('photo-modal-title').innerText = "Modifier la Photo";
         document.getElementById('pho-input-caption').value = p.caption;
-        document.getElementById('pho-input-url').value = p.img;
+        document.getElementById('pho-input-url').value = p.img.startsWith('data:') ? '' : p.img;
       } else {
         document.getElementById('photo-modal-title').innerText = "Ajouter une Photo";
         document.getElementById('pho-input-caption').value = '';
@@ -1732,7 +1951,9 @@
       event.preventDefault();
       const idx = parseInt(document.getElementById('pho-edit-index').value);
       const caption = document.getElementById('pho-input-caption').value;
-      const img = document.getElementById('pho-input-url').value;
+      const urlImg = document.getElementById('pho-input-url').value;
+      const img = loadedPhotoBase64 || urlImg;
+      if (!img) { showToast("Veuillez choisir un fichier ou une URL.", "fa-triangle-exclamation"); return; }
 
       const list = getData('rv_photos');
       if (idx >= 0) { list[idx] = { ...list[idx], caption, img }; showToast("Photo modifiée !"); }
@@ -1753,16 +1974,57 @@
       showToast("Photo supprimée.");
     }
 
+    function renderPublicPhotos() {
+      const container = document.getElementById('public-photos-grid');
+      if (!container) return;
+      const photos = getData('rv_photos');
+      if (photos.length === 0) {
+        container.innerHTML = `<p class="col-span-3 text-center text-gray-500 text-xs italic py-6">Aucune photo dans la galerie.</p>`;
+        return;
+      }
+      container.innerHTML = photos.map(p => `
+        <div onclick="openPhotoLightbox('${p.img.replace(/'/g, "\\'")}', '${p.caption.replace(/'/g, "\\'")}')" class="bg-white p-3 rounded-2xl border border-vicomte-sable shadow-sm cursor-pointer hover:shadow-xl hover:scale-[1.02] transition duration-200 group">
+          <div class="relative overflow-hidden rounded-xl mb-2">
+            <img src="${p.img}" class="w-full h-48 object-cover group-hover:scale-105 transition duration-300" alt="${p.caption}">
+            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-200 flex items-center justify-center">
+              <span class="bg-vicomte-brique/90 text-white p-2.5 rounded-full shadow-lg"><i class="fa-solid fa-magnifying-glass-plus text-sm"></i></span>
+            </div>
+          </div>
+          <p class="text-xs font-bold text-vicomte-chocolat text-center truncate">${p.caption}</p>
+        </div>
+      `).join('');
+    }
+
+    function openPhotoLightbox(imgUrl, caption) {
+      const modal = document.getElementById('photo-lightbox-modal');
+      const img = document.getElementById('lightbox-img');
+      const cap = document.getElementById('lightbox-caption');
+      if (modal && img && cap) {
+        img.src = imgUrl;
+        cap.innerText = caption;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closePhotoLightbox() {
+      const modal = document.getElementById('photo-lightbox-modal');
+      if (modal) {
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+
     function renderAdminPresse() {
       const container = document.getElementById('admin-presse-list');
       if (!container) return;
       const list = getData('rv_presse');
-
       if (list.length === 0) {
         container.innerHTML = `<p class="text-center text-gray-500 text-xs italic py-6">Aucun article de presse enregistré.</p>`;
         return;
       }
-
       container.innerHTML = list.map((p, idx) => `
         <div class="bg-admin-bg p-3.5 rounded-xl border border-admin-border flex justify-between items-center text-xs">
           <div class="space-y-0.5 pr-2">
@@ -1878,143 +2140,6 @@
       `).join('');
     }
 
-    function renderPublicReplays() {
-      const container = document.getElementById('public-replays-container');
-      const categoriesFilterContainer = document.getElementById('public-replay-categories-filter');
-      const homePreview = document.getElementById('home-replays-preview');
-      const replays = getData('rv_replays');
-      const categories = getData('rv_replay_categories');
-
-      if (categoriesFilterContainer) {
-        const allCategories = ["Tous", ...categories];
-        categoriesFilterContainer.innerHTML = allCategories.map(cat => `
-          <button onclick="filterReplaysByCategory('${cat.replace(/'/g, "\\'")}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${selectedReplayCategory === cat ? 'bg-vicomte-brique text-white shadow' : 'bg-white text-vicomte-chocolat border border-vicomte-sable hover:bg-vicomte-sableLight'}">
-            ${cat}
-          </button>
-        `).join('');
-      }
-
-      const query = document.getElementById('replay-search-input') ? document.getElementById('replay-search-input').value.toLowerCase() : "";
-      
-      const filteredReplays = replays.filter(r => {
-        const matchesCategory = selectedReplayCategory === "Tous" || r.show === selectedReplayCategory;
-        const matchesSearch = r.title.toLowerCase().includes(query) || r.show.toLowerCase().includes(query);
-        return matchesCategory && matchesSearch;
-      });
-
-      if (container) {
-        if (filteredReplays.length === 0) {
-          container.innerHTML = `<p class="col-span-3 text-center text-gray-500 text-xs italic py-10">Aucun replay trouvé dans cette catégorie.</p>`;
-        } else {
-          container.innerHTML = filteredReplays.map((r, idx) => `
-            <div class="bg-white p-4 rounded-2xl border border-vicomte-sable shadow-sm space-y-3">
-              <div class="flex justify-between items-center text-[10px] text-vicomte-brique font-bold uppercase">
-                <span>${r.show}</span>
-                <span>${r.date}</span>
-              </div>
-              <h4 class="font-bold text-xs text-vicomte-chocolat">${r.title}</h4>
-              <div class="space-y-2">
-                <audio id="audio-replay-${idx}" src="${r.audio || ''}" preload="none" onended="resetReplayPlayer(${idx})" class="w-full h-8 hidden"></audio>
-                <button onclick="toggleReplayAudio(${idx})" id="play-btn-replay-${idx}" class="w-full bg-vicomte-sableLight hover:bg-vicomte-sable text-vicomte-chocolat font-bold py-2 rounded-xl text-xs flex items-center justify-center space-x-2 transition cursor-pointer">
-                  <i class="fa-solid fa-play text-vicomte-brique" id="play-icon-replay-${idx}"></i>
-                  <span id="play-text-replay-${idx}">Écouter (${r.duration || 'Podcast'})</span>
-                </button>
-              </div>
-            </div>
-          `).join('');
-        }
-      }
-
-      if (homePreview) {
-        homePreview.innerHTML = replays.slice(0, 4).map((r, idx) => `
-          <div class="bg-white p-3.5 rounded-2xl border border-vicomte-sable shadow-sm space-y-1.5 flex flex-col justify-between">
-            <div>
-              <p class="text-[10px] text-vicomte-brique font-bold uppercase tracking-wider">${r.show}</p>
-              <p class="font-bold text-xs text-vicomte-chocolat truncate">${r.title}</p>
-            </div>
-            <button onclick="switchPublicTab('replays')" class="text-xs text-vicomte-brique font-bold hover:underline flex items-center mt-1 cursor-pointer">
-              <i class="fa-solid fa-play text-[10px] mr-1.5"></i> Écouter le replay
-            </button>
-          </div>
-        `).join('');
-      }
-    }
-
-    function filterReplaysByCategory(cat) {
-      selectedReplayCategory = cat;
-      renderPublicReplays();
-    }
-
-    function toggleReplayAudio(idx) {
-      const audio = document.getElementById(`audio-replay-${idx}`);
-      const icon = document.getElementById(`play-icon-replay-${idx}`);
-      const text = document.getElementById(`play-text-replay-${idx}`);
-
-      if (!audio || !audio.src || audio.src === window.location.href) {
-        showToast("Aucun fichier audio valide associé à ce replay.", "fa-triangle-exclamation");
-        return;
-      }
-
-      if (audio.paused) {
-        document.querySelectorAll('audio').forEach(el => { el.pause(); el.currentTime = 0; });
-        document.querySelectorAll('[id^="play-icon-replay-"]').forEach(el => el.className = "fa-solid fa-play text-vicomte-brique");
-
-        audio.play().then(() => {
-          icon.className = "fa-solid fa-pause text-vicomte-brique";
-          text.innerText = "Pause";
-        }).catch(e => {
-          console.warn("Erreur lecture audio :", e);
-          showToast("Erreur de lecture du fichier audio.", "fa-triangle-exclamation");
-        });
-      } else {
-        audio.pause();
-        icon.className = "fa-solid fa-play text-vicomte-brique";
-        text.innerText = "Reprendre";
-      }
-    }
-
-    function resetReplayPlayer(idx) {
-      const icon = document.getElementById(`play-icon-replay-${idx}`);
-      const text = document.getElementById(`play-text-replay-${idx}`);
-      if (icon) icon.className = "fa-solid fa-play text-vicomte-brique";
-      if (text) text.innerText = "Écouter à nouveau";
-    }
-
-    function renderPublicDedicaces() {
-      const container = document.getElementById('public-dedicaces-feed');
-      const homePreview = document.getElementById('home-dedicaces-preview');
-      const list = getData('rv_dedicaces').filter(d => d.approved);
-
-      if (container) {
-        if (list.length === 0) {
-          container.innerHTML = `<p class="col-span-2 text-center text-gray-500 text-xs italic py-6">Aucune dédicace récente.</p>`;
-          return;
-        }
-        container.innerHTML = list.map(d => `
-          <div class="bg-white p-5 rounded-2xl border border-vicomte-sable shadow-sm space-y-2">
-            <div class="flex justify-between items-center text-xs">
-              <span class="font-bold text-vicomte-brique"><i class="fa-solid fa-user mr-1.5"></i> ${d.sender}</span>
-              ${d.track ? `<span class="text-[10px] bg-vicomte-sableLight text-vicomte-chocolat font-semibold px-2 py-0.5 rounded-md"><i class="fa-solid fa-music mr-1"></i> ${d.track}</span>` : ''}
-            </div>
-            <p class="text-xs text-gray-700 italic font-medium">"${d.msg}"</p>
-          </div>
-        `).join('');
-      }
-
-      if (homePreview) {
-        homePreview.innerHTML = list.length === 0 ? `<p class="text-xs text-gray-500 italic p-3">Aucune dédicace publiée.</p>` : list.slice(0, 3).map(d => `
-          <div class="bg-white p-3.5 rounded-2xl border border-vicomte-sable shadow-sm space-y-1">
-            <p class="text-[11px] font-bold text-vicomte-brique">${d.sender}</p>
-            <p class="text-xs text-gray-700 italic truncate">"${d.msg}"</p>
-          </div>
-        `).join('');
-      }
-    }
-
-    function filterPublicReplays() {
-      renderPublicReplays();
-    }
-
     function sendContactEmail(e) {
       e.preventDefault();
       const name = document.getElementById('contact-name').value;
@@ -2025,7 +2150,7 @@
       const body = encodeURIComponent(`Nom: ${name}\nE-mail: ${email}\n\nMessage:\n${msg}`);
 
       window.location.href = `mailto:contactradiovicom@gmail.com?subject=${subject}&body=${body}`;
-      showToast("Préparation du message vers contactradiovicom@gmail.com...");
+      showToast("Préparation de l'envoi du message à contactradiovicom@gmail.com...");
     }
 
     function renderPublicPresse() {
@@ -2053,52 +2178,10 @@
               <span class="text-[9px] font-black uppercase text-vicomte-brique bg-vicomte-sableLight px-2 py-0.5 rounded">${p.source}</span>
               ${p.link ? `<a href="${p.link}" target="_blank" class="text-[11px] font-bold text-vicomte-brique hover:underline">Consulter</a>` : ''}
             </div>
-            <h4 class="font-display font-bold text-xs text-vicomte-chocolat truncate">${p.title}</h4>
+            <h4 class="font-display font-bold text-xs text-vicomte-chocolat line-clamp-1">${p.title}</h4>
             <p class="text-xs text-gray-600 line-clamp-2">${p.snippet}</p>
           </div>
         `).join('');
-      }
-    }
-
-    // FONCTION DE RÉCUPÉRATION DU NOMBRE D'AUDITEURS ICECAST EN DIRECT
-    async function fetchIcecastListeners() {
-      const statEl = document.getElementById('stat-listeners');
-      try {
-        // Interrogation de la page statut Icecast via proxy CORS public (allorigins)
-        const icecastStatusUrl = 'https://sd-151888.dedibox.fr/status.xsl';
-        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(icecastStatusUrl)}`;
-        
-        const response = await fetch(proxyUrl);
-        if (response.ok) {
-          const data = await response.json();
-          const htmlText = data.contents;
-          
-          // Recherche du pattern "Listeners (current): X" dans le HTML Icecast
-          const match = htmlText.match(/Listeners\s*\(current\):\s*<\/td>\s*<td[^>]*>(\d+)<\/td>/i) || 
-                        htmlText.match(/Listeners\s*\(current\):\s*(\d+)/i);
-          
-          if (match && match[1]) {
-            if (statEl) statEl.innerText = match[1];
-            return;
-          }
-        }
-        throw new Error("Impossible d'extraire les auditeurs");
-      } catch (e) {
-        console.warn("Erreur de récupération Icecast direct:", e);
-        // En cas d'indisponibilité du proxy, afficher 1 (valeur réelle relevée sur le serveur)
-        if (statEl) statEl.innerText = "1";
-      }
-    }
-
-    function showToast(msg, iconClass = "fa-circle-check") {
-      const toast = document.getElementById('toast-notification');
-      const icon = document.getElementById('toast-icon');
-      const message = document.getElementById('toast-message');
-      if (toast && message) {
-        message.innerText = msg;
-        if (icon) icon.className = `fa-solid ${iconClass} text-vicomte-dorure text-lg`;
-        toast.classList.remove('hidden');
-        setTimeout(() => toast.classList.add('hidden'), 3500);
       }
     }
 
@@ -2112,9 +2195,8 @@
       renderPublicPhotos();
       
       updateCurrentLiveShow();
-      fetchIcecastListeners();
       setInterval(updateCurrentLiveShow, 60000);
-      setInterval(fetchIcecastListeners, 15000); // Actualisation toutes les 15 secondes
+      fetchIcecastListeners();
     };
   </script>
 </body>
