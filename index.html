@@ -1216,7 +1216,6 @@
     function handleReplayFileSelect(event) {
       const file = event.target.files[0];
       if (file) {
-        // Avertissement si le fichier dépasse 4 Mo (limite localStorage)
         if (file.size > 4 * 1024 * 1024) {
           showToast("Attention : Fichier volumineux (>4Mo). Risque de saturation du stockage du navigateur !", "fa-triangle-exclamation");
         }
@@ -1679,9 +1678,9 @@
       if (isPlayingAudio) {
         if (audioStream) {
           audioStream.play().catch(e => {
-            console.warn("Ouverture du flux direct externe :", e);
-            window.open("https://www.comequip.eu/Radio-Vicomte", "_blank");
-            showToast("Ouverture du flux audio...", "fa-tower-broadcast");
+            console.warn("Ouverture du flux direct de secours :", e);
+            window.open("https://sd-151888.dedibox.fr/proxy/vicomte/vicomte", "_blank");
+            showToast("Ouverture du flux direct...", "fa-tower-broadcast");
             isPlayingAudio = false;
             resetAudioUI();
           });
@@ -1733,7 +1732,7 @@
   </script>
   
   <audio id="radio-audio-stream" preload="none" crossorigin="anonymous">
-    <source src="https://www.comequip.eu/Radio-Vicomte" type="audio/mpeg">
+    <source src="https://sd-151888.dedibox.fr/proxy/vicomte/vicomte" type="audio/mpeg">
   </audio>
 </body>
 </html>
