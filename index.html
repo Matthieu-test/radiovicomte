@@ -184,6 +184,7 @@
             </div>
           </div>
 
+          <!-- ENCART DYNAMIQUE : ACTUELLEMENT EN STUDIO -->
           <div class="bg-vicomte-chocolat/95 border border-vicomte-dorure/40 rounded-2xl p-5 shadow-2xl w-full lg:w-80 flex-shrink-0 relative z-10 text-white space-y-3">
             <div class="flex items-center space-x-2.5 border-b border-white/10 pb-2.5">
               <div class="w-8 h-8 rounded-lg bg-vicomte-brique flex items-center justify-center text-white">
@@ -191,14 +192,14 @@
               </div>
               <div>
                 <span class="text-[10px] font-bold text-vicomte-dorure uppercase tracking-widest block">Actuellement en studio</span>
-                <h4 class="font-display font-bold text-xs text-white" id="home-live-title">LES MATINALES CORRÉZIENNES</h4>
+                <h4 class="font-display font-bold text-xs text-white" id="home-live-title">CHARGEMENT...</h4>
               </div>
             </div>
 
             <div class="text-xs space-y-2 text-gray-300">
-              <p class="flex justify-between"><span class="text-gray-400"><i class="fa-regular fa-clock mr-1 text-vicomte-dorure"></i> Horaire :</span> <strong class="text-white" id="home-live-time">07:00 - 09:30</strong></p>
-              <p class="flex justify-between"><span class="text-gray-400"><i class="fa-solid fa-users mr-1 text-vicomte-dorure"></i> Animé par :</span> <strong class="text-white" id="home-live-host">Jean-Pierre & Élodie</strong></p>
-              <p class="flex justify-between"><span class="text-gray-400"><i class="fa-solid fa-list mr-1 text-vicomte-dorure"></i> Au programme :</span> <strong class="text-white">Infos, Dédicaces & Musique</strong></p>
+              <p class="flex justify-between"><span class="text-gray-400"><i class="fa-regular fa-clock mr-1 text-vicomte-dorure"></i> Horaire :</span> <strong class="text-white" id="home-live-time">--:--</strong></p>
+              <p class="flex justify-between"><span class="text-gray-400"><i class="fa-solid fa-users mr-1 text-vicomte-dorure"></i> Animé par :</span> <strong class="text-white" id="home-live-host">--</strong></p>
+              <p class="flex justify-between"><span class="text-gray-400"><i class="fa-solid fa-list mr-1 text-vicomte-dorure"></i> Au programme :</span> <strong class="text-white" id="home-live-desc">Infos, Dédicaces & Musique</strong></p>
             </div>
           </div>
         </div>
@@ -858,6 +859,57 @@
     function getData(key) { initDatabase(); return JSON.parse(localStorage.getItem(key)); }
     function setData(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 
+    // FONCTION D'ACTUALISATION DYNAMIQUE DE L'ÉMISSION EN DIRECT
+    function updateCurrentLiveShow() {
+      const grille = getData('rv_grille');
+      if (!grille) return;
+
+      const daysMap = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+      const now = new Date();
+      const currentDayName = daysMap[now.getDay()];
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+      const slotsForDay = grille[currentDayName] || [];
+      let activeSlot = null;
+
+      for (let slot of slotsForDay) {
+        if (!slot.horaire) continue;
+        const parts = slot.horaire.split(" - ");
+        if (parts.length === 2) {
+          const startParts = parts[0].split(":");
+          const endParts = parts[1].split(":");
+          
+          const startMins = parseInt(startParts[0]) * 60 + parseInt(startParts[1]);
+          const endMins = parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
+
+          if (currentMinutes >= startMins && currentMinutes <= endMins) {
+            activeSlot = slot;
+            break;
+          }
+        }
+      }
+
+      const liveTitle = document.getElementById('home-live-title');
+      const liveTime = document.getElementById('home-live-time');
+      const liveHost = document.getElementById('home-live-host');
+      const liveDesc = document.getElementById('home-live-desc');
+      const headerNowPlaying = document.getElementById('header-now-playing');
+
+      if (activeSlot) {
+        if (liveTitle) liveTitle.innerText = activeSlot.emission.toUpperCase();
+        if (liveTime) liveTime.innerText = activeSlot.horaire;
+        if (liveHost) liveHost.innerText = activeSlot.animateur;
+        if (liveDesc) liveDesc.innerText = activeSlot.description || "Infos, Dédicaces & Musique";
+        if (headerNowPlaying) headerNowPlaying.innerText = `${activeSlot.emission} — ${activeSlot.animateur}`;
+      } else {
+        if (liveTitle) liveTitle.innerText = "PROGRAMME MUSICAL NON STOP";
+        if (liveTime) liveTime.innerText = "En direct";
+        if (liveHost) liveHost.innerText = "Radio Vicomté 103.9 FM";
+        if (liveDesc) liveDesc.innerText = "La sélection musicale du canton";
+        if (headerNowPlaying) headerNowPlaying.innerText = "Radio Vicomté 103.9 FM — Le meilleur de la Corrèze";
+      }
+    }
+
     function switchPublicTab(tabId) {
       document.querySelectorAll('main > div').forEach(el => el.classList.add('hidden'));
       const target = document.getElementById(`pub-view-${tabId}`);
@@ -1088,6 +1140,7 @@
       currentAdminDay = day;
       renderAdminGrille();
       renderPublicGrille();
+      updateCurrentLiveShow();
     }
 
     function deleteSlot(idx) {
@@ -1097,6 +1150,7 @@
         setData('rv_grille', data);
         renderAdminGrille();
         renderPublicGrille();
+        updateCurrentLiveShow();
         showToast("Créneau supprimé.");
       }
     }
@@ -1217,7 +1271,7 @@
       const file = event.target.files[0];
       if (file) {
         if (file.size > 4 * 1024 * 1024) {
-          showToast("Attention : Fichier volumineux (>4Mo). Risque de saturation du stockage du navigateur !", "fa-triangle-exclamation");
+          showToast("Attention : Fichier volumineux (>4Mo). Risque de saturation !", "fa-triangle-exclamation");
         }
         document.getElementById('rep-file-name').innerText = file.name;
         const reader = new FileReader();
@@ -1728,6 +1782,10 @@
       renderPublicDedicaces();
       renderPublicPresse();
       renderPublicPhotos();
+      
+      // Lancement de l'actualisation dynamique du direct
+      updateCurrentLiveShow();
+      setInterval(updateCurrentLiveShow, 60000);
     };
   </script>
   
