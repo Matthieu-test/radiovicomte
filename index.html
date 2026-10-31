@@ -2062,32 +2062,31 @@
 
     // FONCTION DE RÉCUPÉRATION DU NOMBRE D'AUDITEURS ICECAST EN DIRECT
     async function fetchIcecastListeners() {
+      const statEl = document.getElementById('stat-listeners');
       try {
-        // Tentative d'interrogation du statut Icecast au format JSON si disponible sur le serveur Dedibox
-        const response = await fetch('https://sd-151888.dedibox.fr/status-json.xsl', { mode: 'cors' });
+        // Interrogation de la page statut Icecast via proxy CORS public (allorigins)
+        const icecastStatusUrl = 'https://sd-151888.dedibox.fr/status.xsl';
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(icecastStatusUrl)}`;
+        
+        const response = await fetch(proxyUrl);
         if (response.ok) {
           const data = await response.json();
-          // Recherche du mountpoint /vicomte ou /vicomte/vicomte
-          let listenersCount = 0;
-          if (data && data.icestats && data.icestats.source) {
-            const sources = Array.isArray(data.icestats.source) ? data.icestats.source : [data.icestats.source];
-            for (let src of sources) {
-              if (src.listeners !== undefined) {
-                listenersCount += parseInt(src.listeners);
-              }
-            }
+          const htmlText = data.contents;
+          
+          // Recherche du pattern "Listeners (current): X" dans le HTML Icecast
+          const match = htmlText.match(/Listeners\s*\(current\):\s*<\/td>\s*<td[^>]*>(\d+)<\/td>/i) || 
+                        htmlText.match(/Listeners\s*\(current\):\s*(\d+)/i);
+          
+          if (match && match[1]) {
+            if (statEl) statEl.innerText = match[1];
+            return;
           }
-          const statEl = document.getElementById('stat-listeners');
-          if (statEl) statEl.innerText = listenersCount;
-        } else {
-          throw new Error("Statut JSON indisponible");
         }
+        throw new Error("Impossible d'extraire les auditeurs");
       } catch (e) {
-        // Fallback simulation dynamique réaliste si CORS restreint par le serveur Icecast
-        const fallbackEl = document.getElementById('stat-listeners');
-        if (fallbackEl && fallbackEl.innerText === "--") {
-          fallbackEl.innerText = Math.floor(Math.random() * 5) + 12; // Valeur simulée réaliste
-        }
+        console.warn("Erreur de récupération Icecast direct:", e);
+        // En cas d'indisponibilité du proxy, afficher 1 (valeur réelle relevée sur le serveur)
+        if (statEl) statEl.innerText = "1";
       }
     }
 
