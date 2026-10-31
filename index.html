@@ -95,11 +95,11 @@
       </div>
 
       <div class="flex items-center space-x-4 mt-1 sm:mt-0">
-        <button onclick="toggleAudioStream()" id="global-header-play-btn" class="flex items-center space-x-1.5 bg-vicomte-brique hover:bg-vicomte-briqueDark text-white px-3.5 py-1 rounded-full text-xs font-bold transition shadow-sm">
+        <button onclick="toggleAudioStream()" id="global-header-play-btn" class="flex items-center space-x-1.5 bg-vicomte-brique hover:bg-vicomte-briqueDark text-white px-3.5 py-1 rounded-full text-xs font-bold transition shadow-sm cursor-pointer">
           <i class="fa-solid fa-play text-[10px]" id="header-play-icon"></i>
           <span id="header-play-text">Écouter la Radio</span>
         </button>
-        <button onclick="toggleAdminView(true)" class="flex items-center space-x-1.5 text-vicomte-dorure hover:text-white transition font-bold border border-vicomte-dorure/40 px-3 py-1 rounded-lg">
+        <button onclick="toggleAdminView(true)" class="flex items-center space-x-1.5 text-vicomte-dorure hover:text-white transition font-bold border border-vicomte-dorure/40 px-3 py-1 rounded-lg cursor-pointer">
           <i class="fa-solid fa-lock text-[10px]"></i>
           <span>Administration</span>
         </button>
@@ -129,7 +129,7 @@
           </div>
         </div>
 
-        <button onclick="switchPublicTab('dedicaces')" class="bg-vicomte-dorure hover:bg-amber-500 text-vicomte-chocolat px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-wider transition shadow-lg hover:scale-105 flex items-center">
+        <button onclick="switchPublicTab('dedicaces')" class="bg-vicomte-dorure hover:bg-amber-500 text-vicomte-chocolat px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-wider transition shadow-lg hover:scale-105 flex items-center cursor-pointer">
           <i class="fa-solid fa-heart mr-2 text-vicomte-brique"></i> Envoyer une Dédicace
         </button>
       </div>
@@ -137,17 +137,17 @@
       <!-- Navigation -->
       <nav class="bg-vicomte-briqueDark/90 border-t border-vicomte-brique text-xs font-bold">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center md:justify-start gap-1 py-1.5" id="pub-nav-container">
-          <button onclick="switchPublicTab('home')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-white hover:bg-vicomte-brique transition uppercase tracking-wider bg-vicomte-brique shadow" id="pub-btn-home">
+          <button onclick="switchPublicTab('home')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-white hover:bg-vicomte-brique transition uppercase tracking-wider bg-vicomte-brique shadow cursor-pointer" id="pub-btn-home">
             <i class="fa-solid fa-house mr-1.5"></i> Accueil
           </button>
-          <button onclick="switchPublicTab('emissions')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-emissions">Émissions</button>
-          <button onclick="switchPublicTab('grille')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-grille">Grille des Programmes</button>
-          <button onclick="switchPublicTab('replays')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-replays">Replays & Podcasts</button>
-          <button onclick="switchPublicTab('dedicaces')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-dedicaces">Dédicaces</button>
-          <button onclick="switchPublicTab('pub')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-pub">Publicités</button>
-          <button onclick="switchPublicTab('photos')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-photos">Photos</button>
-          <button onclick="switchPublicTab('presse')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-presse">On parle de nous</button>
-          <button onclick="switchPublicTab('contact')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-contact">Contact</button>
+          <button onclick="switchPublicTab('emissions')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider cursor-pointer" id="pub-btn-emissions">Émissions</button>
+          <button onclick="switchPublicTab('grille')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider cursor-pointer" id="pub-btn-grille">Grille des Programmes</button>
+          <button onclick="switchPublicTab('replays')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider cursor-pointer" id="pub-btn-replays">Replays & Podcasts</button>
+          <button onclick="switchPublicTab('dedicaces')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider cursor-pointer" id="pub-btn-dedicaces">Dédicaces</button>
+          <button onclick="switchPublicTab('pub')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider cursor-pointer" id="pub-btn-pub">Publicités</button>
+          <button onclick="switchPublicTab('photos')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider cursor-pointer" id="pub-btn-photos">Photos</button>
+          <button onclick="switchPublicTab('presse')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider cursor-pointer" id="pub-btn-presse">On parle de nous</button>
+          <button onclick="switchPublicTab('contact')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider cursor-pointer" id="pub-btn-contact">Contact</button>
         </div>
       </nav>
     </header>
@@ -155,14 +155,11 @@
     <!-- CONTENU PUBLIC DES ONGLETS -->
     <main class="max-w-7xl mx-auto px-4 py-8 flex-grow space-y-10 w-full">
       
-      <!-- TAB 1: ACCUEIL (Format large en longueur) -->
+      <!-- TAB 1: ACCUEIL -->
       <div id="pub-view-home" class="space-y-10">
-        
-        <!-- Grand Banner Hero "Bienvenue sur Radio Vicomté" -->
         <div class="bg-vicomte-brique rounded-3xl p-6 md:p-10 shadow-2xl border-4 border-vicomte-dorure/60 flex flex-col lg:flex-row justify-between items-center gap-8 relative overflow-hidden">
           <div class="absolute inset-0 pattern-meyssac opacity-20 pointer-events-none"></div>
 
-          <!-- Gauche : Texte et boutons -->
           <div class="space-y-4 relative z-10 max-w-2xl">
             <div class="inline-flex items-center space-x-2 bg-vicomte-chocolat/80 text-vicomte-dorure px-3.5 py-1 rounded-full text-xs font-bold border border-vicomte-dorure/30 shadow-sm">
               <i class="fa-solid fa-tower-broadcast"></i>
@@ -178,16 +175,15 @@
             </p>
 
             <div class="flex flex-wrap gap-3 pt-2">
-              <button onclick="toggleAudioStream()" class="bg-vicomte-dorure hover:bg-amber-500 text-vicomte-chocolat font-black px-6 py-3 rounded-2xl text-xs uppercase tracking-wider transition shadow-lg flex items-center">
+              <button onclick="toggleAudioStream()" class="bg-vicomte-dorure hover:bg-amber-500 text-vicomte-chocolat font-black px-6 py-3 rounded-2xl text-xs uppercase tracking-wider transition shadow-lg flex items-center cursor-pointer">
                 <i class="fa-solid fa-play mr-2 text-vicomte-brique" id="banner-play-icon"></i> <span id="banner-play-text">Écouter le Direct</span>
               </button>
-              <button onclick="switchPublicTab('dedicaces')" class="bg-vicomte-chocolat hover:bg-black/60 text-white font-bold px-6 py-3 rounded-2xl text-xs uppercase tracking-wider transition shadow-lg border border-white/20 flex items-center">
+              <button onclick="switchPublicTab('dedicaces')" class="bg-vicomte-chocolat hover:bg-black/60 text-white font-bold px-6 py-3 rounded-2xl text-xs uppercase tracking-wider transition shadow-lg border border-white/20 flex items-center cursor-pointer">
                 <i class="fa-solid fa-paper-plane mr-2 text-vicomte-dorure"></i> Envoyer un message à l'antenne
               </button>
             </div>
           </div>
 
-          <!-- Droite : Bloc Actuellement en Studio -->
           <div class="bg-vicomte-chocolat/95 border border-vicomte-dorure/40 rounded-2xl p-5 shadow-2xl w-full lg:w-80 flex-shrink-0 relative z-10 text-white space-y-3">
             <div class="flex items-center space-x-2.5 border-b border-white/10 pb-2.5">
               <div class="w-8 h-8 rounded-lg bg-vicomte-brique flex items-center justify-center text-white">
@@ -207,21 +203,19 @@
           </div>
         </div>
 
-        <!-- Section Replays & Formulaire Dédicace -->
         <div class="grid md:grid-cols-12 gap-8">
           <div class="md:col-span-7 space-y-4">
             <div class="flex justify-between items-center border-b-2 border-vicomte-sable pb-2">
               <h3 class="font-display font-extrabold text-xl text-vicomte-brique flex items-center">
                 <i class="fa-solid fa-podcast mr-2 text-vicomte-dorure"></i> Derniers Replays
               </h3>
-              <button onclick="switchPublicTab('replays')" class="text-xs font-bold text-vicomte-brique hover:underline">
+              <button onclick="switchPublicTab('replays')" class="text-xs font-bold text-vicomte-brique hover:underline cursor-pointer">
                 Tout voir <i class="fa-solid fa-chevron-right text-[10px]"></i>
               </button>
             </div>
             <div class="grid sm:grid-cols-2 gap-4" id="home-replays-preview"></div>
           </div>
 
-          <!-- Formulaire Dédicace Rapide -->
           <div class="md:col-span-5 bg-gradient-to-br from-vicomte-brique to-vicomte-chocolat text-white rounded-3xl p-6 shadow-xl space-y-4">
             <div class="flex items-center space-x-3 border-b border-white/20 pb-3">
               <div class="w-10 h-10 rounded-full bg-vicomte-dorure text-vicomte-chocolat flex items-center justify-center font-bold text-lg">
@@ -246,7 +240,7 @@
                 <label class="block mb-1 text-vicomte-sable font-bold">Votre Message *</label>
                 <textarea id="ded-msg" required rows="3" placeholder="Passez le bonjour à l'équipe et à ma famille..." class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-white placeholder-white/40 focus:outline-none focus:border-vicomte-dorure"></textarea>
               </div>
-              <button type="submit" class="w-full bg-vicomte-dorure hover:bg-amber-500 text-vicomte-chocolat font-black py-2.5 rounded-xl uppercase tracking-wider shadow-lg transition">
+              <button type="submit" class="w-full bg-vicomte-dorure hover:bg-amber-500 text-vicomte-chocolat font-black py-2.5 rounded-xl uppercase tracking-wider shadow-lg transition cursor-pointer">
                 <i class="fa-solid fa-paper-plane mr-1.5"></i> Envoyer au Studio
               </button>
             </form>
@@ -324,7 +318,7 @@
           <div class="bg-white rounded-3xl p-6 shadow-md border border-vicomte-sable space-y-4">
             <h3 class="font-display font-bold text-lg text-vicomte-brique"><i class="fa-solid fa-rectangle-ad text-vicomte-dorure mr-2"></i> Bannières & Sponsoring Web</h3>
             <p class="text-xs text-gray-700 leading-relaxed">Affichez votre logo et vos offres directement sur notre site web et nos réseaux sociaux.</p>
-            <button onclick="switchPublicTab('contact')" class="inline-block bg-vicomte-brique text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-vicomte-briqueDark transition">Demander un devis publicitaire</button>
+            <button onclick="switchPublicTab('contact')" class="inline-block bg-vicomte-brique text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-vicomte-briqueDark transition cursor-pointer">Demander un devis publicitaire</button>
           </div>
         </div>
       </div>
@@ -376,7 +370,7 @@
               <label class="block mb-1 font-bold text-vicomte-chocolat">Message *</label>
               <textarea required rows="4" placeholder="Votre message..." class="w-full bg-vicomte-sableLight border border-vicomte-sable rounded-xl px-3 py-2"></textarea>
             </div>
-            <button type="submit" class="w-full bg-vicomte-brique text-white font-bold py-2.5 rounded-xl hover:bg-vicomte-briqueDark transition uppercase tracking-wider">
+            <button type="submit" class="w-full bg-vicomte-brique text-white font-bold py-2.5 rounded-xl hover:bg-vicomte-briqueDark transition uppercase tracking-wider cursor-pointer">
               Envoyer au Studio
             </button>
           </form>
@@ -417,10 +411,10 @@
       </div>
 
       <div class="flex items-center space-x-4">
-        <button onclick="toggleAdminView(false)" class="px-3.5 py-1.5 bg-admin-bg hover:bg-admin-border text-xs text-gray-300 rounded-lg transition border border-admin-border flex items-center font-bold">
+        <button onclick="toggleAdminView(false)" class="px-3.5 py-1.5 bg-admin-bg hover:bg-admin-border text-xs text-gray-300 rounded-lg transition border border-admin-border flex items-center font-bold cursor-pointer">
           <i class="fa-solid fa-globe mr-1.5 text-blue-400"></i> Voir le Site Public
         </button>
-        <button onclick="logoutAdmin()" class="px-3.5 py-1.5 bg-red-600/80 hover:bg-red-600 text-xs text-white rounded-lg transition font-bold flex items-center shadow">
+        <button onclick="logoutAdmin()" class="px-3.5 py-1.5 bg-red-600/80 hover:bg-red-600 text-xs text-white rounded-lg transition font-bold flex items-center shadow cursor-pointer">
           <i class="fa-solid fa-arrow-right-from-bracket mr-1.5"></i> Se Déconnecter
         </button>
       </div>
@@ -453,7 +447,7 @@
           <label class="block mb-1 font-bold text-gray-300">Mot de passe *</label>
           <input type="password" id="admin-pass-input" value="vicomte107" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
         </div>
-        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition shadow-lg">
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition shadow-lg cursor-pointer">
           <i class="fa-solid fa-right-to-bracket mr-1.5"></i> Se Connecter
         </button>
       </form>
@@ -494,13 +488,13 @@
 
       <!-- ONGLETS DE L'ADMINISTRATION -->
       <div class="flex flex-wrap gap-2 bg-admin-card/50 p-1.5 rounded-2xl border border-admin-border" id="admin-nav-tabs">
-        <button onclick="switchAdminTab('grille')" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold transition flex items-center shadow" id="adm-btn-grille"><i class="fa-solid fa-calendar-days mr-2"></i> Grille des Programmes</button>
-        <button onclick="switchAdminTab('emissions')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center" id="adm-btn-emissions"><i class="fa-solid fa-radio mr-2 text-amber-500"></i> Émissions</button>
-        <button onclick="switchAdminTab('replays')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center" id="adm-btn-replays"><i class="fa-solid fa-podcast mr-2 text-purple-400"></i> Gestion des Replays</button>
-        <button onclick="switchAdminTab('dedicaces')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center" id="adm-btn-dedicaces"><i class="fa-solid fa-comments mr-2 text-amber-400"></i> Modération Dédicaces</button>
-        <button onclick="switchAdminTab('photos')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center" id="adm-btn-photos"><i class="fa-solid fa-images mr-2 text-pink-400"></i> Gestion des Photos</button>
-        <button onclick="switchAdminTab('presse')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center" id="adm-btn-presse"><i class="fa-solid fa-newspaper mr-2 text-cyan-400"></i> On parle de nous</button>
-        <button onclick="switchAdminTab('passwords')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center" id="adm-btn-passwords"><i class="fa-solid fa-user-gear mr-2 text-emerald-400"></i> Comptes & Mot de passe</button>
+        <button onclick="switchAdminTab('grille')" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold transition flex items-center shadow cursor-pointer" id="adm-btn-grille"><i class="fa-solid fa-calendar-days mr-2"></i> Grille des Programmes</button>
+        <button onclick="switchAdminTab('emissions')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-emissions"><i class="fa-solid fa-radio mr-2 text-amber-500"></i> Émissions</button>
+        <button onclick="switchAdminTab('replays')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-replays"><i class="fa-solid fa-podcast mr-2 text-purple-400"></i> Gestion des Replays</button>
+        <button onclick="switchAdminTab('dedicaces')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-dedicaces"><i class="fa-solid fa-comments mr-2 text-amber-400"></i> Modération Dédicaces</button>
+        <button onclick="switchAdminTab('photos')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-photos"><i class="fa-solid fa-images mr-2 text-pink-400"></i> Gestion des Photos</button>
+        <button onclick="switchAdminTab('presse')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-presse"><i class="fa-solid fa-newspaper mr-2 text-cyan-400"></i> On parle de nous</button>
+        <button onclick="switchAdminTab('passwords')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-passwords"><i class="fa-solid fa-user-gear mr-2 text-emerald-400"></i> Comptes & Mot de passe</button>
       </div>
 
       <!-- ADMIN TAB 1: GRILLE DES PROGRAMMES -->
@@ -510,7 +504,7 @@
             <span class="text-xs font-bold text-gray-300">Jour à éditer :</span>
             <div class="flex flex-wrap gap-1" id="admin-day-buttons"></div>
           </div>
-          <button onclick="openAddSlotModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl text-xs transition shadow flex items-center">
+          <button onclick="openAddSlotModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
             <i class="fa-solid fa-plus mr-2"></i> Ajouter un Créneau
           </button>
         </div>
@@ -534,7 +528,7 @@
       <div id="adm-view-emissions" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
         <div class="flex justify-between items-center border-b border-admin-border pb-3">
           <h3 class="font-bold text-base text-white">Gestion des Fiches Émissions</h3>
-          <button onclick="openEmissionModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center">
+          <button onclick="openEmissionModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
             <i class="fa-solid fa-plus mr-1.5"></i> Nouvelle Émission
           </button>
         </div>
@@ -545,7 +539,7 @@
       <div id="adm-view-replays" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
         <div class="flex justify-between items-center border-b border-admin-border pb-3">
           <h3 class="font-bold text-base text-white">Gestion des Podcasts / Replays</h3>
-          <button onclick="openReplayModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center">
+          <button onclick="openReplayModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
             <i class="fa-solid fa-plus mr-1.5"></i> Ajouter un Replay
           </button>
         </div>
@@ -565,7 +559,7 @@
       <div id="adm-view-photos" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
         <div class="flex justify-between items-center border-b border-admin-border pb-3">
           <h3 class="font-bold text-base text-white">Gestion de la Galerie Photos</h3>
-          <button onclick="openPhotoModal()" class="bg-pink-600 hover:bg-pink-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center">
+          <button onclick="openPhotoModal()" class="bg-pink-600 hover:bg-pink-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
             <i class="fa-solid fa-plus mr-1.5"></i> Ajouter une Photo
           </button>
         </div>
@@ -576,7 +570,7 @@
       <div id="adm-view-presse" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
         <div class="flex justify-between items-center border-b border-admin-border pb-3">
           <h3 class="font-bold text-base text-white">Articles & Revue de Presse</h3>
-          <button onclick="openPresseModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center">
+          <button onclick="openPresseModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
             <i class="fa-solid fa-plus mr-1.5"></i> Ajouter un Article
           </button>
         </div>
@@ -595,7 +589,7 @@
             <label class="block mb-1 text-gray-400 font-bold">Nouveau mot de passe</label>
             <input type="password" id="new-admin-pass" placeholder="Nouveau mot de passe..." class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
           </div>
-          <button onclick="showToast('Mot de passe mis à jour avec succès !')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl transition">
+          <button onclick="showToast('Mot de passe mis à jour avec succès !')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl transition cursor-pointer">
             Mettre à jour le mot de passe
           </button>
         </div>
@@ -604,12 +598,12 @@
     </div>
   </div>
 
-  <!-- MODAL CRÉNEAU GRILLE (AVEC MENUS DÉROULANTS TRANCHES 30 MIN) -->
-  <div id="slot-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <!-- MODAL CRÉNEAU GRILLE -->
+  <div id="slot-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
         <h3 class="font-bold text-base text-white" id="slot-modal-title">Modifier le Créneau Grille</h3>
-        <button onclick="closeSlotModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+        <button onclick="closeSlotModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
       </div>
       <form onsubmit="handleSlotFormSubmit(event)" class="space-y-4">
         <input type="hidden" id="slot-edit-index" value="-1">
@@ -646,19 +640,19 @@
           <textarea id="slot-input-desc" rows="3" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></textarea>
         </div>
         <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
-          <button type="button" onclick="closeSlotModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold">Annuler</button>
-          <button type="submit" class="px-6 py-2 bg-blue-600 text-white font-bold rounded-xl shadow-lg">Enregistrer</button>
+          <button type="button" onclick="closeSlotModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button>
+          <button type="submit" class="px-6 py-2 bg-blue-600 text-white font-bold rounded-xl shadow-lg cursor-pointer">Enregistrer</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- MODAL ÉMISSIONS -->
-  <div id="emission-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <div id="emission-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
         <h3 class="font-bold text-base text-white" id="emission-modal-title">Modifier l'Émission</h3>
-        <button onclick="closeEmissionModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+        <button onclick="closeEmissionModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
       </div>
       <form onsubmit="handleEmissionFormSubmit(event)" class="space-y-3">
         <input type="hidden" id="em-edit-index" value="-1">
@@ -679,19 +673,19 @@
           <textarea id="em-input-desc" required rows="3" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></textarea>
         </div>
         <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
-          <button type="button" onclick="closeEmissionModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold">Annuler</button>
-          <button type="submit" class="px-6 py-2 bg-blue-600 text-white font-bold rounded-xl shadow-lg">Enregistrer</button>
+          <button type="button" onclick="closeEmissionModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button>
+          <button type="submit" class="px-6 py-2 bg-blue-600 text-white font-bold rounded-xl shadow-lg cursor-pointer">Enregistrer</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- MODAL REPLAYS (AVEC IMPORT AUDIO ORDINATEUR / URL) -->
-  <div id="replay-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <!-- MODAL REPLAYS -->
+  <div id="replay-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
         <h3 class="font-bold text-base text-white" id="replay-modal-title">Modifier le Replay</h3>
-        <button onclick="closeReplayModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+        <button onclick="closeReplayModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
       </div>
       <form onsubmit="handleReplayFormSubmit(event)" class="space-y-3">
         <input type="hidden" id="rep-edit-index" value="-1">
@@ -725,19 +719,19 @@
           <input type="text" id="rep-input-url" placeholder="Ou coller un lien URL audio (https://...)" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
         </div>
         <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
-          <button type="button" onclick="closeReplayModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold">Annuler</button>
-          <button type="submit" class="px-6 py-2 bg-purple-600 text-white font-bold rounded-xl shadow-lg">Enregistrer</button>
+          <button type="button" onclick="closeReplayModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button>
+          <button type="submit" class="px-6 py-2 bg-purple-600 text-white font-bold rounded-xl shadow-lg cursor-pointer">Enregistrer</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- MODAL ON PARLE DE NOUS (PRESSE) -->
-  <div id="presse-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <!-- MODAL ON PARLE DE NOUS -->
+  <div id="presse-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
         <h3 class="font-bold text-base text-white" id="presse-modal-title">Article de Presse</h3>
-        <button onclick="closePresseModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+        <button onclick="closePresseModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
       </div>
       <form onsubmit="handlePresseFormSubmit(event)" class="space-y-3">
         <input type="hidden" id="prs-edit-index" value="-1">
@@ -750,23 +744,27 @@
           <input type="text" id="prs-input-title" required placeholder="Titre..." class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
         </div>
         <div>
+          <label class="block mb-1 text-gray-300 font-bold">Lien URL de l'article (facultatif)</label>
+          <input type="text" id="prs-input-link" placeholder="https://..." class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
+        </div>
+        <div>
           <label class="block mb-1 text-gray-300 font-bold">Extrait / Résumé *</label>
           <textarea id="prs-input-snippet" required rows="3" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></textarea>
         </div>
         <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
-          <button type="button" onclick="closePresseModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold">Annuler</button>
-          <button type="submit" class="px-6 py-2 bg-cyan-600 text-white font-bold rounded-xl shadow-lg">Enregistrer</button>
+          <button type="button" onclick="closePresseModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button>
+          <button type="submit" class="px-6 py-2 bg-cyan-600 text-white font-bold rounded-xl shadow-lg cursor-pointer">Enregistrer</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- MODAL GESTION PHOTO -->
-  <div id="photo-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <div id="photo-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
         <h3 class="font-bold text-base text-white" id="photo-modal-title">Ajouter une Photo</h3>
-        <button onclick="closePhotoModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+        <button onclick="closePhotoModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
       </div>
       <form onsubmit="handlePhotoFormSubmit(event)" class="space-y-3 text-xs">
         <input type="hidden" id="pho-edit-index" value="-1">
@@ -786,16 +784,16 @@
           <input type="text" id="pho-input-url" placeholder="Ou coller un lien URL d'image (https://...)" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-pink-500">
         </div>
         <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
-          <button type="button" onclick="closePhotoModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold">Annuler</button>
-          <button type="submit" class="px-6 py-2 bg-pink-600 text-white font-bold rounded-xl shadow-lg">Enregistrer</button>
+          <button type="button" onclick="closePhotoModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button>
+          <button type="submit" class="px-6 py-2 bg-pink-600 text-white font-bold rounded-xl shadow-lg cursor-pointer">Enregistrer</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- MODAL LIGHTBOX PHOTO PLEIN ÉCRAN -->
-  <div id="photo-lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex flex-col items-center justify-center p-4 cursor-pointer" onclick="closePhotoLightbox()">
-    <button onclick="closePhotoLightbox()" class="absolute top-5 right-5 text-white hover:text-vicomte-dorure text-3xl font-bold transition focus:outline-none">
+  <!-- MODAL LIGHTBOX PHOTO -->
+  <div id="photo-lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex-col items-center justify-center p-4 cursor-pointer" onclick="closePhotoLightbox()">
+    <button onclick="closePhotoLightbox()" class="absolute top-5 right-5 text-white hover:text-vicomte-dorure text-3xl font-bold transition focus:outline-none cursor-pointer">
       <i class="fa-solid fa-xmark"></i>
     </button>
     <div class="max-w-4xl max-h-[85vh] flex flex-col items-center cursor-default" onclick="event.stopPropagation()">
@@ -839,7 +837,7 @@
     ];
 
     const DEFAULT_PRESSE = [
-      { id: 1, title: "Radio Vicomté célèbre ses nouvelles grilles d'émissions", source: "La Montagne", snippet: "La station locale continue de renforcer son ancrage auprès des commerçants et habitants du canton." }
+      { id: 1, title: "Radio Vicomté célèbre ses nouvelles grilles d'émissions", source: "La Montagne", link: "https://www.lamontagne.fr", snippet: "La station locale continue de renforcer son ancrage auprès des commerçants et habitants du canton." }
     ];
 
     const DEFAULT_PHOTOS = [
@@ -915,6 +913,7 @@
         img.src = imgUrl;
         cap.innerText = caption;
         modal.classList.remove('hidden');
+        modal.classList.add('flex');
         document.body.style.overflow = 'hidden';
       }
     }
@@ -922,6 +921,7 @@
     function closePhotoLightbox() {
       const modal = document.getElementById('photo-lightbox-modal');
       if (modal) {
+        modal.classList.remove('flex');
         modal.classList.add('hidden');
         document.body.style.overflow = '';
       }
@@ -931,7 +931,6 @@
       if (e.key === 'Escape') closePhotoLightbox();
     });
 
-    // BASCULE DE VUE (PUBLIC / ADMIN)
     function toggleAdminView(showAdmin) {
       const pubSite = document.getElementById('public-site');
       const adminSite = document.getElementById('admin-site');
@@ -969,7 +968,6 @@
       showToast("Déconnexion de l'administration.");
     }
 
-    // NAVIGATION DASHBOARD ADMIN
     function switchAdminTab(tabId) {
       document.querySelectorAll('#admin-dashboard > div[id^="adm-view-"]').forEach(el => el.classList.add('hidden'));
       const target = document.getElementById(`adm-view-${tabId}`);
@@ -993,12 +991,11 @@
       if (tabId === 'presse') renderAdminPresse();
     }
 
-    // ADMIN: GESTION GRILLE DES PROGRAMMES
     function renderAdminGrille() {
       const container = document.getElementById('admin-day-buttons');
       if (container) {
         container.innerHTML = DAYS.map(d => `
-          <button onclick="setAdminDay('${d}')" class="px-3 py-1 rounded-lg text-xs font-bold transition ${currentAdminDay === d ? 'bg-blue-600 text-white' : 'bg-admin-bg text-gray-400 border border-admin-border'}">
+          <button onclick="setAdminDay('${d}')" class="px-3 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${currentAdminDay === d ? 'bg-blue-600 text-white' : 'bg-admin-bg text-gray-400 border border-admin-border'}">
             ${d}
           </button>
         `).join('');
@@ -1022,8 +1019,8 @@
           <td class="py-3 text-gray-300">${s.animateur}</td>
           <td class="py-3 text-gray-400 max-w-xs truncate">${s.description}</td>
           <td class="py-3 text-right space-x-2">
-            <button onclick="openAddSlotModal(${idx})" class="text-blue-400 hover:text-blue-300 p-1" title="Modifier"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button onclick="deleteSlot(${idx})" class="text-red-400 hover:text-red-300 p-1" title="Supprimer"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="openAddSlotModal(${idx})" class="text-blue-400 hover:text-blue-300 p-1 cursor-pointer" title="Modifier"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onclick="deleteSlot(${idx})" class="text-red-400 hover:text-red-300 p-1 cursor-pointer" title="Supprimer"><i class="fa-solid fa-trash"></i></button>
           </td>
         </tr>
       `).join('');
@@ -1055,11 +1052,15 @@
         document.getElementById('slot-input-animateur').value = "";
         document.getElementById('slot-input-desc').value = "";
       }
-      document.getElementById('slot-modal').classList.remove('hidden');
+      const modal = document.getElementById('slot-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
     }
 
     function closeSlotModal() {
-      document.getElementById('slot-modal').classList.add('hidden');
+      const modal = document.getElementById('slot-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
     }
 
     function handleSlotFormSubmit(event) {
@@ -1100,7 +1101,6 @@
       }
     }
 
-    // ADMIN: GESTION ÉMISSIONS (CRUD)
     function renderAdminEmissions() {
       const container = document.getElementById('admin-emissions-list');
       if (!container) return;
@@ -1119,8 +1119,8 @@
             </div>
           </div>
           <div class="flex items-center space-x-2 flex-shrink-0">
-            <button onclick="openEmissionModal(${idx})" class="p-2 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button onclick="deleteEmission(${idx})" class="p-2 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="openEmissionModal(${idx})" class="p-2 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onclick="deleteEmission(${idx})" class="p-2 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition cursor-pointer"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
       `).join('');
@@ -1143,11 +1143,15 @@
         document.getElementById('em-input-img').value = '';
         document.getElementById('em-input-desc').value = '';
       }
-      document.getElementById('emission-modal').classList.remove('hidden');
+      const modal = document.getElementById('emission-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
     }
 
     function closeEmissionModal() {
-      document.getElementById('emission-modal').classList.add('hidden');
+      const modal = document.getElementById('emission-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
     }
 
     function handleEmissionFormSubmit(event) {
@@ -1182,7 +1186,6 @@
       showToast("Émission supprimée.");
     }
 
-    // ADMIN: GESTION REPLAYS (CRUD)
     function renderAdminReplays() {
       const container = document.getElementById('admin-replays-list');
       if (!container) return;
@@ -1202,8 +1205,8 @@
             <span class="text-gray-400 ml-2">(${r.show} — ${r.date} — ${r.duration})</span>
           </div>
           <div class="flex items-center space-x-2 flex-shrink-0">
-            <button onclick="openReplayModal(${idx})" class="p-1.5 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button onclick="deleteReplay(${idx})" class="p-1.5 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="openReplayModal(${idx})" class="p-1.5 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onclick="deleteReplay(${idx})" class="p-1.5 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition cursor-pointer"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
       `).join('');
@@ -1243,11 +1246,15 @@
         document.getElementById('rep-input-duration').value = '20 min';
         document.getElementById('rep-input-url').value = '';
       }
-      document.getElementById('replay-modal').classList.remove('hidden');
+      const modal = document.getElementById('replay-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
     }
 
     function closeReplayModal() {
-      document.getElementById('replay-modal').classList.add('hidden');
+      const modal = document.getElementById('replay-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
     }
 
     function handleReplayFormSubmit(event) {
@@ -1284,7 +1291,6 @@
       showToast("Replay supprimé.");
     }
 
-    // ADMIN: MODÉRATION DÉDICACES
     function renderAdminDedicaces() {
       const container = document.getElementById('admin-dedicaces-list');
       if (!container) return;
@@ -1306,8 +1312,8 @@
           </div>
           <p class="text-xs text-gray-200 italic font-medium">"${d.msg}"</p>
           <div class="flex justify-end space-x-2 pt-2 border-t border-admin-border/50">
-            <button onclick="approveDedicace(${idx})" class="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition flex items-center"><i class="fa-solid fa-check mr-1.5"></i> ${d.approved ? 'Validé' : 'Valider'}</button>
-            <button onclick="deleteDedicace(${idx})" class="px-4 py-1.5 bg-red-600 hover:bg-red-500 text-white rounded-lg text-xs font-bold transition flex items-center"><i class="fa-solid fa-trash mr-1.5"></i> Supprimer</button>
+            <button onclick="approveDedicace(${idx})" class="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition flex items-center cursor-pointer"><i class="fa-solid fa-check mr-1.5"></i> ${d.approved ? 'Validé' : 'Valider'}</button>
+            <button onclick="deleteDedicace(${idx})" class="px-4 py-1.5 bg-red-600 hover:bg-red-500 text-white rounded-lg text-xs font-bold transition flex items-center cursor-pointer"><i class="fa-solid fa-trash mr-1.5"></i> Supprimer</button>
           </div>
         </div>
       `).join('');
@@ -1331,7 +1337,6 @@
       showToast("Dédicace supprimée.");
     }
 
-    // ADMIN: GESTION PHOTOS (CRUD)
     function renderAdminPhotos() {
       const container = document.getElementById('admin-photos-list');
       if (!container) return;
@@ -1347,8 +1352,8 @@
             <span class="font-bold text-white text-xs">${p.caption}</span>
           </div>
           <div class="flex items-center space-x-2 flex-shrink-0">
-            <button onclick="openPhotoModal(${idx})" class="p-1.5 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button onclick="deletePhoto(${idx})" class="p-1.5 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="openPhotoModal(${idx})" class="p-1.5 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onclick="deletePhoto(${idx})" class="p-1.5 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition cursor-pointer"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
       `).join('');
@@ -1381,10 +1386,16 @@
         document.getElementById('pho-input-caption').value = '';
         document.getElementById('pho-input-url').value = '';
       }
-      document.getElementById('photo-modal').classList.remove('hidden');
+      const modal = document.getElementById('photo-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
     }
 
-    function closePhotoModal() { document.getElementById('photo-modal').classList.add('hidden'); }
+    function closePhotoModal() {
+      const modal = document.getElementById('photo-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
 
     function handlePhotoFormSubmit(event) {
       event.preventDefault();
@@ -1413,7 +1424,6 @@
       showToast("Photo supprimée.");
     }
 
-    // ADMIN: GESTION PRESSE (CRUD)
     function renderAdminPresse() {
       const container = document.getElementById('admin-presse-list');
       if (!container) return;
@@ -1428,11 +1438,11 @@
         <div class="bg-admin-bg p-3.5 rounded-xl border border-admin-border flex justify-between items-center text-xs">
           <div class="space-y-0.5 pr-2">
             <p class="font-bold text-white">${p.title}</p>
-            <p class="text-[11px] text-gray-400">Source : ${p.source}</p>
+            <p class="text-[11px] text-gray-400">Source : ${p.source} ${p.link ? `— <a href="${p.link}" target="_blank" class="text-blue-400 hover:underline">Lien</a>` : ''}</p>
           </div>
           <div class="flex items-center space-x-2 flex-shrink-0">
-            <button onclick="openPresseModal(${idx})" class="p-1.5 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button onclick="deletePresse(${idx})" class="p-1.5 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="openPresseModal(${idx})" class="p-1.5 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onclick="deletePresse(${idx})" class="p-1.5 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition cursor-pointer"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
       `).join('');
@@ -1446,18 +1456,24 @@
         document.getElementById('presse-modal-title').innerText = "Modifier l'Article de Presse";
         document.getElementById('prs-input-title').value = p.title || '';
         document.getElementById('prs-input-source').value = p.source || '';
+        document.getElementById('prs-input-link').value = p.link || '';
         document.getElementById('prs-input-snippet').value = p.snippet || '';
       } else {
         document.getElementById('presse-modal-title').innerText = "Ajouter un Article de Presse";
         document.getElementById('prs-input-title').value = '';
         document.getElementById('prs-input-source').value = '';
+        document.getElementById('prs-input-link').value = '';
         document.getElementById('prs-input-snippet').value = '';
       }
-      document.getElementById('presse-modal').classList.remove('hidden');
+      const modal = document.getElementById('presse-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
     }
 
     function closePresseModal() {
-      document.getElementById('presse-modal').classList.add('hidden');
+      const modal = document.getElementById('presse-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
     }
 
     function handlePresseFormSubmit(event) {
@@ -1465,14 +1481,15 @@
       const idx = parseInt(document.getElementById('prs-edit-index').value);
       const title = document.getElementById('prs-input-title').value;
       const source = document.getElementById('prs-input-source').value;
+      const link = document.getElementById('prs-input-link').value;
       const snippet = document.getElementById('prs-input-snippet').value;
 
       const list = getData('rv_presse');
       if (idx >= 0) {
-        list[idx] = { ...list[idx], title, source, snippet };
+        list[idx] = { ...list[idx], title, source, link, snippet };
         showToast("Article modifié !");
       } else {
-        list.unshift({ id: Date.now(), title, source, snippet });
+        list.unshift({ id: Date.now(), title, source, link, snippet });
         showToast("Article ajouté avec succès !");
       }
 
@@ -1491,12 +1508,11 @@
       showToast("Article supprimé.");
     }
 
-    // RENDUS PUBLICS SUPPLÉMENTAIRES
     function renderPublicGrille() {
       const dayBtns = document.getElementById('public-day-buttons');
       if (dayBtns) {
         dayBtns.innerHTML = DAYS.map(d => `
-          <button onclick="setPublicDay('${d}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${currentPublicDay === d ? 'bg-vicomte-brique text-white shadow' : 'text-vicomte-chocolat hover:bg-vicomte-brique/10'}">${d}</button>
+          <button onclick="setPublicDay('${d}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${currentPublicDay === d ? 'bg-vicomte-brique text-white shadow' : 'text-vicomte-chocolat hover:bg-vicomte-brique/10'}">${d}</button>
         `).join('');
       }
       const timeline = document.getElementById('public-grille-timeline');
@@ -1541,14 +1557,14 @@
         <div class="bg-white p-4 rounded-2xl border border-vicomte-sable shadow-sm space-y-2">
           <div class="flex justify-between items-center text-[10px] text-vicomte-brique font-bold uppercase"><span>${r.show}</span><span>${r.date}</span></div>
           <h4 class="font-bold text-xs text-vicomte-chocolat">${r.title}</h4>
-          <button onclick="showToast('Lecture : ${r.title}')" class="w-full mt-2 bg-vicomte-sableLight text-vicomte-chocolat font-bold py-1.5 rounded-lg text-xs"><i class="fa-solid fa-circle-play text-vicomte-brique mr-1.5"></i> Écouter (${r.duration})</button>
+          <button onclick="showToast('Lecture : ${r.title}')" class="w-full mt-2 bg-vicomte-sableLight text-vicomte-chocolat font-bold py-1.5 rounded-lg text-xs cursor-pointer"><i class="fa-solid fa-circle-play text-vicomte-brique mr-1.5"></i> Écouter (${r.duration})</button>
         </div>
       `).join('');
       if (homePreview) homePreview.innerHTML = replays.slice(0, 2).map(r => `
         <div class="bg-white p-3 rounded-2xl border border-vicomte-sable shadow-sm space-y-1">
           <p class="text-[10px] text-vicomte-brique font-bold">${r.show}</p>
           <p class="font-bold text-xs text-vicomte-chocolat truncate">${r.title}</p>
-          <button onclick="showToast('Lecture : ${r.title}')" class="text-xs text-vicomte-brique font-bold hover:underline flex items-center mt-1"><i class="fa-solid fa-play text-[10px] mr-1"></i> Écouter</button>
+          <button onclick="showToast('Lecture : ${r.title}')" class="text-xs text-vicomte-brique font-bold hover:underline flex items-center mt-1 cursor-pointer"><i class="fa-solid fa-play text-[10px] mr-1"></i> Écouter</button>
         </div>
       `).join('');
     }
@@ -1581,8 +1597,11 @@
       const container = document.getElementById('public-presse-container');
       if (!container) return;
       container.innerHTML = getData('rv_presse').map(p => `
-        <div class="bg-white p-5 rounded-2xl border border-vicomte-sable shadow-sm space-y-2">
-          <span class="text-[10px] font-black uppercase text-vicomte-brique bg-vicomte-sableLight px-2 py-0.5 rounded-md">${p.source}</span>
+        <div class="bg-white p-5 rounded-2xl border border-vicomte-sable shadow-sm space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-[10px] font-black uppercase text-vicomte-brique bg-vicomte-sableLight px-2.5 py-1 rounded-md">${p.source}</span>
+            ${p.link ? `<a href="${p.link}" target="_blank" class="text-xs font-bold text-vicomte-brique hover:underline flex items-center"><i class="fa-solid fa-arrow-up-right-from-square mr-1 text-[10px]"></i> Lire l'article</a>` : ''}
+          </div>
           <h3 class="font-display font-bold text-sm text-vicomte-chocolat">${p.title}</h3>
           <p class="text-xs text-gray-600">${p.snippet}</p>
         </div>
@@ -1597,7 +1616,15 @@
       const bannerText = document.getElementById('banner-play-text');
       
       if (isPlayingAudio) {
-        if (audioStream) audioStream.play().catch(e => console.log(e));
+        if (audioStream) {
+          audioStream.play().catch(e => {
+            console.warn("Ouverture du flux direct externe :", e);
+            window.open("https://www.comequip.eu/Radio-Vicomte", "_blank");
+            showToast("Ouverture du flux audio...", "fa-tower-broadcast");
+            isPlayingAudio = false;
+            resetAudioUI();
+          });
+        }
         if (icon) icon.className = "fa-solid fa-pause text-[10px]";
         if (text) text.innerText = "Pause Radio";
         if (bannerIcon) bannerIcon.className = "fa-solid fa-pause mr-2 text-vicomte-brique";
@@ -1605,12 +1632,20 @@
         showToast("Écoute du Direct activée !");
       } else {
         if (audioStream) audioStream.pause();
-        if (icon) icon.className = "fa-solid fa-play text-[10px]";
-        if (text) text.innerText = "Écouter la Radio";
-        if (bannerIcon) bannerIcon.className = "fa-solid fa-play mr-2 text-vicomte-brique";
-        if (bannerText) bannerText.innerText = "Écouter le Direct";
+        resetAudioUI();
         showToast("Flux audio mis en pause.");
       }
+    }
+
+    function resetAudioUI() {
+      const icon = document.getElementById('header-play-icon');
+      const text = document.getElementById('header-play-text');
+      const bannerIcon = document.getElementById('banner-play-icon');
+      const bannerText = document.getElementById('banner-play-text');
+      if (icon) icon.className = "fa-solid fa-play text-[10px]";
+      if (text) text.innerText = "Écouter la Radio";
+      if (bannerIcon) bannerIcon.className = "fa-solid fa-play mr-2 text-vicomte-brique";
+      if (bannerText) bannerText.innerText = "Écouter le Direct";
     }
 
     function showToast(msg, iconClass = "fa-circle-check") {
@@ -1636,7 +1671,7 @@
     };
   </script>
   
-  <audio id="radio-audio-stream" preload="none">
+  <audio id="radio-audio-stream" preload="none" crossorigin="anonymous">
     <source src="https://www.comequip.eu/Radio-Vicomte" type="audio/mpeg">
   </audio>
 </body>
