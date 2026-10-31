@@ -604,7 +604,7 @@
     </div>
   </div>
 
-<!-- MODALS DU DASHBOARD -->
+  <!-- MODAL CRÉNEAU GRILLE (AVEC MENUS DÉROULANTS TRANCHES 30 MIN) -->
   <div id="slot-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
@@ -623,23 +623,13 @@
           <div>
             <label class="block mb-1 text-gray-300 font-bold">Heure de début *</label>
             <select id="slot-input-start" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
-              <!-- Options générées de 30 en 30 minutes -->
-              <script>
-                let timeOptions = "";
-                for(let h=0; h<24; h++){
-                  let hh = h < 10 ? "0" + h : h;
-                  timeOptions += `<option value="${hh}:00">${hh}:00</option><option value="${hh}:30">${hh}:30</option>`;
-                }
-                document.write(timeOptions);
-              </script>
+              <option value="00:00">00:00</option><option value="00:30">00:30</option><option value="01:00">01:00</option><option value="01:30">01:30</option><option value="02:00">02:00</option><option value="02:30">02:30</option><option value="03:00">03:00</option><option value="03:30">03:30</option><option value="04:00">04:00</option><option value="04:30">04:30</option><option value="05:00">05:00</option><option value="05:30">05:30</option><option value="06:00">06:00</option><option value="06:30">06:30</option><option value="07:00">07:00</option><option value="07:30">07:30</option><option value="08:00">08:00</option><option value="08:30">08:30</option><option value="09:00">09:00</option><option value="09:30">09:30</option><option value="10:00">10:00</option><option value="10:30">10:30</option><option value="11:00">11:00</option><option value="11:30">11:30</option><option value="12:00">12:00</option><option value="12:30">12:30</option><option value="13:00">13:00</option><option value="13:30">13:30</option><option value="14:00">14:00</option><option value="14:30">14:30</option><option value="15:00">15:00</option><option value="15:30">15:30</option><option value="16:00">16:00</option><option value="16:30">16:30</option><option value="17:00">17:00</option><option value="17:30">17:30</option><option value="18:00">18:00</option><option value="18:30">18:30</option><option value="19:00">19:00</option><option value="19:30">19:30</option><option value="20:00">20:00</option><option value="20:30">20:30</option><option value="21:00">21:00</option><option value="21:30">21:30</option><option value="22:00">22:00</option><option value="22:30">22:30</option><option value="23:00">23:00</option><option value="23:30">23:30</option>
             </select>
           </div>
           <div>
             <label class="block mb-1 text-gray-300 font-bold">Heure de fin *</label>
             <select id="slot-input-end" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
-              <script>
-                document.write(timeOptions);
-              </script>
+              <option value="00:00">00:00</option><option value="00:30">00:30</option><option value="01:00">01:00</option><option value="01:30">01:30</option><option value="02:00">02:00</option><option value="02:30">02:30</option><option value="03:00">03:00</option><option value="03:30">03:30</option><option value="04:00">04:00</option><option value="04:30">04:30</option><option value="05:00">05:00</option><option value="05:30">05:30</option><option value="06:00">06:00</option><option value="06:30">06:30</option><option value="07:00">07:00</option><option value="07:30">07:30</option><option value="08:00">08:00</option><option value="08:30">08:30</option><option value="09:00">09:00</option><option value="09:30">09:30</option><option value="10:00">10:00</option><option value="10:30">10:30</option><option value="11:00">11:00</option><option value="11:30">11:30</option><option value="12:00">12:00</option><option value="12:30">12:30</option><option value="13:00">13:00</option><option value="13:30">13:30</option><option value="14:00">14:00</option><option value="14:30">14:30</option><option value="15:00">15:00</option><option value="15:30">15:30</option><option value="16:00">16:00</option><option value="16:30">16:30</option><option value="17:00">17:00</option><option value="17:30">17:30</option><option value="18:00">18:00</option><option value="18:30">18:30</option><option value="19:00">19:00</option><option value="19:30">19:30</option><option value="20:00">20:00</option><option value="20:30">20:30</option><option value="21:00">21:00</option><option value="21:30">21:30</option><option value="22:00">22:00</option><option value="22:30">22:30</option><option value="23:00">23:00</option><option value="23:30">23:30</option>
             </select>
           </div>
         </div>
@@ -696,7 +686,7 @@
     </div>
   </div>
 
-  <!-- MODAL REPLAYS -->
+  <!-- MODAL REPLAYS (AVEC IMPORT AUDIO ORDINATEUR / URL) -->
   <div id="replay-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
@@ -722,6 +712,17 @@
             <label class="block mb-1 text-gray-300 font-bold">Durée *</label>
             <input type="text" id="rep-input-duration" required placeholder="20 min" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
           </div>
+        </div>
+        <div class="space-y-2">
+          <label class="block text-gray-300 font-bold">Fichier Audio ou Lien *</label>
+          <div class="bg-admin-bg border border-admin-border rounded-xl p-2.5 flex items-center space-x-3">
+            <label class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-3.5 py-1.5 rounded-lg cursor-pointer transition text-xs">
+              Choisir un fichier audio
+              <input type="file" id="rep-input-file" accept="audio/*" class="hidden" onchange="handleReplayFileSelect(event)">
+            </label>
+            <span id="rep-file-name" class="text-gray-400 text-xs">Aucun fichier choisi</span>
+          </div>
+          <input type="text" id="rep-input-url" placeholder="Ou coller un lien URL audio (https://...)" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
         </div>
         <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
           <button type="button" onclick="closeReplayModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold">Annuler</button>
@@ -1208,8 +1209,23 @@
       `).join('');
     }
 
+    let loadedAudioBase64 = "";
+    function handleReplayFileSelect(event) {
+      const file = event.target.files[0];
+      if (file) {
+        document.getElementById('rep-file-name').innerText = file.name;
+        const reader = new FileReader();
+        reader.onload = function(e) { loadedAudioBase64 = e.target.result; showToast("Fichier audio chargé !"); };
+        reader.readAsDataURL(file);
+      }
+    }
+
     function openReplayModal(idx = -1) {
       document.getElementById('rep-edit-index').value = idx;
+      loadedAudioBase64 = "";
+      document.getElementById('rep-file-name').innerText = "Aucun fichier choisi";
+      if (document.getElementById('rep-input-file')) document.getElementById('rep-input-file').value = "";
+
       if (idx >= 0) {
         const list = getData('rv_replays');
         const r = list[idx];
@@ -1218,12 +1234,14 @@
         document.getElementById('rep-input-show').value = r.show;
         document.getElementById('rep-input-date').value = r.date;
         document.getElementById('rep-input-duration').value = r.duration || '20 min';
+        document.getElementById('rep-input-url').value = (r.audio && !r.audio.startsWith('data:')) ? r.audio : '';
       } else {
         document.getElementById('replay-modal-title').innerText = "Ajouter un Replay";
         document.getElementById('rep-input-title').value = '';
         document.getElementById('rep-input-show').value = '';
         document.getElementById('rep-input-date').value = '';
         document.getElementById('rep-input-duration').value = '20 min';
+        document.getElementById('rep-input-url').value = '';
       }
       document.getElementById('replay-modal').classList.remove('hidden');
     }
@@ -1239,13 +1257,15 @@
       const show = document.getElementById('rep-input-show').value;
       const date = document.getElementById('rep-input-date').value;
       const duration = document.getElementById('rep-input-duration').value;
+      const urlAudio = document.getElementById('rep-input-url').value;
+      const audio = loadedAudioBase64 || urlAudio || "https://www.comequip.eu/Radio-Vicomte";
 
       const list = getData('rv_replays');
       if (idx >= 0) {
-        list[idx] = { ...list[idx], title, show, date, duration };
+        list[idx] = { ...list[idx], title, show, date, duration, audio };
         showToast("Replay modifié !");
       } else {
-        list.unshift({ id: Date.now(), title, show, date, duration });
+        list.unshift({ id: Date.now(), title, show, date, duration, audio });
         showToast("Replay ajouté avec succès !");
       }
 
