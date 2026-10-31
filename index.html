@@ -290,6 +290,10 @@
             <input type="text" id="replay-search-input" onkeyup="filterPublicReplays()" placeholder="Rechercher une émission..." class="w-full bg-white border border-vicomte-sable rounded-xl px-4 py-2 text-xs focus:outline-none focus:border-vicomte-brique">
           </div>
         </div>
+
+        <!-- Boutons Filtres par Sous-Catégories / Émissions -->
+        <div class="flex flex-wrap gap-2" id="public-replay-categories-filter"></div>
+
         <div class="grid md:grid-cols-3 gap-6" id="public-replays-container"></div>
       </div>
 
@@ -634,11 +638,19 @@
 
       <!-- ADMIN TAB 3: REPLAYS -->
       <div id="adm-view-replays" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
-        <div class="flex justify-between items-center border-b border-admin-border pb-3">
-          <h3 class="font-bold text-base text-white">Gestion des Podcasts / Replays</h3>
-          <button onclick="openReplayModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
-            <i class="fa-solid fa-plus mr-1.5"></i> Ajouter un Replay
-          </button>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-admin-border pb-4 gap-4">
+          <div>
+            <h3 class="font-bold text-base text-white">Gestion des Podcasts / Replays & Sous-Catégories</h3>
+            <p class="text-xs text-gray-400">Gérez les émissions thématiques et les fichiers audio.</p>
+          </div>
+          <div class="flex space-x-2">
+            <button onclick="openReplayCategoryModal()" class="bg-purple-700 hover:bg-purple-600 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
+              <i class="fa-solid fa-folder-plus mr-1.5"></i> Gérer les Sous-Catégories
+            </button>
+            <button onclick="openReplayModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
+              <i class="fa-solid fa-plus mr-1.5"></i> Ajouter un Replay
+            </button>
+          </div>
         </div>
         <div class="space-y-3" id="admin-replays-list"></div>
       </div>
@@ -824,8 +836,10 @@
           <input type="text" id="rep-input-title" required placeholder="Ex: Interview Maire" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
         </div>
         <div>
-          <label class="block mb-1 text-gray-300 font-bold">Nom de l'émission *</label>
-          <input type="text" id="rep-input-show" required placeholder="Ex: Les Matinales" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
+          <label class="block mb-1 text-gray-300 font-bold">Sous-Catégorie / Émission *</label>
+          <select id="rep-input-show" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+            <!-- Rempli dynamiquement -->
+          </select>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
@@ -846,6 +860,31 @@
           <button type="submit" class="px-6 py-2 bg-purple-600 text-white font-bold rounded-xl shadow-lg cursor-pointer">Enregistrer</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL GESTION DES SOUS-CATÉGORIES REPLAYS -->
+  <div id="replay-category-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-admin-card border border-admin-border w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
+      <div class="flex justify-between items-center border-b border-admin-border pb-3">
+        <h3 class="font-bold text-base text-white">Gérer les Sous-Catégories (Émissions)</h3>
+        <button onclick="closeReplayCategoryModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
+      </div>
+
+      <div class="space-y-3">
+        <div class="flex space-x-2">
+          <input type="text" id="new-category-name" placeholder="Nom de la nouvelle sous-catégorie..." class="flex-grow bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white text-xs">
+          <button onclick="addReplayCategory()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-4 py-2 rounded-xl transition cursor-pointer">Ajouter</button>
+        </div>
+
+        <div class="space-y-2 max-h-60 overflow-y-auto" id="admin-categories-list">
+          <!-- Rempli dynamiquement -->
+        </div>
+      </div>
+      
+      <div class="flex justify-end pt-3 border-t border-admin-border">
+        <button type="button" onclick="closeReplayCategoryModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Fermer</button>
+      </div>
     </div>
   </div>
 
@@ -924,6 +963,7 @@
     let currentPublicDay = "Jeudi";
     let currentAdminDay = "Jeudi";
     let isPlayingAudio = false;
+    let selectedReplayCategory = "Tous";
 
     const DEFAULT_GRILLE = {
       "Lundi": [{ horaire: "07:00 - 09:30", emission: "Les Matinales Corréziennes", animateur: "Jean-Pierre & Élodie", description: "L'actu locale, la météo et la bonne humeur du matin." }],
@@ -943,8 +983,11 @@
       { id: 2, title: "Le Hit Parade de Meyssac", host: "Marc", desc: "Le classement hebdomadaire voté par les auditeurs du 103.9 FM.", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500&auto=format&fit=crop" }
     ];
 
+    const DEFAULT_REPLAY_CATEGORIES = ["Les Matinales", "La Radio d'Ici", "Le Hit Parade de Meyssac", "Interviews Locales"];
+
     const DEFAULT_REPLAYS = [
-      { id: 1, title: "Interview du Maire de Meyssac", show: "Les Matinales", date: "28 Octobre 2026", duration: "18 min", audio: "" }
+      { id: 1, title: "Interview du Maire de Meyssac", show: "Les Matinales", date: "28 Octobre 2026", duration: "18 min", audio: "" },
+      { id: 2, title: "Émission spéciale terroir", show: "La Radio d'Ici", date: "27 Octobre 2027", duration: "25 min", audio: "" }
     ];
 
     const DEFAULT_DEDICACES = [
@@ -964,6 +1007,7 @@
     function initDatabase() {
       if (!localStorage.getItem('rv_grille')) localStorage.setItem('rv_grille', JSON.stringify(DEFAULT_GRILLE));
       if (!localStorage.getItem('rv_emissions')) localStorage.setItem('rv_emissions', JSON.stringify(DEFAULT_EMISSIONS));
+      if (!localStorage.getItem('rv_replay_categories')) localStorage.setItem('rv_replay_categories', JSON.stringify(DEFAULT_REPLAY_CATEGORIES));
       if (!localStorage.getItem('rv_replays')) localStorage.setItem('rv_replays', JSON.stringify(DEFAULT_REPLAYS));
       if (!localStorage.getItem('rv_dedicaces')) localStorage.setItem('rv_dedicaces', JSON.stringify(DEFAULT_DEDICACES));
       if (!localStorage.getItem('rv_presse')) localStorage.setItem('rv_presse', JSON.stringify(DEFAULT_PRESSE));
@@ -1436,7 +1480,8 @@
         <div class="bg-admin-bg p-3.5 rounded-xl border border-admin-border flex justify-between items-center text-xs">
           <div>
             <span class="font-bold text-white">${r.title}</span>
-            <span class="text-gray-400 ml-2">(${r.show} — ${r.date} — ${r.duration})</span>
+            <span class="text-purple-400 font-semibold ml-2">[${r.show}]</span>
+            <span class="text-gray-400 ml-2">(${r.date} — ${r.duration})</span>
           </div>
           <div class="flex items-center space-x-2 flex-shrink-0">
             <button onclick="openReplayModal(${idx})" class="p-1.5 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -1446,21 +1491,104 @@
       `).join('');
     }
 
+    function populateReplayCategoriesSelect(selectedVal = "") {
+      const select = document.getElementById('rep-input-show');
+      if (!select) return;
+      const categories = getData('rv_replay_categories');
+      select.innerHTML = categories.map(c => `
+        <option value="${c}" ${c === selectedVal ? 'selected' : ''}>${c}</option>
+      `).join('');
+    }
+
+    function openReplayCategoryModal() {
+      renderAdminCategoriesList();
+      const modal = document.getElementById('replay-category-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeReplayCategoryModal() {
+      const modal = document.getElementById('replay-category-modal');
+      if (modal) {
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+      }
+    }
+
+    function renderAdminCategoriesList() {
+      const container = document.getElementById('admin-categories-list');
+      if (!container) return;
+      const categories = getData('rv_replay_categories');
+
+      container.innerHTML = categories.map((cat, idx) => `
+        <div class="bg-admin-bg p-2.5 rounded-xl border border-admin-border flex justify-between items-center text-xs">
+          <span class="font-bold text-white">${cat}</span>
+          <div class="flex items-center space-x-2">
+            <button onclick="editReplayCategory(${idx})" class="text-blue-400 hover:text-blue-300 px-2 py-1 cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onclick="deleteReplayCategory(${idx})" class="text-red-400 hover:text-red-300 px-2 py-1 cursor-pointer"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addReplayCategory() {
+      const input = document.getElementById('new-category-name');
+      const val = input.value.trim();
+      if (!val) return;
+
+      const categories = getData('rv_replay_categories');
+      if (!categories.includes(val)) {
+        categories.push(val);
+        setData('rv_replay_categories', categories);
+        input.value = '';
+        renderAdminCategoriesList();
+        showToast("Sous-catégorie ajoutée avec succès !");
+      } else {
+        showToast("Cette sous-catégorie existe déjà.", "fa-triangle-exclamation");
+      }
+    }
+
+    function editReplayCategory(idx) {
+      const categories = getData('rv_replay_categories');
+      const current = categories[idx];
+      const newVal = prompt("Modifier le nom de la sous-catégorie :", current);
+      if (newVal && newVal.trim() !== "") {
+        categories[idx] = newVal.trim();
+        setData('rv_replay_categories', categories);
+        renderAdminCategoriesList();
+        showToast("Sous-catégorie modifiée !");
+      }
+    }
+
+    function deleteReplayCategory(idx) {
+      const categories = getData('rv_replay_categories');
+      if (categories.length <= 1) {
+        showToast("Vous devez garder au moins une sous-catégorie.", "fa-triangle-exclamation");
+        return;
+      }
+      categories.splice(idx, 1);
+      setData('rv_replay_categories', categories);
+      renderAdminCategoriesList();
+      showToast("Sous-catégorie supprimée.");
+    }
+
     function openReplayModal(idx = -1) {
       document.getElementById('rep-edit-index').value = idx;
+      populateReplayCategoriesSelect(idx >= 0 ? getData('rv_replays')[idx].show : "");
+
       if (idx >= 0) {
         const list = getData('rv_replays');
         const r = list[idx];
         document.getElementById('replay-modal-title').innerText = "Modifier le Replay";
         document.getElementById('rep-input-title').value = r.title;
-        document.getElementById('rep-input-show').value = r.show;
         document.getElementById('rep-input-date').value = r.date;
         document.getElementById('rep-input-duration').value = r.duration || '20 min';
         document.getElementById('rep-input-url').value = r.audio || '';
       } else {
         document.getElementById('replay-modal-title').innerText = "Ajouter un Replay";
         document.getElementById('rep-input-title').value = '';
-        document.getElementById('rep-input-show').value = '';
         document.getElementById('rep-input-date').value = '';
         document.getElementById('rep-input-duration').value = '20 min';
         document.getElementById('rep-input-url').value = '';
@@ -1753,26 +1881,49 @@
 
     function renderPublicReplays() {
       const container = document.getElementById('public-replays-container');
+      const categoriesFilterContainer = document.getElementById('public-replay-categories-filter');
       const homePreview = document.getElementById('home-replays-preview');
       const replays = getData('rv_replays');
+      const categories = getData('rv_replay_categories');
+
+      if (categoriesFilterContainer) {
+        const allCategories = ["Tous", ...categories];
+        categoriesFilterContainer.innerHTML = allCategories.map(cat => `
+          <button onclick="filterReplaysByCategory('${cat.replace(/'/g, "\\'")}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${selectedReplayCategory === cat ? 'bg-vicomte-brique text-white shadow' : 'bg-white text-vicomte-chocolat border border-vicomte-sable hover:bg-vicomte-sableLight'}">
+            ${cat}
+          </button>
+        `).join('');
+      }
+
+      const query = document.getElementById('replay-search-input') ? document.getElementById('replay-search-input').value.toLowerCase() : "";
+      
+      const filteredReplays = replays.filter(r => {
+        const matchesCategory = selectedReplayCategory === "Tous" || r.show === selectedReplayCategory;
+        const matchesSearch = r.title.toLowerCase().includes(query) || r.show.toLowerCase().includes(query);
+        return matchesCategory && matchesSearch;
+      });
 
       if (container) {
-        container.innerHTML = replays.map((r, idx) => `
-          <div class="bg-white p-4 rounded-2xl border border-vicomte-sable shadow-sm space-y-3">
-            <div class="flex justify-between items-center text-[10px] text-vicomte-brique font-bold uppercase">
-              <span>${r.show}</span>
-              <span>${r.date}</span>
+        if (filteredReplays.length === 0) {
+          container.innerHTML = `<p class="col-span-3 text-center text-gray-500 text-xs italic py-10">Aucun replay trouvé dans cette catégorie.</p>`;
+        } else {
+          container.innerHTML = filteredReplays.map((r, idx) => `
+            <div class="bg-white p-4 rounded-2xl border border-vicomte-sable shadow-sm space-y-3">
+              <div class="flex justify-between items-center text-[10px] text-vicomte-brique font-bold uppercase">
+                <span>${r.show}</span>
+                <span>${r.date}</span>
+              </div>
+              <h4 class="font-bold text-xs text-vicomte-chocolat">${r.title}</h4>
+              <div class="space-y-2">
+                <audio id="audio-replay-${idx}" src="${r.audio || ''}" preload="none" onended="resetReplayPlayer(${idx})" class="w-full h-8 hidden"></audio>
+                <button onclick="toggleReplayAudio(${idx})" id="play-btn-replay-${idx}" class="w-full bg-vicomte-sableLight hover:bg-vicomte-sable text-vicomte-chocolat font-bold py-2 rounded-xl text-xs flex items-center justify-center space-x-2 transition cursor-pointer">
+                  <i class="fa-solid fa-play text-vicomte-brique" id="play-icon-replay-${idx}"></i>
+                  <span id="play-text-replay-${idx}">Écouter (${r.duration || 'Podcast'})</span>
+                </button>
+              </div>
             </div>
-            <h4 class="font-bold text-xs text-vicomte-chocolat">${r.title}</h4>
-            <div class="space-y-2">
-              <audio id="audio-replay-${idx}" src="${r.audio || ''}" preload="none" onended="resetReplayPlayer(${idx})" class="w-full h-8 hidden"></audio>
-              <button onclick="toggleReplayAudio(${idx})" id="play-btn-replay-${idx}" class="w-full bg-vicomte-sableLight hover:bg-vicomte-sable text-vicomte-chocolat font-bold py-2 rounded-xl text-xs flex items-center justify-center space-x-2 transition cursor-pointer">
-                <i class="fa-solid fa-play text-vicomte-brique" id="play-icon-replay-${idx}"></i>
-                <span id="play-text-replay-${idx}">Écouter (${r.duration || 'Podcast'})</span>
-              </button>
-            </div>
-          </div>
-        `).join('');
+          `).join('');
+        }
       }
 
       if (homePreview) {
@@ -1788,6 +1939,11 @@
           </div>
         `).join('');
       }
+    }
+
+    function filterReplaysByCategory(cat) {
+      selectedReplayCategory = cat;
+      renderPublicReplays();
     }
 
     function toggleReplayAudio(idx) {
@@ -1857,12 +2013,7 @@
     }
 
     function filterPublicReplays() {
-      const query = document.getElementById('replay-search-input').value.toLowerCase();
-      const items = document.querySelectorAll('#public-replays-container > div');
-      items.forEach(el => {
-        const text = el.innerText.toLowerCase();
-        el.style.display = text.includes(query) ? 'block' : 'none';
-      });
+      renderPublicReplays();
     }
 
     function sendContactEmail(e) {
