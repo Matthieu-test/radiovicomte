@@ -366,18 +366,18 @@
               </p>
             </div>
           </div>
-          <form onsubmit="event.preventDefault(); showToast('Message envoyé avec succès au studio !');" class="bg-white p-6 rounded-3xl border border-vicomte-sable shadow-md space-y-3 text-xs">
+          <form onsubmit="sendContactEmail(event)" class="bg-white p-6 rounded-3xl border border-vicomte-sable shadow-md space-y-3 text-xs">
             <div>
               <label class="block mb-1 font-bold text-vicomte-chocolat">Nom & Prénom *</label>
-              <input type="text" required placeholder="Votre nom" class="w-full bg-vicomte-sableLight border border-vicomte-sable rounded-xl px-3 py-2">
+              <input type="text" id="contact-name" required placeholder="Votre nom" class="w-full bg-vicomte-sableLight border border-vicomte-sable rounded-xl px-3 py-2">
             </div>
             <div>
               <label class="block mb-1 font-bold text-vicomte-chocolat">Adresse E-mail *</label>
-              <input type="email" required placeholder="votre@email.fr" class="w-full bg-vicomte-sableLight border border-vicomte-sable rounded-xl px-3 py-2">
+              <input type="email" id="contact-email" required placeholder="votre@email.fr" class="w-full bg-vicomte-sableLight border border-vicomte-sable rounded-xl px-3 py-2">
             </div>
             <div>
               <label class="block mb-1 font-bold text-vicomte-chocolat">Message *</label>
-              <textarea required rows="4" placeholder="Votre message..." class="w-full bg-vicomte-sableLight border border-vicomte-sable rounded-xl px-3 py-2"></textarea>
+              <textarea id="contact-msg" required rows="4" placeholder="Votre message..." class="w-full bg-vicomte-sableLight border border-vicomte-sable rounded-xl px-3 py-2"></textarea>
             </div>
             <button type="submit" class="w-full bg-vicomte-brique text-white font-bold py-2.5 rounded-xl hover:bg-vicomte-briqueDark transition uppercase tracking-wider cursor-pointer">
               Envoyer au Studio
@@ -1769,30 +1769,30 @@
       if (text) text.innerText = "Écouter à nouveau";
     }
 
-    function renderPublicDedicaces() {
-      const container = document.getElementById('public-dedicaces-feed');
-      const homePreview = document.getElementById('home-dedicaces-preview');
-      const list = getData('rv_dedicaces').filter(d => d.approved);
+    function submitDedicace(e) {
+      e.preventDefault();
+      const sender = document.getElementById('ded-sender').value;
+      const track = document.getElementById('ded-track').value;
+      const msg = document.getElementById('ded-msg').value;
+      const list = getData('rv_dedicaces');
+      list.unshift({ id: Date.now(), sender, track, msg, approved: false });
+      setData('rv_dedicaces', list);
+      e.target.reset();
+      showToast("Dédicace envoyée au studio !");
+    }
 
-      if (container) {
-        container.innerHTML = list.length === 0 ? `<div class="col-span-2 text-center text-gray-500 text-xs italic py-6">Aucune dédicace validée.</div>` : list.map(d => `
-          <div class="bg-white p-5 rounded-2xl border border-vicomte-sable shadow-sm space-y-2">
-            <div class="flex justify-between items-center"><span class="font-bold text-xs text-vicomte-brique"><i class="fa-solid fa-user-heart mr-1"></i> ${d.sender}</span></div>
-            <p class="text-xs text-gray-700 italic">« ${d.msg} »</p>
-          </div>
-        `).join('');
-      }
+    function sendContactEmail(e) {
+      e.preventDefault();
+      const name = document.getElementById('contact-name').value;
+      const email = document.getElementById('contact-email').value;
+      const msg = document.getElementById('contact-msg').value;
 
-      if (homePreview) {
-        homePreview.innerHTML = list.length === 0 ? `<p class="text-xs text-gray-500 italic p-3">Aucune dédicace récente.</p>` : list.slice(0, 2).map(d => `
-          <div class="bg-white p-4 rounded-2xl border border-vicomte-sable shadow-sm space-y-1.5">
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-xs text-vicomte-brique"><i class="fa-solid fa-circle-user mr-1 text-vicomte-dorure"></i> ${d.sender}</span>
-            </div>
-            <p class="text-xs text-gray-700 italic">« ${d.msg} »</p>
-          </div>
-        `).join('');
-      }
+      const subject = encodeURIComponent(`Message depuis le site web - ${name}`);
+      const body = encodeURIComponent(`Nom: ${name}\nE-mail: ${email}\n\nMessage:\n${msg}`);
+
+      // Ouverture du logiciel de messagerie vers l'adresse du studio
+      window.location.href = `mailto:contactradiovicom@gmail.com?subject=${subject}&body=${body}`;
+      showToast("Préparation du message vers contactradiovicom@gmail.com...");
     }
 
     function renderPublicPresse() {
