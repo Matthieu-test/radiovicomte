@@ -528,7 +528,7 @@
         </div>
         <div>
           <h1 class="font-display font-bold text-white text-base tracking-wide uppercase">RADIO VICOMTÉ — ESPACE ADMINISTRATEUR</h1>
-          <p class="text-[10px] text-admin-textMuted uppercase tracking-widest">PANNEAU DE GESTION DIRECT BACK-OFFICE</p>
+          <p class="text-[10px] text-admin-textMuted uppercase tracking-widest">PANNEAU DE GESTION SÉCURISÉ SUPABASE AUTH</p>
         </div>
       </div>
 
@@ -542,31 +542,32 @@
       </div>
     </header>
 
+    <!-- ÉCRAN DE CONNEXION SÉCURISÉ SUPABASE AUTH -->
     <div id="admin-login-screen" class="max-w-md mx-auto my-12 p-8 bg-admin-card border border-admin-border rounded-2xl shadow-2xl space-y-6 text-xs text-gray-200">
       <div class="text-center space-y-2">
         <div class="w-16 h-16 rounded-full bg-vicomte-brique border-2 border-vicomte-dorure mx-auto flex items-center justify-center text-white text-2xl shadow-lg">
           <i class="fa-solid fa-shield-halved text-vicomte-dorure"></i>
         </div>
         <h2 class="font-display font-extrabold text-2xl text-white">Espace Administrateur</h2>
-        <p class="text-admin-textMuted text-[11px]">Connectez-vous pour gérer la grille, les replays et la modération.</p>
+        <p class="text-admin-textMuted text-[11px]">Connectez-vous avec vos identifiants sécurisés Supabase Auth.</p>
       </div>
 
-      <div class="bg-admin-bg p-3.5 rounded-xl border border-amber-500/30 text-[11px] text-amber-200/90 space-y-1">
-        <p class="font-bold text-amber-400"><i class="fa-solid fa-key mr-1"></i> Accès sécurisé :</p>
-        <p class="text-gray-300">Utilisez un des comptes d'administration configurés dans la base.</p>
+      <div class="bg-admin-bg p-3.5 rounded-xl border border-emerald-500/30 text-[11px] text-emerald-200/90 space-y-1">
+        <p class="font-bold text-emerald-400"><i class="fa-solid fa-lock mr-1"></i> Authentification Sécurisée :</p>
+        <p class="text-gray-300">Les accès sont gérés via Supabase Auth. Aucune donnée sensible n'est stockée en clair dans le code.</p>
       </div>
 
-      <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+      <form onsubmit="handleSupabaseLogin(event)" class="space-y-4">
         <div>
-          <label class="block mb-1 font-bold text-gray-300">Identifiant *</label>
-          <input type="text" id="admin-user-input" value="admin" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+          <label class="block mb-1 font-bold text-gray-300">Adresse E-mail *</label>
+          <input type="email" id="admin-email-input" required placeholder="admin@radiovicomte.fr" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
         </div>
         <div>
           <label class="block mb-1 font-bold text-gray-300">Mot de passe *</label>
-          <input type="password" id="admin-pass-input" value="vicomte107" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+          <input type="password" id="admin-pass-input" required placeholder="••••••••" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
         </div>
-        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition shadow-lg cursor-pointer">
-          <i class="fa-solid fa-right-to-bracket mr-1.5"></i> Se Connecter
+        <button type="submit" id="login-submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition shadow-lg cursor-pointer">
+          <i class="fa-solid fa-right-to-bracket mr-1.5"></i> Se Connecter (Sécurisé)
         </button>
       </form>
     </div>
@@ -610,7 +611,7 @@
         <button onclick="switchAdminTab('dedicaces')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-dedicaces"><i class="fa-solid fa-comments mr-2 text-amber-400"></i> Modération Dédicaces</button>
         <button onclick="switchAdminTab('photos')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-photos"><i class="fa-solid fa-images mr-2 text-pink-400"></i> Gestion des Photos</button>
         <button onclick="switchAdminTab('presse')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-presse"><i class="fa-solid fa-newspaper mr-2 text-cyan-400"></i> On parle de nous</button>
-        <button onclick="switchAdminTab('passwords')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-passwords"><i class="fa-solid fa-user-gear mr-2 text-emerald-400"></i> Comptes & Mot de passe</button>
+        <button onclick="switchAdminTab('security')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-security"><i class="fa-solid fa-shield-halved mr-2 text-emerald-400"></i> Sécurité & Session</button>
       </div>
 
       <!-- ADMIN TAB 1: GRILLE -->
@@ -710,60 +711,31 @@
         <div class="space-y-3" id="admin-presse-list"></div>
       </div>
 
-      <!-- ADMIN TAB 7: COMPTES & MOT DE PASSE -->
-      <div id="adm-view-passwords" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
-        <div class="flex justify-between items-center border-b border-admin-border pb-3">
-          <div>
-            <h3 class="font-bold text-base text-white">Comptes d'Accès & Sécurité</h3>
-            <p class="text-xs text-gray-400">Gérez les identifiants, rôles et mots de passe des accès administrateurs et animateurs.</p>
+      <!-- ADMIN TAB 7: SÉCURITÉ & SESSION -->
+      <div id="adm-view-security" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
+        <div class="border-b border-admin-border pb-3">
+          <h3 class="font-bold text-base text-white">Sécurité & Session Supabase Auth</h3>
+          <p class="text-xs text-gray-400">Informations sur votre session authentifiée et gestion des accès.</p>
+        </div>
+
+        <div class="bg-admin-bg p-5 rounded-xl border border-emerald-500/30 space-y-4 text-xs">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-user-check"></i>
+            </div>
+            <div>
+              <p class="text-white font-bold text-sm">Session Active & Chiffrée</p>
+              <p class="text-gray-400" id="session-user-email">Utilisateur connecté : --</p>
+            </div>
           </div>
-          <button onclick="openAccountModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
-            <i class="fa-solid fa-user-plus mr-1.5"></i> Créer un Compte
-          </button>
-        </div>
 
-        <!-- LISTE DES COMPTES ADMINISTRATEURS -->
-        <div class="space-y-3" id="admin-accounts-list"></div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- MODAL CRÉATION / EDITION DE COMPTE ADMIN -->
-  <div id="account-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-admin-card border border-admin-border w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
-      <div class="flex justify-between items-center border-b border-admin-border pb-3">
-        <h3 class="font-bold text-base text-white" id="account-modal-title">Créer un Nouveau Compte</h3>
-        <button onclick="closeAccountModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
-      </div>
-
-      <form onsubmit="handleAccountFormSubmit(event)" class="space-y-4">
-        <input type="hidden" id="acc-edit-index" value="-1">
-        <div>
-          <label class="block mb-1 text-gray-300 font-bold">Rôle du Compte *</label>
-          <select id="acc-input-role" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-500 font-bold">
-            <option value="animateur">Animateur (Accès Dédicaces & Auditeurs seulement)</option>
-            <option value="admin">Administrateur (Accès Complet)</option>
-          </select>
-        </div>
-        <div>
-          <label class="block mb-1 text-gray-300 font-bold">Identifiant *</label>
-          <input type="text" id="acc-input-user" required placeholder="Ex: animateur1" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-500">
-        </div>
-        <div>
-          <label class="block mb-1 text-gray-300 font-bold">Mot de Passe *</label>
-          <div class="relative">
-            <input type="password" id="acc-input-pass" required placeholder="Saisir un mot de passe" class="w-full bg-admin-bg border border-admin-border rounded-xl pl-3 pr-10 py-2 text-white focus:outline-none focus:border-emerald-500">
-            <button type="button" onclick="toggleModalPasswordVisibility()" class="absolute right-3 top-2.5 text-gray-400 hover:text-white cursor-pointer">
-              <i class="fa-solid fa-eye" id="modal-pass-eye-icon"></i>
-            </button>
+          <div class="border-t border-admin-border pt-4 space-y-2 text-gray-300">
+            <p class="font-bold text-white"><i class="fa-solid fa-circle-info text-blue-400 mr-1.5"></i> Gestion des comptes administrateurs :</p>
+            <p>Pour ajouter, modifier ou réinitialiser les mots de passe des administrateurs et animateurs en toute sécurité, rendez-vous directement dans votre tableau de bord <strong>Supabase &gt; Authentication &gt; Users</strong>.</p>
           </div>
         </div>
-        <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
-          <button type="button" onclick="closeAccountModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button>
-          <button type="submit" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg cursor-pointer">Enregistrer</button>
-        </div>
-      </form>
+      </div>
+
     </div>
   </div>
 
@@ -915,7 +887,7 @@
     </div>
   </div>
 
-  <!-- MODAL REPLAYS (AVEC MENU DÉROULANT SOUS-CATÉGORIE) -->
+  <!-- MODAL REPLAYS -->
   <div id="replay-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
@@ -929,7 +901,6 @@
           <input type="text" id="rep-input-title" required placeholder="Ex: Interview Maire" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
         </div>
 
-        <!-- MENU DÉROULANT DES SOUS-CATÉGORIES -->
         <div>
           <label class="block mb-1 text-gray-300 font-bold">Sous-Catégorie / Émission *</label>
           <select id="rep-input-show-select" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500"></select>
@@ -1042,7 +1013,7 @@
 
   <audio id="radio-audio-stream" src="https://sd-151888.dedibox.fr/proxy/vicomte/vicomte" preload="none"></audio>
 
-  <!-- SCRIPT JS PRINCIPAL (SUPABASE CONNECTÉ) -->
+  <!-- SCRIPT JS PRINCIPAL (SUPABASE CONNECTÉ & SÉCURISÉ) -->
   <script>
     // INITIALISATION SUPABASE
     const SUPABASE_URL = "https://xmjyutptdiegzelcxmga.supabase.co";
@@ -1055,15 +1026,10 @@
     let isPlayingAudio = false;
     let selectedPodcastCategory = "TOUS";
     let currentAdminRole = "admin";
-    let visiblePasswordsMap = {};
 
     let dbCache = {};
 
     const DEFAULT_DATA = {
-      rv_accounts: [
-        { user: "admin", pass: "vicomte107", role: "admin" },
-        { user: "animateur", pass: "studio1039", role: "animateur" }
-      ],
       rv_categories: [
         "Les barastoles du morning",
         "Les Matinales",
@@ -1116,11 +1082,9 @@
           });
         }
 
-        // Initialiser les clés manquantes si nécessaire
         for (const key in DEFAULT_DATA) {
           if (!dbCache[key]) {
             dbCache[key] = DEFAULT_DATA[key];
-            await setDataSupabase(key, DEFAULT_DATA[key]);
           }
         }
       } catch (err) {
@@ -1128,6 +1092,25 @@
       }
 
       refreshAllUI();
+      checkExistingSession();
+    }
+
+    // VÉRIFICATION DE SESSION SUPABASE AU CHARGEMENT
+    async function checkExistingSession() {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session) {
+        applyAuthenticatedUI(session.user);
+      }
+    }
+
+    function applyAuthenticatedUI(user) {
+      currentAdminRole = (user.user_metadata && user.user_metadata.role) ? user.user_metadata.role : 'admin';
+      const emailDisplay = document.getElementById('session-user-email');
+      if (emailDisplay) emailDisplay.innerText = `Utilisateur connecté : ${user.email} (Rôle : ${currentAdminRole})`;
+
+      document.getElementById('admin-login-screen').classList.add('hidden');
+      document.getElementById('admin-dashboard').classList.remove('hidden');
+      updateAdminRoleUI();
     }
 
     async function setDataSupabase(key, value) {
@@ -1136,7 +1119,10 @@
         const { error } = await supabaseClient
           .from('site_data')
           .upsert({ key: key, value: value }, { onConflict: 'key' });
-        if (error) console.error("Erreur de sauvegarde Supabase :", error);
+        if (error) {
+          console.error("Erreur de sauvegarde Supabase :", error);
+          showToast("Action refusée : vous devez être connecté en tant qu'administrateur.", "fa-triangle-exclamation");
+        }
       } catch (e) {
         console.error("Exception setDataSupabase :", e);
       }
@@ -1347,7 +1333,7 @@
             Toutes les émissions
           </button>
         ` + categories.map(c => `
-          <button onclick="setFilterPodcastCategory('${c.replace(/'/g, "\\'")}')" class="px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${selectedPodcastCategory === c ? 'bg-vicomte-brique text-white shadow' : 'bg-white text-vicomte-chocolat border border-vicomte-sable'}">
+          <button onclick="setFilterPodcastCategory('${c.replace(/'/g, "\'")}')" class="px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${selectedPodcastCategory === c ? 'bg-vicomte-brique text-white shadow' : 'bg-white text-vicomte-chocolat border border-vicomte-sable'}">
             ${c}
           </button>
         `).join('');
@@ -1503,152 +1489,6 @@
       showToast(`Sous-catégorie "${removed}" supprimée.`);
     }
 
-    function renderAdminAccounts() {
-      const container = document.getElementById('admin-accounts-list');
-      if (!container) return;
-      const accounts = getData('rv_accounts');
-
-      container.innerHTML = accounts.map((acc, idx) => {
-        const isPassVisible = !!visiblePasswordsMap[idx];
-        const roleLabel = acc.role === 'animateur' ? 'Animateur' : 'Administrateur';
-        const roleBadgeColor = acc.role === 'animateur' ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
-
-        return `
-          <div class="bg-admin-bg p-4 rounded-xl border border-admin-border flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-xs">
-            <div class="space-y-1">
-              <div class="flex items-center space-x-2">
-                <i class="fa-solid fa-user-shield ${acc.role === 'animateur' ? 'text-amber-400' : 'text-emerald-400'}"></i>
-                <span class="font-bold text-white text-sm">${acc.user}</span>
-                <span class="text-[10px] border px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${roleBadgeColor}">${roleLabel}</span>
-              </div>
-              <div class="flex items-center space-x-2 pt-0.5">
-                <span class="text-gray-400 font-mono text-[11px]">Mot de passe :</span>
-                <span class="text-white font-mono font-bold text-xs bg-admin-card px-2.5 py-1 rounded border border-admin-border tracking-wider select-all">
-                  ${isPassVisible ? acc.pass : '••••••••'}
-                </span>
-                <button onclick="togglePasswordVisibility(${idx})" class="text-gray-400 hover:text-white px-1.5 py-0.5 rounded hover:bg-admin-card transition cursor-pointer" title="${isPassVisible ? 'Masquer' : 'Afficher'} le mot de passe">
-                  <i class="fa-solid ${isPassVisible ? 'fa-eye-slash text-amber-400' : 'fa-eye'}"></i>
-                </button>
-              </div>
-            </div>
-
-            <div class="flex items-center space-x-2 self-end md:self-center">
-              <button onclick="openAccountModal(${idx})" class="p-2 bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white rounded-lg text-xs transition cursor-pointer font-bold flex items-center space-x-1">
-                <i class="fa-solid fa-pen-to-square"></i>
-                <span>Éditer</span>
-              </button>
-              ${accounts.length > 1 ? `
-                <button onclick="deleteAccount(${idx})" class="p-2 bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white rounded-lg text-xs transition cursor-pointer" title="Supprimer le compte">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              ` : ''}
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function togglePasswordVisibility(idx) {
-      visiblePasswordsMap[idx] = !visiblePasswordsMap[idx];
-      renderAdminAccounts();
-    }
-
-    function toggleModalPasswordVisibility() {
-      const input = document.getElementById('acc-input-pass');
-      const icon = document.getElementById('modal-pass-eye-icon');
-      if (input && icon) {
-        if (input.type === 'password') {
-          input.type = 'text';
-          icon.className = 'fa-solid fa-eye-slash text-amber-400';
-        } else {
-          input.type = 'password';
-          icon.className = 'fa-solid fa-eye';
-        }
-      }
-    }
-
-    function openAccountModal(idx = -1) {
-      document.getElementById('acc-edit-index').value = idx;
-      const userInput = document.getElementById('acc-input-user');
-      const passInput = document.getElementById('acc-input-pass');
-      const roleInput = document.getElementById('acc-input-role');
-      const eyeIcon = document.getElementById('modal-pass-eye-icon');
-
-      if (passInput) passInput.type = 'password';
-      if (eyeIcon) eyeIcon.className = 'fa-solid fa-eye';
-
-      if (idx >= 0) {
-        const accounts = getData('rv_accounts');
-        const acc = accounts[idx];
-        document.getElementById('account-modal-title').innerText = `Modifier le compte (${acc.user})`;
-        userInput.value = acc.user;
-        userInput.disabled = true;
-        passInput.value = acc.pass;
-        roleInput.value = acc.role || 'admin';
-      } else {
-        document.getElementById('account-modal-title').innerText = "Créer un Nouveau Compte";
-        userInput.value = '';
-        userInput.disabled = false;
-        passInput.value = '';
-        roleInput.value = 'animateur';
-      }
-
-      const modal = document.getElementById('account-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeAccountModal() {
-      const modal = document.getElementById('account-modal');
-      modal.classList.remove('flex');
-      modal.classList.add('hidden');
-    }
-
-    function handleAccountFormSubmit(e) {
-      e.preventDefault();
-      const idx = parseInt(document.getElementById('acc-edit-index').value);
-      const user = document.getElementById('acc-input-user').value.trim();
-      const pass = document.getElementById('acc-input-pass').value.trim();
-      const role = document.getElementById('acc-input-role').value;
-
-      if (!user || !pass) {
-        showToast("Identifiant et mot de passe requis.", "fa-triangle-exclamation");
-        return;
-      }
-
-      const accounts = getData('rv_accounts');
-
-      if (idx >= 0) {
-        accounts[idx].pass = pass;
-        accounts[idx].role = role;
-        setData('rv_accounts', accounts);
-        showToast(`Compte "${accounts[idx].user}" mis à jour !`);
-      } else {
-        if (accounts.some(a => a.user.toLowerCase() === user.toLowerCase())) {
-          showToast("Un compte avec cet identifiant existe déjà.", "fa-triangle-exclamation");
-          return;
-        }
-        accounts.push({ user, pass, role });
-        setData('rv_accounts', accounts);
-        showToast(`Compte "${user}" (${role}) créé avec succès !`);
-      }
-
-      closeAccountModal();
-      renderAdminAccounts();
-    }
-
-    function deleteAccount(idx) {
-      const accounts = getData('rv_accounts');
-      if (accounts.length <= 1) {
-        showToast("Impossible de supprimer le seul compte administrateur.", "fa-triangle-exclamation");
-        return;
-      }
-      const removed = accounts.splice(idx, 1);
-      setData('rv_accounts', accounts);
-      renderAdminAccounts();
-      showToast(`Compte "${removed[0].user}" supprimé.`);
-    }
-
     function openReplayModal(idx = -1) {
       document.getElementById('rep-edit-index').value = idx;
       loadedAudioBase64 = "";
@@ -1796,6 +1636,7 @@
         adminSite.classList.remove('hidden');
         document.body.classList.add('admin-mode');
         fetchIcecastListeners();
+        checkExistingSession();
       } else {
         adminSite.classList.add('hidden');
         pubSite.classList.remove('hidden');
@@ -1804,36 +1645,45 @@
       }
     }
 
-    function handleLoginSubmit(e) {
+    // CONNEXION SÉCURISÉE SUPABASE AUTH
+    async function handleSupabaseLogin(e) {
       e.preventDefault();
-      const user = document.getElementById('admin-user-input').value.trim();
-      const pass = document.getElementById('admin-pass-input').value.trim();
+      const email = document.getElementById('admin-email-input').value.trim();
+      const password = document.getElementById('admin-pass-input').value.trim();
+      const btn = document.getElementById('login-submit-btn');
 
-      const accounts = getData('rv_accounts');
-      const validAccount = accounts.find(a => a.user.toLowerCase() === user.toLowerCase() && a.pass === pass);
+      if (btn) btn.disabled = true;
 
-      if (validAccount) {
-        currentAdminRole = validAccount.role || 'admin';
-        document.getElementById('admin-login-screen').classList.add('hidden');
-        document.getElementById('admin-dashboard').classList.remove('hidden');
-        
-        updateAdminRoleUI();
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password,
+        });
 
-        if (currentAdminRole === 'animateur') {
-          switchAdminTab('dedicaces');
-        } else {
-          switchAdminTab('grille');
+        if (error) {
+          throw error;
         }
 
-        fetchIcecastListeners();
-        showToast(`Connexion réussie ! Bienvenue ${validAccount.user} (${currentAdminRole})`);
-      } else {
-        showToast("Identifiant ou mot de passe incorrect !", "fa-triangle-exclamation");
+        if (data.session) {
+          applyAuthenticatedUI(data.user);
+          if (currentAdminRole === 'animateur') {
+            switchAdminTab('dedicaces');
+          } else {
+            switchAdminTab('grille');
+          }
+          fetchIcecastListeners();
+          showToast(`Connexion sécurisée réussie ! Bienvenue ${data.user.email}`);
+        }
+      } catch (err) {
+        console.error("Erreur de connexion Supabase Auth :", err.message);
+        showToast("Identifiant ou mot de passe incorrect.", "fa-triangle-exclamation");
+      } finally {
+        if (btn) btn.disabled = false;
       }
     }
 
     function updateAdminRoleUI() {
-      const allTabs = ['grille', 'emissions', 'replays', 'photos', 'presse', 'passwords'];
+      const allTabs = ['grille', 'emissions', 'replays', 'photos', 'presse', 'security'];
       const listenersCard = document.getElementById('stat-card-listeners');
       const replaysCard = document.getElementById('stat-card-replays');
 
@@ -1856,7 +1706,8 @@
       }
     }
 
-    function logoutAdmin() {
+    async function logoutAdmin() {
+      await supabaseClient.auth.signOut();
       currentAdminRole = "admin";
       document.getElementById('admin-dashboard').classList.add('hidden');
       document.getElementById('admin-login-screen').classList.remove('hidden');
@@ -1889,7 +1740,6 @@
       if (tabId === 'dedicaces') renderAdminDedicaces();
       if (tabId === 'photos') renderAdminPhotos();
       if (tabId === 'presse') renderAdminPresse();
-      if (tabId === 'passwords') renderAdminAccounts();
     }
 
     function renderAdminGrille() {
@@ -2257,7 +2107,7 @@
         return;
       }
       container.innerHTML = photos.map(p => `
-        <div onclick="openPhotoLightbox('${p.img.replace(/'/g, "\\'")}', '${p.caption.replace(/'/g, "\\'")}')" class="bg-white p-3 rounded-2xl border border-vicomte-sable shadow-sm cursor-pointer hover:shadow-xl hover:scale-[1.02] transition duration-200 group">
+        <div onclick="openPhotoLightbox('${p.img.replace(/'/g, "\'")}', '${p.caption.replace(/'/g, "\'")}')" class="bg-white p-3 rounded-2xl border border-vicomte-sable shadow-sm cursor-pointer hover:shadow-xl hover:scale-[1.02] transition duration-200 group">
           <div class="relative overflow-hidden rounded-xl mb-2">
             <img src="${p.img}" class="w-full h-48 object-cover group-hover:scale-105 transition duration-300" alt="${p.caption}">
             <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-200 flex items-center justify-center">
