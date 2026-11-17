@@ -1038,7 +1038,7 @@
 
   <audio id="radio-audio-stream" src="https://sd-151888.dedibox.fr/proxy/vicomte/vicomte" preload="none"></audio>
 
-  <!-- SCRIPT JS PRINCIPAL & INTÉGRATION SUPABASE -->
+  <!-- SCRIPT JS PRINCIPAL & INTÉGRATION SUPABASE TABLES DÉDIÉES -->
   <script>
     // Configuration Supabase
     const SUPABASE_URL = "https://xmjyuptdieggelcxmga.supabase.co";
@@ -1062,6 +1062,7 @@
     let currentSupabaseUser = null;
     let visiblePasswordsMap = {};
 
+    // Données par défaut (utilisées en cas de hors-ligne ou tables vides)
     let siteDataCache = {
       rv_accounts: [
         { user: "admin", pass: "vicomte107", role: "admin" },
@@ -1103,38 +1104,61 @@
       ]
     };
 
-    // Chargement et synchronisation Supabase Table `site_data`
+    const TABLES_LIST = Object.keys(siteDataCache);
+
+    // Synchronisation table par table depuis Supabase
     async function loadDataFromSupabase() {
       if (!supabaseClient) return;
-      try {
-        const { data, error } = await supabaseClient.from('site_data').select('*');
-        if (error) {
-          console.warn("Supabase table site_data non accessible, utilisation du cache local :", error.message);
-          return;
-        }
-        if (data && data.length > 0) {
-          data.forEach(row => {
-            if (row.key && row.value !== undefined) {
-              siteDataCache[row.key] = row.value;
+      for (const tableName of TABLES_LIST) {
+        try {
+          const { data, error } = await supabaseClient.from(tableName).select('*');
+          if (!error && data) {
+            if (tableName === 'rv_grille') {
+              // Si la grille est stockée sous forme de lignes par jour ou objet global
+              if (Array.isArray(data) && data.length > 0) {
+                let grilleObj = {};
+                data.forEach(row => {
+                  if (row.day && row.slots) grilleObj[row.day] = row.slots;
+                  else if (row.key && row.value) grilleObj[row.key] = row.value;
+                });
+                if (Object.keys(grilleObj).length > 0) siteDataCache.rv_grille = grilleObj;
+              } else if (data.value) {
+                siteDataCache.rv_grille = data.value;
+              }
+            } else {
+              // Pour les listes (emissions, replays, dedicaces, etc.)
+              if (Array.isArray(data) && data.length > 0) {
+                // Si la table contient une colonne 'value' ou 'data' stockant un tableau JSON
+                if (data.length === 1 && data[0].value && Array.isArray(data[0].value)) {
+                  siteDataCache[tableName] = data[0].value;
+                } else {
+                  siteDataCache[tableName] = data;
+                }
+              }
             }
-          });
-          refreshAllUI();
-          console.log("Données synchronisées depuis Supabase table site_data.");
+          }
+        } catch (e) {
+          console.warn(`Impossible de charger la table ${tableName} depuis Supabase :`, e);
         }
-      } catch (e) {
-        console.warn("Mode hors-ligne actif (fetch bloqué par la sandbox ou réseau) :", e);
       }
+      refreshAllUI();
+      console.log("Synchronisation Supabase tables achevée.");
     }
 
     async function saveDataToSupabase(key, value) {
       siteDataCache[key] = value;
       if (!supabaseClient) return;
       try {
-        await supabaseClient
-          .from('site_data')
-          .upsert({ key: key, value: value }, { onConflict: 'key' });
+        // Enregistrement dans la table Supabase correspondante
+        if (key === 'rv_grille') {
+          await supabaseClient.from(key).upsert({ id: 1, value: value }, { onConflict: 'id' });
+        } else {
+          // On peut stocker le tableau complet ou faire un upsert des éléments
+          await supabaseClient.from(key).upsert({ id: 1, value: value }, { onConflict: 'id' });
+        }
+        console.log(`Données synchronisées vers la table Supabase [${key}] avec succès.`);
       } catch (e) {
-        console.warn("Sauvegarde Supabase ignorée en mode sandbox/hors-ligne, données conservées en cache local.");
+        console.warn(`Erreur lors de la synchronisation vers ${key} :`, e);
       }
     }
 
