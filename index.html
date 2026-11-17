@@ -8,9 +8,6 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Supabase JS Client -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,6 +15,9 @@
   
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
     tailwind.config = {
@@ -528,7 +528,7 @@
         </div>
         <div>
           <h1 class="font-display font-bold text-white text-base tracking-wide uppercase">RADIO VICOMTÉ — ESPACE ADMINISTRATEUR</h1>
-          <p class="text-[10px] text-admin-textMuted uppercase tracking-widest">PANNEAU DE GESTION DIRECT BACK-OFFICE</p>
+          <p class="text-[10px] text-admin-textMuted uppercase tracking-widest">PANNEAU DE GESTION SÉCURISÉ SUPABASE AUTH</p>
         </div>
       </div>
 
@@ -542,25 +542,31 @@
       </div>
     </header>
 
+    <!-- ÉCRAN DE CONNEXION SÉCURISÉ SUPABASE AUTH -->
     <div id="admin-login-screen" class="max-w-md mx-auto my-12 p-8 bg-admin-card border border-admin-border rounded-2xl shadow-2xl space-y-6 text-xs text-gray-200">
       <div class="text-center space-y-2">
         <div class="w-16 h-16 rounded-full bg-vicomte-brique border-2 border-vicomte-dorure mx-auto flex items-center justify-center text-white text-2xl shadow-lg">
           <i class="fa-solid fa-shield-halved text-vicomte-dorure"></i>
         </div>
         <h2 class="font-display font-extrabold text-2xl text-white">Espace Administrateur</h2>
-        <p class="text-admin-textMuted text-[11px]">Connectez-vous pour gérer la grille, les replays et la modération.</p>
+        <p class="text-admin-textMuted text-[11px]">Connectez-vous avec vos identifiants Supabase Auth (ex: `matthieu.brus@gmail.com`).</p>
       </div>
 
-      <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+      <div class="bg-admin-bg p-3.5 rounded-xl border border-emerald-500/30 text-[11px] text-emerald-200/90 space-y-1">
+        <p class="font-bold text-emerald-400"><i class="fa-solid fa-lock mr-1"></i> Authentification Sécurisée :</p>
+        <p class="text-gray-300">Connexion sécurisée par le système d'authentification Supabase.</p>
+      </div>
+
+      <form onsubmit="handleSupabaseLogin(event)" class="space-y-4">
         <div>
-          <label class="block mb-1 font-bold text-gray-300">Identifiant *</label>
-          <input type="text" id="admin-user-input" value="admin" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+          <label class="block mb-1 font-bold text-gray-300">Adresse E-mail *</label>
+          <input type="email" id="admin-email-input" value="matthieu.brus@gmail.com" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
         </div>
         <div>
           <label class="block mb-1 font-bold text-gray-300">Mot de passe *</label>
-          <input type="password" id="admin-pass-input" value="vicomte107" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+          <input type="password" id="admin-pass-input" required placeholder="••••••••" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
         </div>
-        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition shadow-lg cursor-pointer">
+        <button type="submit" id="login-submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition shadow-lg cursor-pointer">
           <i class="fa-solid fa-right-to-bracket mr-1.5"></i> Se Connecter
         </button>
       </form>
@@ -584,7 +590,7 @@
         <div id="stat-card-dedicaces" class="bg-admin-card border border-admin-border rounded-2xl p-5 flex justify-between items-center shadow-lg">
           <div>
             <p class="text-[10px] font-bold text-admin-textMuted uppercase tracking-wider mb-1">DÉDICACES À MODÉRER</p>
-            <span class="text-2xl font-black text-amber-400 font-mono" id="stat-dedicaces">1</span>
+            <span class="text-2xl font-black text-amber-400 font-mono" id="stat-dedicaces">0</span>
           </div>
           <i class="fa-solid fa-heart text-2xl text-amber-500"></i>
         </div>
@@ -592,7 +598,7 @@
         <div id="stat-card-replays" class="bg-admin-card border border-admin-border rounded-2xl p-5 flex justify-between items-center shadow-lg">
           <div>
             <p class="text-[10px] font-bold text-admin-textMuted uppercase tracking-wider mb-1">TOTAL REPLAYS</p>
-            <span class="text-2xl font-black text-blue-400 font-mono" id="stat-replays">3</span>
+            <span class="text-2xl font-black text-blue-400 font-mono" id="stat-replays">0</span>
           </div>
           <i class="fa-solid fa-podcast text-2xl text-blue-500"></i>
         </div>
@@ -605,7 +611,7 @@
         <button onclick="switchAdminTab('dedicaces')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-dedicaces"><i class="fa-solid fa-comments mr-2 text-amber-400"></i> Modération Dédicaces</button>
         <button onclick="switchAdminTab('photos')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-photos"><i class="fa-solid fa-images mr-2 text-pink-400"></i> Gestion des Photos</button>
         <button onclick="switchAdminTab('presse')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-presse"><i class="fa-solid fa-newspaper mr-2 text-cyan-400"></i> On parle de nous</button>
-        <button onclick="switchAdminTab('passwords')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-passwords"><i class="fa-solid fa-user-gear mr-2 text-emerald-400"></i> Comptes & Mot de passe</button>
+        <button onclick="switchAdminTab('security')" class="px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer" id="adm-btn-security"><i class="fa-solid fa-shield-halved mr-2 text-emerald-400"></i> Sécurité & Session</button>
       </div>
 
       <!-- ADMIN TAB 1: GRILLE -->
@@ -664,7 +670,7 @@
 
         <div class="bg-admin-bg p-4 rounded-xl border border-admin-border space-y-3">
           <h4 class="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center">
-            <i class="fa-solid fa-folder-tree mr-2"></i> Sous-Catégories Configurées :
+            <i class="fa-solid fa-folder-tree mr-2"></i> Sous-Catégories D'Émissions Configurées :
           </h4>
           <div class="flex flex-wrap gap-2" id="admin-categories-tags"></div>
         </div>
@@ -672,7 +678,7 @@
         <div class="space-y-3" id="admin-replays-list"></div>
       </div>
 
-      <!-- ADMIN TAB 4: DÉDICACES -->
+      <!-- ADMIN TAB 4: MODÉRATION DÉDICACES -->
       <div id="adm-view-dedicaces" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
         <div class="flex justify-between items-center border-b border-admin-border pb-3">
           <h3 class="font-bold text-base text-white">Modération des Dédicaces Auditeurs</h3>
@@ -691,7 +697,7 @@
         <div class="grid md:grid-cols-2 gap-4" id="admin-photos-list"></div>
       </div>
 
-      <!-- ADMIN TAB 6: PRESSE -->
+      <!-- ADMIN TAB 6: ON PARLE DE NOUS -->
       <div id="adm-view-presse" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
         <div class="flex justify-between items-center border-b border-admin-border pb-3">
           <h3 class="font-bold text-base text-white">Articles & Revue de Presse</h3>
@@ -702,88 +708,63 @@
         <div class="space-y-3" id="admin-presse-list"></div>
       </div>
 
-      <!-- ADMIN TAB 7: COMPTES -->
-      <div id="adm-view-passwords" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
-        <div class="flex justify-between items-center border-b border-admin-border pb-3">
-          <div>
-            <h3 class="font-bold text-base text-white">Comptes d'Accès & Sécurité</h3>
+      <!-- ADMIN TAB 7: SÉCURITÉ -->
+      <div id="adm-view-security" class="bg-admin-card p-6 rounded-2xl border border-admin-border space-y-6 hidden">
+        <div class="border-b border-admin-border pb-3">
+          <h3 class="font-bold text-base text-white">Sécurité & Session Supabase Auth</h3>
+        </div>
+        <div class="bg-admin-bg p-5 rounded-xl border border-emerald-500/30 space-y-4 text-xs">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-user-check"></i>
+            </div>
+            <div>
+              <p class="text-white font-bold text-sm">Session Active & Chiffrée</p>
+              <p class="text-gray-400" id="session-user-email">Utilisateur connecté : --</p>
+            </div>
           </div>
-          <button onclick="openAccountModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition shadow flex items-center cursor-pointer">
-            <i class="fa-solid fa-user-plus mr-1.5"></i> Créer un Compte
-          </button>
         </div>
-        <div class="space-y-3" id="admin-accounts-list"></div>
       </div>
 
     </div>
   </div>
 
-  <!-- TOUS LES MODALS -->
-  <div id="account-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+  <!-- MODALS -->
+  <div id="category-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3">
-        <h3 class="font-bold text-base text-white" id="account-modal-title">Créer un Nouveau Compte</h3>
-        <button onclick="closeAccountModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
-      </div>
-      <form onsubmit="handleAccountFormSubmit(event)" class="space-y-4">
-        <input type="hidden" id="acc-edit-index" value="-1">
-        <div>
-          <label class="block mb-1 text-gray-300 font-bold">Rôle du Compte *</label>
-          <select id="acc-input-role" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white font-bold">
-            <option value="animateur">Animateur</option>
-            <option value="admin">Administrateur</option>
-          </select>
-        </div>
-        <div>
-          <label class="block mb-1 text-gray-300 font-bold">Identifiant *</label>
-          <input type="text" id="acc-input-user" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
-        </div>
-        <div>
-          <label class="block mb-1 text-gray-300 font-bold">Mot de Passe *</label>
-          <input type="password" id="acc-input-pass" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
-        </div>
-        <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border">
-          <button type="button" onclick="closeAccountModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button>
-          <button type="submit" class="px-6 py-2 bg-emerald-600 text-white font-bold rounded-xl shadow-lg cursor-pointer">Enregistrer</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div id="category-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-admin-card border border-admin-border w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
-      <div class="flex justify-between items-center border-b border-admin-border pb-3">
-        <h3 class="font-bold text-base text-white">Gérer les Sous-Catégories</h3>
+        <h3 class="font-bold text-base text-white">Gérer les Sous-Catégories / Émissions</h3>
         <button onclick="closeCategoryModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
       </div>
       <form onsubmit="handleAddCategory(event)" class="space-y-3">
+        <label class="block text-gray-300 font-bold">Ajouter une nouvelle sous-catégorie *</label>
         <div class="flex gap-2">
-          <input type="text" id="new-cat-input" required placeholder="Nouvelle sous-catégorie..." class="flex-grow bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
+          <input type="text" id="new-cat-input" required placeholder="Ex: Chronique locale" class="flex-grow bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white">
           <button type="submit" class="bg-purple-600 text-white font-bold px-4 py-2 rounded-xl cursor-pointer">Ajouter</button>
         </div>
       </form>
-      <div class="space-y-1.5 max-h-48 overflow-y-auto pr-1" id="categories-modal-list"></div>
+      <div class="space-y-2 pt-2 border-t border-admin-border max-h-48 overflow-y-auto" id="categories-modal-list"></div>
       <div class="flex justify-end pt-2"><button onclick="closeCategoryModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Fermer</button></div>
     </div>
   </div>
 
-  <div id="dedicace-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+  <div id="dedicace-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-gradient-to-br from-vicomte-brique to-vicomte-chocolat border-2 border-vicomte-dorure/60 w-full max-w-md rounded-3xl p-6 shadow-2xl space-y-4 text-xs text-white relative">
       <button onclick="closeDedicaceModal()" class="absolute top-4 right-4 text-vicomte-sable hover:text-white text-lg transition cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
       <h3 class="font-display font-bold text-lg text-white">Envoyez une Dédicace</h3>
       <form onsubmit="submitDedicaceModal(event)" class="space-y-3 text-xs">
         <div><label class="block mb-1 text-vicomte-sable font-bold">Votre Prénom & Commune *</label><input type="text" id="modal-ded-sender" required class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-white"></div>
-        <div><label class="block mb-1 text-vicomte-sable font-bold">Titre musical (facultatif)</label><input type="text" id="modal-ded-track" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-white"></div>
+        <div><label class="block mb-1 text-vicomte-sable font-bold">Titre musical souhaité (facultatif)</label><input type="text" id="modal-ded-track" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-white"></div>
         <div><label class="block mb-1 text-vicomte-sable font-bold">Votre Message *</label><textarea id="modal-ded-msg" required rows="3" class="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-white"></textarea></div>
         <button type="submit" class="w-full bg-vicomte-dorure text-vicomte-chocolat font-black py-2.5 rounded-xl uppercase tracking-wider cursor-pointer">Envoyer au Studio</button>
       </form>
     </div>
   </div>
 
-  <div id="slot-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+  <div id="slot-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3"><h3 class="font-bold text-base text-white" id="slot-modal-title">Créneau Grille</h3><button onclick="closeSlotModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button></div>
-      <form onsubmit="handleSlotFormSubmit(event)" class="space-y-3">
+      <form onsubmit="handleSlotFormSubmit(event)" class="space-y-4">
         <input type="hidden" id="slot-edit-index" value="-1">
         <div><label class="block mb-1 text-gray-300 font-bold">Jour</label><select id="slot-input-day" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"><option value="Lundi">Lundi</option><option value="Mardi">Mardi</option><option value="Mercredi">Mercredi</option><option value="Jeudi">Jeudi</option><option value="Vendredi">Vendredi</option><option value="Samedi">Samedi</option><option value="Dimanche">Dimanche</option></select></div>
         <div class="grid grid-cols-2 gap-3">
@@ -793,12 +774,12 @@
         <div><label class="block mb-1 text-gray-300 font-bold">Titre</label><input type="text" id="slot-input-emission" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></div>
         <div><label class="block mb-1 text-gray-300 font-bold">Animateur</label><input type="text" id="slot-input-animateur" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></div>
         <div><label class="block mb-1 text-gray-300 font-bold">Description</label><textarea id="slot-input-desc" rows="2" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></textarea></div>
-        <div class="flex justify-end space-x-2 pt-2"><button type="button" onclick="closeSlotModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button><button type="submit" class="px-6 py-2 bg-blue-600 text-white font-bold rounded-xl cursor-pointer">Enregistrer</button></div>
+        <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border"><button type="button" onclick="closeSlotModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button><button type="submit" class="px-6 py-2 bg-blue-600 text-white font-bold rounded-xl cursor-pointer">Enregistrer</button></div>
       </form>
     </div>
   </div>
 
-  <div id="emission-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+  <div id="emission-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3"><h3 class="font-bold text-base text-white" id="emission-modal-title">Émission</h3><button onclick="closeEmissionModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button></div>
       <form onsubmit="handleEmissionFormSubmit(event)" class="space-y-3">
@@ -807,12 +788,12 @@
         <div><label class="block mb-1 text-gray-300 font-bold">Animateur</label><input type="text" id="em-input-host" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></div>
         <div><label class="block mb-1 text-gray-300 font-bold">Image URL</label><input type="text" id="em-input-img" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></div>
         <div><label class="block mb-1 text-gray-300 font-bold">Description</label><textarea id="em-input-desc" required rows="2" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></textarea></div>
-        <div class="flex justify-end space-x-2 pt-2"><button type="button" onclick="closeEmissionModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button><button type="submit" class="px-6 py-2 bg-blue-600 text-white font-bold rounded-xl cursor-pointer">Enregistrer</button></div>
+        <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border"><button type="button" onclick="closeEmissionModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button><button type="submit" class="px-6 py-2 bg-blue-600 text-white font-bold rounded-xl cursor-pointer">Enregistrer</button></div>
       </form>
     </div>
   </div>
 
-  <div id="replay-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+  <div id="replay-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3"><h3 class="font-bold text-base text-white" id="replay-modal-title">Replay</h3><button onclick="closeReplayModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button></div>
       <form onsubmit="handleReplayFormSubmit(event)" class="space-y-3">
@@ -824,12 +805,12 @@
           <div><label class="block mb-1 text-gray-300 font-bold">Durée</label><input type="text" id="rep-input-duration" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></div>
         </div>
         <div><label class="block mb-1 text-gray-300 font-bold">Audio URL</label><input type="text" id="rep-input-url" placeholder="https://..." class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></div>
-        <div class="flex justify-end space-x-2 pt-2"><button type="button" onclick="closeReplayModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button><button type="submit" class="px-6 py-2 bg-purple-600 text-white font-bold rounded-xl cursor-pointer">Enregistrer</button></div>
+        <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border"><button type="button" onclick="closeReplayModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button><button type="submit" class="px-6 py-2 bg-purple-600 text-white font-bold rounded-xl cursor-pointer">Enregistrer</button></div>
       </form>
     </div>
   </div>
 
-  <div id="presse-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+  <div id="presse-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3"><h3 class="font-bold text-base text-white" id="presse-modal-title">Article Presse</h3><button onclick="closePresseModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button></div>
       <form onsubmit="handlePresseFormSubmit(event)" class="space-y-3">
@@ -838,24 +819,24 @@
         <div><label class="block mb-1 text-gray-300 font-bold">Titre</label><input type="text" id="prs-input-title" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></div>
         <div><label class="block mb-1 text-gray-300 font-bold">Lien URL</label><input type="text" id="prs-input-link" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></div>
         <div><label class="block mb-1 text-gray-300 font-bold">Extrait</label><textarea id="prs-input-snippet" required rows="2" class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></textarea></div>
-        <div class="flex justify-end space-x-2 pt-2"><button type="button" onclick="closePresseModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button><button type="submit" class="px-6 py-2 bg-cyan-600 text-white font-bold rounded-xl cursor-pointer">Enregistrer</button></div>
+        <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border"><button type="button" onclick="closePresseModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button><button type="submit" class="px-6 py-2 bg-cyan-600 text-white font-bold rounded-xl cursor-pointer">Enregistrer</button></div>
       </form>
     </div>
   </div>
 
-  <div id="photo-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+  <div id="photo-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-admin-card border border-admin-border w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 text-xs text-gray-200">
       <div class="flex justify-between items-center border-b border-admin-border pb-3"><h3 class="font-bold text-base text-white" id="photo-modal-title">Photo</h3><button onclick="closePhotoModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button></div>
       <form onsubmit="handlePhotoFormSubmit(event)" class="space-y-3">
         <input type="hidden" id="pho-edit-index" value="-1">
         <div><label class="block mb-1 text-gray-300 font-bold">Légende</label><input type="text" id="pho-input-caption" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></div>
         <div><label class="block mb-1 text-gray-300 font-bold">Image URL</label><input type="text" id="pho-input-url" required class="w-full bg-admin-bg border border-admin-border rounded-xl px-3 py-2 text-white"></div>
-        <div class="flex justify-end space-x-2 pt-2"><button type="button" onclick="closePhotoModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button><button type="submit" class="px-6 py-2 bg-pink-600 text-white font-bold rounded-xl cursor-pointer">Enregistrer</button></div>
+        <div class="flex justify-end space-x-2 pt-3 border-t border-admin-border"><button type="button" onclick="closePhotoModal()" class="px-5 py-2 bg-admin-bg border border-admin-border text-gray-300 rounded-xl font-bold cursor-pointer">Annuler</button><button type="submit" class="px-6 py-2 bg-pink-600 text-white font-bold rounded-xl cursor-pointer">Enregistrer</button></div>
       </form>
     </div>
   </div>
 
-  <div id="photo-lightbox-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden flex-col items-center justify-center p-4 cursor-pointer" onclick="closePhotoLightbox()">
+  <div id="photo-lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex-col items-center justify-center p-4 cursor-pointer" onclick="closePhotoLightbox()">
     <button onclick="closePhotoLightbox()" class="absolute top-5 right-5 text-white text-3xl font-bold cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
     <div class="max-w-4xl max-h-[85vh] flex flex-col items-center cursor-default" onclick="event.stopPropagation()">
       <img id="lightbox-img" src="" class="max-w-full max-h-[75vh] object-contain rounded-2xl border-2 border-vicomte-dorure/40">
@@ -865,18 +846,11 @@
 
   <audio id="radio-audio-stream" src="https://sd-151888.dedibox.fr/proxy/vicomte/vicomte" preload="none"></audio>
 
-  <!-- SCRIPT SUPABASE & LOGIQUE -->
+  <!-- SCRIPT SUPABASE AUTH -->
   <script>
-    // ==========================================
-    // CONFIGURATION SUPABASE
-    // ==========================================
-    const SUPABASE_URL = 'https://xmjyutptdiegzelcxmga.supabase.co'; // Mettez ici votre URL Supabase exacte
-    const SUPABASE_ANON_KEY = 'sb_publishable_kGVX6UqEEjM9P25G86jbXw_d82Rs0Ef'; // Mettez ici votre clé Publishable Supabase
-
-    let supabaseClient = null;
-    if (window.supabase && SUPABASE_URL.startsWith('https://')) {
-      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    }
+    const SUPABASE_URL = "https://xmjyutptdiegzelcxmga.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_kGVX6UqEEjM9P25G86jbXw_d82Rs0Ef";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
     let currentPublicDay = "Jeudi";
@@ -884,13 +858,9 @@
     let isPlayingAudio = false;
     let selectedPodcastCategory = "TOUS";
     let currentAdminRole = "admin";
-    let visiblePasswordsMap = {};
+    let dbCache = {};
 
     const DEFAULT_DATA = {
-      rv_accounts: [
-        { user: "admin", pass: "vicomte107", role: "admin" },
-        { user: "animateur", pass: "studio1039", role: "animateur" }
-      ],
       rv_categories: ["Les barastoles du morning", "Les Matinales", "La Radio d'Ici", "Interview Spéciale", "Chansons Françaises"],
       rv_grille: {
         "Lundi": [{ horaire: "07:00 - 09:30", emission: "Les Matinales Corréziennes", animateur: "Jean-Pierre & Élodie", description: "L'actu locale, la météo et la bonne humeur du matin." }],
@@ -921,48 +891,52 @@
       ]
     };
 
-    let memoryDb = {};
-
     async function initDatabase() {
-      // Charger depuis localStorage par défaut pour affichage instantané
-      for (let key in DEFAULT_DATA) {
-        const saved = localStorage.getItem(key);
-        memoryDb[key] = saved ? JSON.parse(saved) : DEFAULT_DATA[key];
-      }
-
-      // Si Supabase est configuré, récupérer les données à jour
-      if (supabaseClient) {
-        try {
-          const { data, error } = await supabaseClient.from('site_data').select('key, value');
-          if (data && !error) {
-            data.forEach(row => {
-              if (row.key && row.value) {
-                memoryDb[row.key] = row.value;
-                localStorage.setItem(row.key, JSON.stringify(row.value));
-              }
-            });
-          }
-        } catch (err) {
-          console.warn("Utilisation du cache local (Supabase injoignable):", err);
+      try {
+        const { data, error } = await supabaseClient.from('site_data').select('*');
+        if (data && data.length > 0) {
+          data.forEach(row => { dbCache[row.key] = row.value; });
         }
-      }
+        for (const key in DEFAULT_DATA) {
+          if (!dbCache[key]) dbCache[key] = DEFAULT_DATA[key];
+        }
+      } catch (err) {}
+      refreshAllUI();
+      checkExistingSession();
     }
 
-    function getData(key) {
-      return memoryDb[key] || DEFAULT_DATA[key] || [];
+    async function checkExistingSession() {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session) applyAuthenticatedUI(session.user);
     }
 
-    async function setData(key, val) {
-      memoryDb[key] = val;
-      localStorage.setItem(key, JSON.stringify(val));
+    function applyAuthenticatedUI(user) {
+      currentAdminRole = (user.user_metadata && user.user_metadata.role) ? user.user_metadata.role : 'admin';
+      const emailDisplay = document.getElementById('session-user-email');
+      if (emailDisplay) emailDisplay.innerText = `Utilisateur connecté : ${user.email}`;
 
-      if (supabaseClient) {
-        try {
-          await supabaseClient.from('site_data').upsert({ key: key, value: val }, { onConflict: 'key' });
-        } catch (err) {
-          console.error("Erreur de synchronisation Supabase:", err);
-        }
-      }
+      document.getElementById('admin-login-screen').classList.add('hidden');
+      document.getElementById('admin-dashboard').classList.remove('hidden');
+    }
+
+    async function setDataSupabase(key, value) {
+      dbCache[key] = value;
+      try {
+        await supabaseClient.from('site_data').upsert({ key: key, value: value }, { onConflict: 'key' });
+      } catch (e) {}
+    }
+
+    function getData(key) { return dbCache[key] || DEFAULT_DATA[key] || []; }
+    function setData(key, val) { setDataSupabase(key, val); }
+
+    function refreshAllUI() {
+      renderPublicGrille();
+      renderPublicEmissions();
+      renderPublicReplays();
+      renderPublicDedicaces();
+      renderPublicPresse();
+      renderPublicPhotos();
+      updateCurrentLiveShow();
     }
 
     function showToast(msg, iconClass = "fa-circle-check") {
@@ -1126,11 +1100,7 @@
     }
 
     function setFilterPodcastCategory(cat) { selectedPodcastCategory = cat; renderPublicReplays(); }
-    
-    function toggleReplayAudio(idx) {
-      const audio = document.getElementById(`audio-replay-${idx}`);
-      if (audio) { audio.paused ? audio.play() : audio.pause(); }
-    }
+    function toggleReplayAudio(idx) { const audio = document.getElementById(`audio-replay-${idx}`); if (audio) audio.paused ? audio.play() : audio.pause(); }
 
     function openCategoryModal() { renderCategoryModalList(); document.getElementById('category-modal').classList.remove('hidden'); document.getElementById('category-modal').classList.add('flex'); }
     function closeCategoryModal() { document.getElementById('category-modal').classList.remove('flex'); document.getElementById('category-modal').classList.add('hidden'); }
@@ -1142,14 +1112,14 @@
       if (tagsContainer) tagsContainer.innerHTML = categories.map(c => `<span class="bg-purple-600/20 text-purple-300 border border-purple-500/30 text-xs px-2.5 py-1 rounded-lg font-bold">${c}</span>`).join('');
     }
 
-    async function handleAddCategory(e) {
+    function handleAddCategory(e) {
       e.preventDefault();
       const val = document.getElementById('new-cat-input').value.trim();
       if (!val) return;
       const categories = getData('rv_categories');
       if (!categories.includes(val)) {
         categories.push(val);
-        await setData('rv_categories', categories);
+        setData('rv_categories', categories);
         document.getElementById('new-cat-input').value = "";
         renderCategoryModalList();
         renderPublicReplays();
@@ -1157,50 +1127,13 @@
       }
     }
 
-    async function deleteCategory(idx) {
+    function deleteCategory(idx) {
       const categories = getData('rv_categories');
       categories.splice(idx, 1);
-      await setData('rv_categories', categories);
+      setData('rv_categories', categories);
       renderCategoryModalList();
       renderPublicReplays();
       showToast("Sous-catégorie supprimée.");
-    }
-
-    function renderAdminAccounts() {
-      const container = document.getElementById('admin-accounts-list');
-      if (!container) return;
-      const accounts = getData('rv_accounts');
-      container.innerHTML = accounts.map((acc, idx) => `
-        <div class="bg-admin-bg p-4 rounded-xl border border-admin-border flex justify-between items-center text-xs">
-          <div><span class="font-bold text-white text-sm">${acc.user}</span> <span class="text-emerald-400">(${acc.role || 'admin'})</span></div>
-          <button onclick="deleteAccount(${idx})" class="p-2 bg-red-600/30 hover:bg-red-600 text-red-300 rounded-lg"><i class="fa-solid fa-trash"></i></button>
-        </div>
-      `).join('');
-    }
-
-    function openAccountModal() { document.getElementById('account-modal').classList.remove('hidden'); document.getElementById('account-modal').classList.add('flex'); }
-    function closeAccountModal() { document.getElementById('account-modal').classList.remove('flex'); document.getElementById('account-modal').classList.add('hidden'); }
-
-    async function handleAccountFormSubmit(e) {
-      e.preventDefault();
-      const user = document.getElementById('acc-input-user').value.trim();
-      const pass = document.getElementById('acc-input-pass').value.trim();
-      const role = document.getElementById('acc-input-role').value;
-      const accounts = getData('rv_accounts');
-      accounts.push({ user, pass, role });
-      await setData('rv_accounts', accounts);
-      closeAccountModal();
-      renderAdminAccounts();
-      showToast("Compte créé !");
-    }
-
-    async function deleteAccount(idx) {
-      const accounts = getData('rv_accounts');
-      if (accounts.length <= 1) return;
-      accounts.splice(idx, 1);
-      await setData('rv_accounts', accounts);
-      renderAdminAccounts();
-      showToast("Compte supprimé.");
     }
 
     function openReplayModal(idx = -1) {
@@ -1211,7 +1144,7 @@
     }
     function closeReplayModal() { document.getElementById('replay-modal').classList.remove('flex'); document.getElementById('replay-modal').classList.add('hidden'); }
 
-    async function handleReplayFormSubmit(e) {
+    function handleReplayFormSubmit(e) {
       e.preventDefault();
       const title = document.getElementById('rep-input-title').value;
       const show = document.getElementById('rep-input-show-select').value;
@@ -1220,7 +1153,7 @@
       const audio = document.getElementById('rep-input-url').value;
       const list = getData('rv_replays');
       list.unshift({ id: Date.now(), title, show, date, duration, audio });
-      await setData('rv_replays', list);
+      setData('rv_replays', list);
       closeReplayModal();
       renderAdminReplays();
       renderPublicReplays();
@@ -1240,10 +1173,10 @@
       `).join('');
     }
 
-    async function deleteReplay(idx) {
+    function deleteReplay(idx) {
       const list = getData('rv_replays');
       list.splice(idx, 1);
-      await setData('rv_replays', list);
+      setData('rv_replays', list);
       renderAdminReplays();
       renderPublicReplays();
       showToast("Replay supprimé.");
@@ -1252,14 +1185,14 @@
     function openDedicaceModal() { document.getElementById('dedicace-modal').classList.remove('hidden'); document.getElementById('dedicace-modal').classList.add('flex'); }
     function closeDedicaceModal() { document.getElementById('dedicace-modal').classList.remove('flex'); document.getElementById('dedicace-modal').classList.add('hidden'); }
 
-    async function submitDedicaceModal(e) {
+    function submitDedicaceModal(e) {
       e.preventDefault();
       const sender = document.getElementById('modal-ded-sender').value;
       const track = document.getElementById('modal-ded-track').value;
       const msg = document.getElementById('modal-ded-msg').value;
       const list = getData('rv_dedicaces');
       list.unshift({ id: Date.now(), sender, track, msg, approved: false });
-      await setData('rv_dedicaces', list);
+      setData('rv_dedicaces', list);
       e.target.reset();
       closeDedicaceModal();
       showToast("Dédicace envoyée au studio !");
@@ -1273,6 +1206,7 @@
         adminSite.classList.remove('hidden');
         document.body.classList.add('admin-mode');
         fetchIcecastListeners();
+        checkExistingSession();
       } else {
         adminSite.classList.add('hidden');
         pubSite.classList.remove('hidden');
@@ -1281,36 +1215,27 @@
       }
     }
 
-    function handleLoginSubmit(e) {
+    async function handleSupabaseLogin(e) {
       e.preventDefault();
-      const user = document.getElementById('admin-user-input').value.trim();
-      const pass = document.getElementById('admin-pass-input').value.trim();
-      const accounts = getData('rv_accounts');
-      const validAccount = accounts.find(a => a.user.toLowerCase() === user.toLowerCase() && a.pass === pass);
+      const email = document.getElementById('admin-email-input').value.trim();
+      const password = document.getElementById('admin-pass-input').value.trim();
 
-      if (validAccount) {
-        currentAdminRole = validAccount.role || 'admin';
-        document.getElementById('admin-login-screen').classList.add('hidden');
-        document.getElementById('admin-dashboard').classList.remove('hidden');
-        updateAdminRoleUI();
-        switchAdminTab(currentAdminRole === 'animateur' ? 'dedicaces' : 'grille');
-        fetchIcecastListeners();
-        showToast(`Connexion réussie ! Bienvenue ${validAccount.user}`);
-      } else {
-        showToast("Identifiant ou mot de passe incorrect !", "fa-triangle-exclamation");
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        if (data.session) {
+          applyAuthenticatedUI(data.user);
+          switchAdminTab('grille');
+          fetchIcecastListeners();
+          showToast(`Connexion réussie ! Bienvenue ${data.user.email}`);
+        }
+      } catch (err) {
+        showToast("Identifiant ou mot de passe incorrect.", "fa-triangle-exclamation");
       }
     }
 
-    function updateAdminRoleUI() {
-      const allTabs = ['grille', 'emissions', 'replays', 'photos', 'presse', 'passwords'];
-      if (currentAdminRole === 'animateur') {
-        allTabs.forEach(tab => { document.getElementById(`adm-btn-${tab}`).classList.add('hidden'); });
-      } else {
-        allTabs.forEach(tab => { document.getElementById(`adm-btn-${tab}`).classList.remove('hidden'); });
-      }
-    }
-
-    function logoutAdmin() {
+    async function logoutAdmin() {
+      await supabaseClient.auth.signOut();
       document.getElementById('admin-dashboard').classList.add('hidden');
       document.getElementById('admin-login-screen').classList.remove('hidden');
       toggleAdminView(false);
@@ -1318,7 +1243,6 @@
     }
 
     function switchAdminTab(tabId) {
-      if (currentAdminRole === 'animateur' && tabId !== 'dedicaces') tabId = 'dedicaces';
       document.querySelectorAll('#admin-dashboard > div[id^="adm-view-"]').forEach(el => el.classList.add('hidden'));
       document.getElementById(`adm-view-${tabId}`).classList.remove('hidden');
       document.querySelectorAll('#admin-nav-tabs button').forEach(btn => btn.className = "px-4 py-2 bg-transparent text-gray-300 hover:bg-admin-card rounded-xl text-xs font-bold transition flex items-center cursor-pointer");
@@ -1330,7 +1254,6 @@
       if (tabId === 'dedicaces') renderAdminDedicaces();
       if (tabId === 'photos') renderAdminPhotos();
       if (tabId === 'presse') renderAdminPresse();
-      if (tabId === 'passwords') renderAdminAccounts();
     }
 
     function renderAdminGrille() {
@@ -1345,7 +1268,7 @@
     function openAddSlotModal() { document.getElementById('slot-modal').classList.remove('hidden'); document.getElementById('slot-modal').classList.add('flex'); }
     function closeSlotModal() { document.getElementById('slot-modal').classList.remove('flex'); document.getElementById('slot-modal').classList.add('hidden'); }
 
-    async function handleSlotFormSubmit(e) {
+    function handleSlotFormSubmit(e) {
       e.preventDefault();
       const day = document.getElementById('slot-input-day').value;
       const horaire = `${document.getElementById('slot-input-start').value} - ${document.getElementById('slot-input-end').value}`;
@@ -1355,17 +1278,17 @@
       const data = getData('rv_grille');
       if (!data[day]) data[day] = [];
       data[day].push({ horaire, emission, animateur, description });
-      await setData('rv_grille', data);
+      setData('rv_grille', data);
       closeSlotModal();
       renderAdminGrille();
       renderPublicGrille();
       showToast("Créneau ajouté !");
     }
 
-    async function deleteSlot(idx) {
+    function deleteSlot(idx) {
       const data = getData('rv_grille');
       data[currentAdminDay].splice(idx, 1);
-      await setData('rv_grille', data);
+      setData('rv_grille', data);
       renderAdminGrille();
       renderPublicGrille();
       showToast("Créneau supprimé.");
@@ -1384,7 +1307,7 @@
     function openEmissionModal() { document.getElementById('emission-modal').classList.remove('hidden'); document.getElementById('emission-modal').classList.add('flex'); }
     function closeEmissionModal() { document.getElementById('emission-modal').classList.remove('flex'); document.getElementById('emission-modal').classList.add('hidden'); }
 
-    async function handleEmissionFormSubmit(e) {
+    function handleEmissionFormSubmit(e) {
       e.preventDefault();
       const title = document.getElementById('em-input-title').value;
       const host = document.getElementById('em-input-host').value;
@@ -1392,17 +1315,17 @@
       const desc = document.getElementById('em-input-desc').value;
       const list = getData('rv_emissions');
       list.push({ id: Date.now(), title, host, img, desc });
-      await setData('rv_emissions', list);
+      setData('rv_emissions', list);
       closeEmissionModal();
       renderAdminEmissions();
       renderPublicEmissions();
       showToast("Émission créée !");
     }
 
-    async function deleteEmission(idx) {
+    function deleteEmission(idx) {
       const list = getData('rv_emissions');
       list.splice(idx, 1);
-      await setData('rv_emissions', list);
+      setData('rv_emissions', list);
       renderAdminEmissions();
       renderPublicEmissions();
       showToast("Émission supprimée.");
@@ -1420,19 +1343,19 @@
       `).join('');
     }
 
-    async function approveDedicace(idx) {
+    function approveDedicace(idx) {
       const list = getData('rv_dedicaces');
       list[idx].approved = true;
-      await setData('rv_dedicaces', list);
+      setData('rv_dedicaces', list);
       renderAdminDedicaces();
       renderPublicDedicaces();
       showToast("Dédicace validée !");
     }
 
-    async function deleteDedicace(idx) {
+    function deleteDedicace(idx) {
       const list = getData('rv_dedicaces');
       list.splice(idx, 1);
-      await setData('rv_dedicaces', list);
+      setData('rv_dedicaces', list);
       renderAdminDedicaces();
       renderPublicDedicaces();
       showToast("Dédicace supprimée.");
@@ -1457,23 +1380,23 @@
     function openPhotoModal() { document.getElementById('photo-modal').classList.remove('hidden'); document.getElementById('photo-modal').classList.add('flex'); }
     function closePhotoModal() { document.getElementById('photo-modal').classList.remove('flex'); document.getElementById('photo-modal').classList.add('hidden'); }
 
-    async function handlePhotoFormSubmit(e) {
+    function handlePhotoFormSubmit(e) {
       e.preventDefault();
       const caption = document.getElementById('pho-input-caption').value;
       const img = document.getElementById('pho-input-url').value;
       const list = getData('rv_photos');
       list.push({ id: Date.now(), caption, img });
-      await setData('rv_photos', list);
+      setData('rv_photos', list);
       closePhotoModal();
       renderAdminPhotos();
       renderPublicPhotos();
       showToast("Photo ajoutée !");
     }
 
-    async function deletePhoto(idx) {
+    function deletePhoto(idx) {
       const list = getData('rv_photos');
       list.splice(idx, 1);
-      await setData('rv_photos', list);
+      setData('rv_photos', list);
       renderAdminPhotos();
       renderPublicPhotos();
       showToast("Photo supprimée.");
@@ -1511,7 +1434,7 @@
     function openPresseModal() { document.getElementById('presse-modal').classList.remove('hidden'); document.getElementById('presse-modal').classList.add('flex'); }
     function closePresseModal() { document.getElementById('presse-modal').classList.remove('flex'); document.getElementById('presse-modal').classList.add('hidden'); }
 
-    async function handlePresseFormSubmit(e) {
+    function handlePresseFormSubmit(e) {
       e.preventDefault();
       const title = document.getElementById('prs-input-title').value;
       const source = document.getElementById('prs-input-source').value;
@@ -1519,17 +1442,17 @@
       const snippet = document.getElementById('prs-input-snippet').value;
       const list = getData('rv_presse');
       list.unshift({ id: Date.now(), title, source, link, snippet });
-      await setData('rv_presse', list);
+      setData('rv_presse', list);
       closePresseModal();
       renderAdminPresse();
       renderPublicPresse();
       showToast("Article ajouté !");
     }
 
-    async function deletePresse(idx) {
+    function deletePresse(idx) {
       const list = getData('rv_presse');
       list.splice(idx, 1);
-      await setData('rv_presse', list);
+      setData('rv_presse', list);
       renderAdminPresse();
       renderPublicPresse();
       showToast("Article supprimé.");
@@ -1571,16 +1494,8 @@
       window.location.href = `mailto:contactradiovicom@gmail.com?subject=Contact%20site&body=Nom:%20${name}`;
     }
 
-    // INITIALISATION AU DÉMARRAGE
-    window.onload = async function() {
-      await initDatabase();
-      renderPublicGrille();
-      renderPublicEmissions();
-      renderPublicReplays();
-      renderPublicDedicaces();
-      renderPublicPresse();
-      renderPublicPhotos();
-      updateCurrentLiveShow();
+    window.onload = function() {
+      initDatabase();
       setInterval(updateCurrentLiveShow, 60000);
       fetchIcecastListeners();
     };
