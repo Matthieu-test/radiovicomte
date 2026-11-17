@@ -18,7 +18,7 @@
     
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
- 
+  
     <script>
     tailwind.config = {
         darkMode: 'class',
@@ -34,6 +34,14 @@
                         dorure: '#D4A359',
                         creme: '#FFFBF5',
                         chocolat: '#2C1810'
+                    },
+                    admin: {
+                        bg: '#12131A',
+                        card: '#1C1E29',
+                        border: '#2E3245',
+                        accent: '#3B82F6',
+                        accentHover: '#2563EB',
+                        textMuted: '#9CA3AF'
                     }
                 },
                 fontFamily: {
@@ -44,48 +52,235 @@
         }
     }
     </script>
+  
+    <style>
+    .pattern-meyssac {
+        background-color: #8C2B1D;
+        background-image: radial-gradient(#D4A359 0.75px, transparent 0.75px), radial-gradient(#D4A359 0.75px, #8C2B1D 0.75px);
+        background-size: 30px 30px;
+        background-position: 0 0, 15px 15px;
+        opacity: 0.95;
+    }
+    body.admin-mode {
+        background-color: #12131A;
+        color: #E5E7EB;
+    }
+    .bg-halle-meyssac {
+        background-image: linear-gradient(rgba(247, 241, 225, 0.88), rgba(247, 241, 225, 0.88)), url('https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1600&auto=format&fit=crop');
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    </style>
 </head>
-<body class="bg-amber-50 text-vicomte-chocolat font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-halle-meyssac text-vicomte-chocolat font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- En-tête -->
-    <header class="bg-vicomte-brique text-white shadow-xl border-b-4 border-vicomte-dorure">
-        <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
-            <h1 class="font-display font-black text-2xl md:text-3xl tracking-wider">RADIO VICOMTÉ</h1>
-            <button onclick="toggleAdminView()" class="bg-vicomte-dorure text-vicomte-chocolat px-4 py-2 rounded-xl text-xs font-black uppercase">
-                <i class="fa-solid fa-lock mr-1"></i> Administration
-            </button>
+    <!-- Notification Toast Box -->
+    <div id="toast-notification" class="fixed bottom-5 right-5 z-50 bg-vicomte-chocolat text-white px-5 py-3 rounded-2xl shadow-2xl border-2 border-vicomte-dorure hidden transition-all duration-300 flex items-center space-x-3">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-vicomte-dorure text-lg"></i>
+        <span id="toast-message" class="text-xs font-bold"></span>
+    </div>
+
+    <!-- SITE PUBLIC -->
+    <div id="public-site" class="flex-grow flex flex-col">
+        <!-- Ticker Direct En Haut -->
+        <div class="bg-vicomte-chocolat text-vicomte-sable px-4 py-2 text-xs font-semibold flex flex-wrap justify-between items-center shadow-inner border-b border-vicomte-dorure/30">
+            <div class="flex items-center space-x-3">
+                <span class="flex h-3 w-3 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
+                </span>
+                <span class="tracking-widest uppercase font-bold text-red-400">En Direct (103.9 FM) :</span>
+                <span id="header-now-playing" class="text-white truncate max-w-xs md:max-w-md font-medium">Les Matinales Corréziennes — Émission Spéciale Meyssac</span>
+            </div>
+            <div class="flex items-center space-x-4 mt-1 sm:mt-0">
+                <button onclick="toggleAudioStream()" id="global-header-play-btn" class="flex items-center space-x-1.5 bg-vicomte-brique hover:bg-vicomte-briqueDark text-white px-3.5 py-1 rounded-full text-xs font-bold transition shadow-sm">
+                    <i class="fa-solid fa-play text-[10px]" id="header-play-icon"></i>
+                    <span id="header-play-text">Écouter la Radio</span>
+                </button>
+                <button onclick="toggleAdminView()" class="flex items-center space-x-1.5 text-vicomte-dorure hover:text-white transition font-bold border border-vicomte-dorure/40 px-3 py-1 rounded-lg">
+                    <i class="fa-solid fa-lock text-[10px]"></i>
+                    <span>Administration</span>
+                </button>
+            </div>
         </div>
-    </header>
 
-    <!-- Contenu Principal -->
-    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow space-y-10 w-full">
-        
-        <!-- SECTION ÉMISSIONS -->
-        <section id="pub-view-emissions" class="space-y-6">
-            <div class="border-b-2 border-vicomte-sable pb-3">
-                <h2 class="font-display font-black text-2xl text-vicomte-brique">Nos Émissions Phares</h2>
-                <p class="text-xs text-gray-600">Découvrez l'ensemble des programmes réguliers de Radio Vicomté 103.9 FM.</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-6" id="public-emissions-list">
-                <p class="text-gray-500 text-sm">Chargement des émissions...</p>
-            </div>
-        </section>
+        <!-- En-tête Principal & Logo -->
+        <header class="pattern-meyssac text-white shadow-xl relative overflow-hidden border-b-4 border-vicomte-dorure">
+            <div class="max-w-7xl mx-auto px-4 py-6 md:py-8 flex flex-col md:flex-row justify-between items-center relative z-10">
+                <div class="flex items-center space-x-4 mb-4 md:mb-0 text-center md:text-left cursor-pointer" onclick="switchPublicTab('home')">
+                    <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border-4 border-vicomte-dorure p-1.5 shadow-2xl flex-shrink-0 flex items-center justify-center">
+                        <svg class="w-full h-full" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <ellipse cx="100" cy="70" rx="45" ry="65" transform="rotate(-30 100 70)" stroke="#8C2B1D" stroke-width="6" fill="none"/>
+                            <ellipse cx="90" cy="130" rx="45" ry="65" transform="rotate(-50 90 130)" stroke="#8C2B1D" stroke-width="6" fill="none"/>
+                            <path d="M75 35 H105 C122 35 132 45 132 58 C132 72 120 80 105 80 H88 V110 H75 V35 Z M88 47 V68 H103 C113 68 119 64 119 58 C119 51 113 47 103 47 H88 Z" fill="#8C2B1D"/>
+                            <path d="M100 75 L125 115 H110 L88 80 Z" fill="#8C2B1D"/>
+                            <path d="M42 105 H58 L82 170 H66 L42 105 Z" fill="#8C2B1D"/>
+                            <path d="M82 170 L108 105 H124 L92 180 H72 Z" fill="#8C2B1D"/>
+                            <text x="120" y="105" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#8C2B1D">RADIO</text>
+                            <text x="92" y="140" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="20" fill="#8C2B1D">103.9</text>
+                            <text x="82" y="168" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#8C2B1D">VICOMTÉ</text>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="font-display font-black text-2xl md:text-4xl tracking-wider text-white drop-shadow-md">RADIO VICOMTÉ</h1>
+                        <p class="text-vicomte-sable text-xs md:text-sm font-semibold tracking-widest uppercase">103.9 FM — La Radio de la Corrèze Méridionale</p>
+                    </div>
+                </div>
 
-        <!-- SECTION PHOTOS -->
-        <section id="pub-view-photos" class="space-y-6 mt-12">
-            <div class="border-b-2 border-vicomte-sable pb-3">
-                <h2 class="font-display font-black text-2xl text-vicomte-brique">Galerie Photos</h2>
-                <p class="text-xs text-gray-600">Les moments forts de la radio et de la région de Meyssac.</p>
+                <button onclick="switchPublicTab('dedicaces')" class="bg-vicomte-dorure hover:bg-amber-500 text-vicomte-chocolat px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-wider transition shadow-lg hover:scale-105 flex items-center">
+                    <i class="fa-solid fa-heart mr-2 text-vicomte-brique"></i> Envoyer une Dédicace
+                </button>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="public-photos-list">
-                <p class="text-gray-500 text-sm">Chargement des photos...</p>
+
+            <!-- Navigation des Onglets -->
+            <nav class="bg-vicomte-briqueDark/90 border-t border-vicomte-brique text-xs font-bold">
+                <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center md:justify-start gap-1 py-1.5" id="pub-nav-container">
+                    <button onclick="switchPublicTab('home')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-white hover:bg-vicomte-brique transition uppercase tracking-wider bg-vicomte-brique shadow" id="pub-btn-home">
+                        <i class="fa-solid fa-house mr-1.5"></i> Accueil
+                    </button>
+                    <button onclick="switchPublicTab('emissions')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-emissions">Émissions</button>
+                    <button onclick="switchPublicTab('grille')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-grille">Grille des Programmes</button>
+                    <button onclick="switchPublicTab('replays')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-replays">Replays & Podcasts</button>
+                    <button onclick="switchPublicTab('dedicaces')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-dedicaces">Dédicaces</button>
+                    <button onclick="switchPublicTab('photos')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-photos">Photos</button>
+                    <button onclick="switchPublicTab('contact')" class="nav-pub-btn px-3.5 py-2 rounded-xl text-vicomte-sable hover:bg-vicomte-brique hover:text-white transition uppercase tracking-wider" id="pub-btn-contact">Contact</button>
+                </div>
+            </nav>
+        </header>
+
+        <!-- CONTENU DES ONGLETS -->
+        <main class="max-w-7xl mx-auto px-4 py-8 flex-grow space-y-10 w-full">
+            
+            <!-- ONGLET ACCUEIL -->
+            <div id="pub-view-home" class="space-y-10">
+                <div class="bg-white rounded-3xl p-6 shadow-xl border-2 border-vicomte-sable">
+                    <h2 class="font-display font-black text-2xl text-vicomte-brique mb-2">Bienvenue sur Radio Vicomté</h2>
+                    <p class="text-xs text-gray-600">Votre station locale 103.9 FM à Meyssac. Retrouvez toute l'actualité de la Corrèze méridionale.</p>
+                </div>
             </div>
-        </section>
 
-    </main>
+            <!-- ONGLET ÉMISSIONS -->
+            <div id="pub-view-emissions" class="space-y-6 hidden">
+                <div class="border-b-2 border-vicomte-sable pb-3">
+                    <h2 class="font-display font-black text-2xl text-vicomte-brique">Nos Émissions Phares</h2>
+                    <p class="text-xs text-gray-600">Découvrez l'ensemble des programmes réguliers de Radio Vicomté 103.9 FM.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6" id="public-emissions-list">
+                    <p class="text-gray-500 text-sm">Chargement des émissions...</p>
+                </div>
+            </div>
 
-    <!-- Script de Chargement Supabase -->
+            <!-- ONGLET PHOTOS -->
+            <div id="pub-view-photos" class="space-y-6 hidden">
+                <div class="border-b-2 border-vicomte-sable pb-3">
+                    <h2 class="font-display font-black text-2xl text-vicomte-brique">Galerie Photos</h2>
+                    <p class="text-xs text-gray-600">Les moments forts de la radio et de la région de Meyssac.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="public-photos-list">
+                    <p class="text-gray-500 text-sm">Chargement des photos...</p>
+                </div>
+            </div>
+
+            <!-- Autres onglets masqués par défaut -->
+            <div id="pub-view-grille" class="hidden"></div>
+            <div id="pub-view-replays" class="hidden"></div>
+            <div id="pub-view-dedicaces" class="hidden"></div>
+            <div id="pub-view-contact" class="hidden"></div>
+        </main>
+    </div>
+
+    <!-- Script de Navigation et Supabase -->
     <script>
-        // METTEZ ICI VOS VRAIES INFORMATIONS SUPABASE :
-        const SB_URL = 'https://votre-projet.supabase.co';
-        const SB_KEY = 'v
+        // Gestion des onglets
+        function switchPublicTab(tabName) {
+            const tabs = ['home', 'emissions', 'grille', 'replays', 'dedicaces', 'photos', 'contact'];
+            tabs.forEach(t => {
+                const view = document.getElementById(`pub-view-${t}`);
+                const btn = document.getElementById(`pub-btn-${t}`);
+                if (view) view.classList.add('hidden');
+                if (btn) {
+                    btn.classList.remove('bg-vicomte-brique', 'text-white', 'shadow');
+                    btn.classList.add('text-vicomte-sable');
+                }
+            });
+
+            const activeView = document.getElementById(`pub-view-${tabName}`);
+            const activeBtn = document.getElementById(`pub-btn-${tabName}`);
+            if (activeView) activeView.classList.remove('hidden');
+            if (activeBtn) {
+                activeBtn.classList.remove('text-vicomte-sable');
+                activeBtn.classList.add('bg-vicomte-brique', 'text-white', 'shadow');
+            }
+        }
+
+        function toggleAdminView() {
+            window.location.href = "admin.html"; // Redirection vers la page admin
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast-notification');
+            const messageEl = document.getElementById('toast-message');
+            if (toast && messageEl) {
+                messageEl.innerText = msg;
+                toast.classList.remove('hidden');
+                setTimeout(() => toast.classList.add('hidden'), 3000);
+            }
+        }
+
+        function toggleAudioStream() {
+            showToast("Lecture du flux direct 103.9 FM...");
+        }
+
+        // Chargement Supabase des Émissions et Photos
+        const SB_URL = 'https://radiovicomte.supabase.co';
+        const SB_KEY = 'sb_publishable_kGVX6UQeEjM9P25G86jBxw_d82Rs9C';
+
+        async function loadSupabaseData() {
+            if (!window.supabase) return;
+            const client = window.supabase.createClient(SB_URL, SB_KEY);
+
+            try {
+                // Émissions
+                const { data: emissionsData } = await client.from('site_data').select('value').eq('key', 'rv_emissions').single();
+                const emContainer = document.getElementById('public-emissions-list');
+                if (emissionsData && emissionsData.value && emContainer) {
+                    emissionsData.value.forEach(e => {
+                        if (!e.host) e.host = "Équipe Radio Vicomté";
+                        if (!e.desc) e.desc = "Programme officiel 103.9 FM.";
+                    });
+                    emContainer.innerHTML = emissionsData.value.map(e => `
+                        <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-vicomte-sable flex flex-col justify-between">
+                            <img src="${e.img || 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop'}" alt="${e.title}" class="h-48 w-full object-cover">
+                            <div class="p-5 space-y-2">
+                                <h3 class="font-display font-bold text-lg text-vicomte-chocolat">${e.title}</h3>
+                                <p class="text-xs font-semibold text-vicomte-brique"><i class="fa-solid fa-microphone mr-1"></i> ${e.host}</p>
+                                <p class="text-xs text-gray-600">${e.desc}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                // Photos
+                const { data: photosData } = await client.from('site_data').select('value').eq('key', 'rv_photos').single();
+                const phContainer = document.getElementById('public-photos-list');
+                if (photosData && photosData.value && phContainer) {
+                    phContainer.innerHTML = photosData.value.map(p => `
+                        <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-vicomte-sable group">
+                            <img src="${p.img}" alt="${p.caption || 'Photo'}" class="w-full h-48 object-cover group-hover:scale-105 transition duration-300">
+                            ${p.caption ? `<div class="p-2 text-xs font-medium text-gray-700">${p.caption}</div>` : ''}
+                        </div>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error("Erreur chargement Supabase:", err);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSupabaseData();
+        });
+    </script>
+</body>
+</html>
