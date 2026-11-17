@@ -183,7 +183,6 @@
                 </div>
             </div>
 
-            <!-- Autres onglets masqués par défaut -->
             <div id="pub-view-grille" class="hidden"></div>
             <div id="pub-view-replays" class="hidden"></div>
             <div id="pub-view-dedicaces" class="hidden"></div>
@@ -193,7 +192,6 @@
 
     <!-- Script de Navigation et Supabase -->
     <script>
-        // Gestion des onglets
         function switchPublicTab(tabName) {
             const tabs = ['home', 'emissions', 'grille', 'replays', 'dedicaces', 'photos', 'contact'];
             tabs.forEach(t => {
@@ -216,7 +214,7 @@
         }
 
         function toggleAdminView() {
-            window.location.href = "admin.html"; // Redirection vers la page admin
+            window.location.href = "admin.html";
         }
 
         function showToast(msg) {
@@ -233,8 +231,8 @@
             showToast("Lecture du flux direct 103.9 FM...");
         }
 
-        // Chargement Supabase des Émissions et Photos
-        const SB_URL = 'https://radiovicomte.supabase.co';
+        // CONFIGURATION SUPABASE OFFICIELLE (Extraite de votre Dashboard)
+        const SB_URL = 'https://xejysuhpkdfugaexlcngs.supabase.co';
         const SB_KEY = 'sb_publishable_kGVX6UQeEjM9P25G86jBxw_d82Rs9C';
 
         async function loadSupabaseData() {
